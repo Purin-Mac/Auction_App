@@ -1,6 +1,8 @@
 // import logo from './logo.svg';
 // import './App.css';
-import Header from "./components/Header";
+import Homepage from "./pages/Homepage";
+import Category from "./pages/Categorypage"
+import {Route, Routes} from 'react-router-dom'
 
 function App() {
   return (
@@ -20,7 +22,12 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-    <Header/>
+    <>
+      <Routes>
+        <Route path="/" element={<Homepage/>} />
+        <Route path="/category" element={<Category/>} />
+      </Routes>
+    </>
   );
 }
 

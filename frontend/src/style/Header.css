@@ -3,7 +3,7 @@
     padding: 0px;
 }
 .header{
-    background-color: #FFCB45;
+    background-color: #FFF9EA;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -17,7 +17,7 @@
     text-decoration: none;
 }
 .header .slot:nth-child(2){
-    width: 55%;
+    width: 45%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +26,7 @@
     width: 20%;
 }
 .header .slot:nth-child(4){
-    width: 10%;
+    width: 20%;
     text-align: end;
     margin-right: 5px;
 }
@@ -37,8 +37,8 @@
 }
 .logo img{
     vertical-align: middle;
-    width: 18%;
-    height: 13%;
+    width: 25%;
+    height: auto;
 }
 .logo img, .logo {
     display: inline-block;
