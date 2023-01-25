@@ -22,16 +22,16 @@ function Header() {
     <>
     <div className="header">
       <div className="slot">
-        <a className="logo" href="/">
+        <Link className="logo" to="/">
           Website name <img src={logo} alt="Official logo" />
-        </a>
+        </Link>
       </div>
 
       <div className="slot">
         <div className="navbar">
           <Link to='/'>Home</Link>
           <Link to='/category'>Categories</Link>
-          <a href="/">Sell</a>
+          <Link to="/sell">Sell</Link>
           <a href="/">Contact</a>
         </div>
         </div>

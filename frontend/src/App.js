@@ -2,7 +2,9 @@
 // import './App.css';
 import Homepage from "./pages/Homepage";
 import Category from "./pages/Categorypage"
+import Sellpage from "./pages/Sellpage";
 import {Route, Routes} from 'react-router-dom'
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage/>} />
         <Route path="/category" element={<Category/>} />
+        <Route path="/sell" element={<PrivateRoute> <Sellpage/> </PrivateRoute>} />
       </Routes>
     </>
   );
