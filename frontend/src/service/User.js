@@ -4,7 +4,7 @@ import "../style/User.css"
 
 function User() {
     const [user, setUser] = useState(null);
-        useEffect(() => {
+    useEffect(() => {
             firebase.auth().onAuthStateChanged(user => {
             setUser(user)
         })
