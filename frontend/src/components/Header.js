@@ -5,7 +5,8 @@ import logo from '../resources/Hammer of the God.png';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
 // import firebase, { signInWithGoogle } from '../service/firebase';
-import User from '../service/User';
+// import User from '../service/User';
+import Profile from './Profile';
 
 function Header() {
   // const [user, setUser] = useState(null);
@@ -23,7 +24,7 @@ function Header() {
     <div className="header">
       <div className="slot">
         <Link className="logo" to="/">
-          Website name <img src={logo} alt="Official logo" />
+          Let's Auct <img src={logo} alt="Official logo" />
         </Link>
       </div>
 
@@ -41,7 +42,7 @@ function Header() {
         </div>
 
         <div className="slot">
-          <User/>
+          <Profile/>
           {/* {user? user.photoURL && user.displayName : <button className="SignIn" id="SignIn" onClick={signInWithGoogle}>Sign in with google</button>} */}
           {/* <button className="SignIn" id="SignIn" onClick={signInWithGoogle}>Sign in with google</button> */}
         </div>

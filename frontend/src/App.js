@@ -6,6 +6,11 @@ import Sellpage from "./pages/Sellpage";
 import Item from "./pages/Item";
 import {Route, Routes} from 'react-router-dom'
 import PrivateRoute from "./components/PrivateRoute";
+// import socketIO from 'socket.io-client';
+import { ToastContainer } from 'react-toastify'
+import { AuthProvider } from "./service/AuthContext";
+
+// const socket = socketIO.connect('http://localhost:4000');
 
 function App() {
   return (
@@ -26,12 +31,16 @@ function App() {
     //   </header>
     // </div>
     <>
-      <Routes>
-        <Route path="/" element={<Homepage/>} />
-        <Route path="/category" element={<Category/>} />
-        <Route path="/sell" element={<PrivateRoute> <Sellpage/> </PrivateRoute>} />
-        <Route path="/item" element={<Item/>} />
-      </Routes>
+      <AuthProvider>
+        <ToastContainer/>
+        <Routes>
+          <Route path="/" element={<Homepage/>} />
+          <Route path="/category" element={<Category/>} />
+          <Route path="/sell" element={<PrivateRoute> <Sellpage/> </PrivateRoute>} />
+          {/* <Route path="/item" element={<PrivateRoute> <Item socket={socket}/> </PrivateRoute>} /> */}
+          <Route path="/item" element={<PrivateRoute> <Item/> </PrivateRoute>} />
+        </Routes>
+      </AuthProvider>
     </>
   );
 }
