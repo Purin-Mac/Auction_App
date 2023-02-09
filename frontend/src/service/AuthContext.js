@@ -2,6 +2,7 @@ import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from
 import { createContext, useState, useEffect } from "react";
 import { auth, db } from "./firebase";
 import { doc, setDoc, collection, getDocs, query, where } from "firebase/firestore";
+// import { genProducts } from "./SeedDB";
 
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
             };
             // setDoc(doc(users), userData);
             const q = query(users, where("email", "==", result.user.email));
+            console.log(typeof(q))
             getDocs(q).then(querySnapshot => {
                 if (querySnapshot.empty){
                     setDoc(doc(users), userData);
@@ -56,14 +58,41 @@ export const AuthProvider = ({ children }) => {
     //     });
     // }
 
-    const getData = async() => {
-        const docCol = collection(db, "Users");
-        // console.log(docCol);
-        const docAll = await getDocs(docCol);
-        // console.log(docAll);
-        docAll.forEach(doc => {
-            console.log(doc.id, " => ", doc.data());
+    const getData = () => {
+        // const currentDate = Date.now();
+        // console.log(currentDate);
+        // const docCol = collection(db, "Users");
+        // // console.log(docCol);
+        // const docAll = await getDocs(docCol);
+        // // console.log(docAll);
+        // if (docAll.empty) {
+        //     console.log("There is no documents.");
+        // }
+        // else{
+        //     docAll.forEach(doc => {
+        //         console.log(doc.id, " => ", doc.data());
+        //     });
+        // }
+        const docCol = collection(db, "Categories");
+        const categoryDict = {
+            "Men's clothes": "", 
+            "Women's clothes": "", 
+            "Shoes": "", 
+            "Accessories": ""
+        };
+        Object.keys(categoryDict).forEach(async (key) => {
+            const q = query(docCol, where("categoryName", "==", key));
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                // console.log(doc.id, " => ", doc.data());
+                // console.log(typeof(doc.id))
+                // (function (key) {
+                    categoryDict[key] = doc.id;
+                // })
+            });
         });
+        // genProducts(db)
     }
 
     const signOUT = () => {

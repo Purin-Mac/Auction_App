@@ -1,15 +1,12 @@
 // Import the functions you need from the SDKs you need
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-// import firebase from 'firebase/compat/app';
-// import "firebase/compat/auth"
-// import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
 // import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { genCategories, genProducts, genUsers } from "./SeedDB";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -24,22 +21,6 @@ const firebaseConfig = {
     measurementId: process.env.REACT_APP_MEASUREMENTID,
 };
 
-// Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-// firebase.initializeApp(firebaseConfig);
-
-// //initialize firestore
-// export const db = firebase.firestore();
-
-// export const auth = firebase.auth();
-
-// const provider = new firebase.auth.GoogleAuthProvider();
-// provider.setCustomParameters({ prompt: 'select_account' });
-
-// export const signInWithGoogle = () => firebase.auth().signInWithPopup(provider);
-
-// export default firebase;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -47,11 +28,15 @@ const app = initializeApp(firebaseConfig);
 //initialize firestore
 export const db = getFirestore(app);
 
-// const provider = new GoogleAuthProvider();
-// provider.setCustomParameters({ prompt: 'select_account' });
+//generate database in firestore
+genUsers(db);
+genCategories(db);
+// genProducts(db);
+
+export const timestamp = serverTimestamp();
+
+//initialize cloud storage
+export const storage = getStorage(app);
 
 //initialize auth
 export const auth = getAuth();
-
-// export const signInWithGoogle = () =>
-//     signInWithPopup(auth, provider).then((result) => {console.log(result)});

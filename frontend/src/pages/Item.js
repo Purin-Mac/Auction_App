@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
-import ItemPic from "../resources/Nike Air Max 270 React (1).png";
+import ItemPic from "../resources/Nike_Air_Max_270(1).png";
 // import User from "../service/User";
 
 function Item({ socket }) {
