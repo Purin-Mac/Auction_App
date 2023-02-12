@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 // import firebase from "../service/firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify"
@@ -12,7 +12,7 @@ const PrivateRoute = ({ children }) => {
     // const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
-    const showToastMessage = (price) => {
+    const showToastMessage = () => {
         toast.info("You need to sign in first.", {
             position: toast.POSITION.TOP_CENTER,
             pauseOnHover: false,
@@ -20,42 +20,15 @@ const PrivateRoute = ({ children }) => {
             autoClose: 3000
         });
     };
+
+    useEffect(() => {
+        if (!currentUser) {
+          showToastMessage();
+          navigate("/");
+        }
+    }, [currentUser, navigate]);
     
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
-    //         if (user) {
-    //             setIsLoggedIn(true);
-    //         } else {
-    //             setIsLoggedIn(false);
-    //             showToastMessage();
-    //             navigate("/");
-    //           }
-    //     });
-    //     return () => unsubscribe();
-    // }, []);
-
-    // useEffect(() => {
-    //     // const user = User();
-    //     // console.log(user)
-    //     if (currentUser) {
-    //         setIsLoggedIn(true);
-    //     } else {
-    //         setIsLoggedIn(false);
-    //         showToastMessage();
-    //         navigate("/");
-    //     }
-    // }, []);
-
-    // if (isLoggedIn) {
-    //     return children;
-    // }
-
-    if (currentUser) {
-        return children;
-    } else {
-        showToastMessage();
-        navigate("/");
-    }
+    return currentUser ? children : null;
 };
 
 export default PrivateRoute;

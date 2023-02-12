@@ -87,7 +87,8 @@ export const genProducts = (database) => {
             productName: "Nike Air Max 270",
             productPhoto: imageFile1,
             productInfo: "",
-            currentPrice: 1200,
+            startPrice: 1200,
+            buyNowPrice: 2000,
             createAt: timestamp,
             duration: ""           
         }

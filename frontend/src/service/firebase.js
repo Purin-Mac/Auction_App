@@ -29,8 +29,8 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 //generate database in firestore
-genUsers(db);
-genCategories(db);
+// genUsers(db);
+// genCategories(db);
 // genProducts(db);
 
 export const timestamp = serverTimestamp();
