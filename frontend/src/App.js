@@ -4,7 +4,7 @@ import Homepage from "./pages/Homepage";
 import Category from "./pages/Categorypage"
 import Sellpage from "./pages/Sellpage";
 import SellItemPage from "./pages/SellItempage";
-import Item from "./pages/Item";
+import Productpage from "./pages/Productpage";
 import {Route, Routes} from 'react-router-dom'
 import PrivateRoute from "./components/PrivateRoute";
 // import socketIO from 'socket.io-client';
@@ -42,7 +42,7 @@ function App() {
           <Route path="/sell" element={<PrivateRoute> <Sellpage/> </PrivateRoute>} />
           <Route path="/sell_item_details" element={<PrivateRoute> <SellItemPage/> </PrivateRoute>} />
           {/* <Route path="/item" element={<PrivateRoute> <Item socket={socket}/> </PrivateRoute>} /> */}
-          <Route path="/item" element={<PrivateRoute> <Item/> </PrivateRoute>} />
+          <Route path="/product" element={<PrivateRoute> <Productpage/> </PrivateRoute>} />
         </Routes>
       </AuthProvider>
     </>

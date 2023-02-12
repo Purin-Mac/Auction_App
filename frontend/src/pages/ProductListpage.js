@@ -9,41 +9,39 @@ import { Link } from 'react-router-dom';
 
 const ProductListpage = () => {
     const [ products, setProducts ] = useState([]);
-    const { categoryID } = useContext(AuthContext);
 
     const location = useLocation();
-    const state = location.state;
+    const categoryName = location.state.categoryName;
+    const categoryID = location.state.categoryID;
 
     useEffect(() => {
         const productsTemp = [];
         const productsCol = collection(db, "Products");
-        const q = query(productsCol, where("categoryID", "==", categoryID[state]));  
+        const q = query(productsCol, where("categoryID", "==", categoryID));  
         getDocs(q).then(querySnapshot => {
             querySnapshot.forEach(doc => {
                 productsTemp.push( { id: doc.id, ...doc.data() } );
             });
             setProducts(productsTemp);
         })
-    }, [categoryID, state]);
-
-    console.log(products)
+    }, [categoryID]);
     
     return (
         <>
             <Header />
-            <h1>Product: {state}</h1>
+            <h1>Product: {categoryName}</h1>
             <Row style= {{ margin: "0 20px" }}>
                 {products.length !== 0 ?  
                     products.map((product) => (
                         <Col key={product.id} md={3}>
                             <Card style={{ border: "1px solid #e5e5e5", height: "100%" }}>
                                 <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
-                                {/* <Link to={} state={"Shoes"} > */}
+                                <Link to="/product" style={{ textDecoration: "none", color: "black"}}>
                                     <Card.Body>
                                         <Card.Title>{product.productName}</Card.Title>
-                                        <Card.Text>{product.startPrice} Bahts</Card.Text>
+                                        <Card.Text>{product.productInfo}</Card.Text>
                                     </Card.Body>
-                                {/* </Link> */}
+                                </Link>
                             </Card>
                         </Col>
                     ))

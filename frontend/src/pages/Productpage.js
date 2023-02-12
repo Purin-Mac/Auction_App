@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import ItemPic from "../resources/Nike_Air_Max_270(1).png";
 // import User from "../service/User";
 
-function Item({ socket }) {
+function Productpage() {
     // const user = User();
     const inputRef = useRef(null);
     // const isMount = UseIsMount();
@@ -69,7 +69,7 @@ function Item({ socket }) {
     return (
         <>
             <Header />
-            <h1>Item</h1>
+            <h1>Product page</h1>
             <img src={ItemPic} alt="Item_Picture"></img>
             <h2>Highest Bit: {highestBid} Baht</h2>
             <div>
@@ -86,4 +86,4 @@ function Item({ socket }) {
     );
 }
 
-export default Item;
+export default Productpage;

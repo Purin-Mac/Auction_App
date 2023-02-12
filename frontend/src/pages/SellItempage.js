@@ -10,11 +10,11 @@ import { toast } from "react-toastify"
 
 const SellItemPage = () => {
     const navigate = useNavigate();
-    const { currentUser, categoryID } = useContext(AuthContext);
+    const { currentUser } = useContext(AuthContext);
 
     const location = useLocation();
-    const state = location.state;
-    console.log(state);
+    const categoryName = location.state.categoryName;
+    const categoryID = location.state.categoryID;
 
     const itemTitle = useRef();
     const itemInfo = useRef();
@@ -46,7 +46,7 @@ const SellItemPage = () => {
 
         const productsData = {
                 sellerEmail: currentUser.email,
-                categoryID: categoryID[state],
+                categoryID: categoryID,
                 productName: itemTitle.current.value,
                 productPhoto: itemImage.current.files[0],
                 productInfo: itemInfo.current.value,
@@ -73,7 +73,7 @@ const SellItemPage = () => {
         <>
             <Header />
             <h1>Sell Item Page</h1>
-            {/* <p>Category: {state}</p> */}
+            {/* <p>Category: {categoryName}</p> */}
             <Form style={{ margin: "0 20px" }} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Product Name</Form.Label>
@@ -82,7 +82,7 @@ const SellItemPage = () => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>Category</Form.Label>
-                    <Form.Control type="text" value={state} disabled readOnly/>
+                    <Form.Control type="text" value={categoryName} disabled readOnly/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
