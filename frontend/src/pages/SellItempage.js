@@ -50,7 +50,7 @@ const SellItemPage = () => {
                 productName: itemTitle.current.value,
                 productPhoto: itemImage.current.files[0],
                 productInfo: itemInfo.current.value,
-                startPrice: startPrice.current.value,
+                currentPrice: startPrice.current.value,
                 buyNowPrice: buyNowPrice.current.value,
                 createAt: currentDate,
                 duration: dueDate          

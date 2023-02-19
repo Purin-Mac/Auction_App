@@ -1,9 +1,8 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
-import { CardGroup, Card, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card, Row, Col } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
-import { AuthContext } from "../service/AuthContext";
 import { db } from "../service/firebase";
 import { Link } from 'react-router-dom';
 
@@ -36,7 +35,7 @@ const ProductListpage = () => {
                         <Col key={product.id} md={3}>
                             <Card style={{ border: "1px solid #e5e5e5", height: "100%" }}>
                                 <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
-                                <Link to="/product" style={{ textDecoration: "none", color: "black"}}>
+                                <Link to="/product" state={{ id: product.id }} style={{ textDecoration: "none", color: "black"}}>
                                     <Card.Body>
                                         <Card.Title>{product.productName}</Card.Title>
                                         <Card.Text>{product.productInfo}</Card.Text>
@@ -45,7 +44,7 @@ const ProductListpage = () => {
                             </Card>
                         </Col>
                     ))
-                : <h3>loading...</h3> }
+                : <h3>None</h3> }
             </Row>
         </>
     );
