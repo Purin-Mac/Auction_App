@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
-import { db } from "../service/firebase";
+import { db, timestamp } from "../service/firebase";
 import { Link } from 'react-router-dom';
 
 const ProductListpage = () => {
@@ -16,7 +16,7 @@ const ProductListpage = () => {
     useEffect(() => {
         const productsTemp = [];
         const productsCol = collection(db, "Products");
-        const q = query(productsCol, where("categoryID", "==", categoryID));  
+        const q = query(productsCol, where("categoryID", "==", categoryID), where("duration", ">=", timestamp));  
         getDocs(q).then(querySnapshot => {
             querySnapshot.forEach(doc => {
                 productsTemp.push( { id: doc.id, ...doc.data() } );

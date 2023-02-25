@@ -4,7 +4,7 @@
 import { initializeApp } from "firebase/app";
 // import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { getAuth } from "firebase/auth";
-import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { getFirestore, serverTimestamp, Timestamp } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { genCategories, genProducts, genUsers } from "./SeedDB";
 
@@ -33,7 +33,8 @@ export const db = getFirestore(app);
 // genCategories(db);
 // genProducts(db);
 
-export const timestamp = serverTimestamp();
+// export const timestamp = serverTimestamp();
+export const timestamp = Timestamp.now();
 
 //initialize cloud storage
 export const storage = getStorage(app);

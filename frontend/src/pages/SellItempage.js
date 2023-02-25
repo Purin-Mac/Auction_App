@@ -36,9 +36,14 @@ const SellItemPage = () => {
     const handleSubmit = async(event) => {
         event.preventDefault();
 
-        let currentDate = new Date();
-        let dueDate = new Date(currentDate);
-        dueDate.setHours(currentDate.getHours() + Number(itemDuration.current.value));
+        // let currentDate = new Date();
+        // let dueDate = new Date(currentDate);
+        // dueDate.setHours(currentDate.getHours() + Number(itemDuration.current.value));
+
+        let currentDate = timestamp;
+        let dueDate = timestamp.toDate();
+        dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
+
         
         if (!imgTypes.includes(itemImage.current.files[0].type)) {
             return showToastMessage("Only JPEG, JPG and PNG files are accepted");
