@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
 import { AuthContext } from "../service/AuthContext";
 import { db } from "../service/firebase";
+import Countdown from 'react-countdown';
 // import User from "../service/User";
 
 function Productpage() {
@@ -83,6 +84,9 @@ function Productpage() {
                 });
                 console.log("New bid update successfully");
             }
+            else if (bidPrice < Math.ceil((docData.currentPrice/100) * 110)) {
+                return Promise.reject("Not enough bidding price.");
+            }
         };
 
         // // console.log(typeof( Number(product.currentPrice)))
@@ -129,6 +133,32 @@ function Productpage() {
         return <h3>Loading...</h3>;
     }
 
+    const renderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            return <h3>Auction has end.</h3>
+        }
+        else{
+            return (
+                <>
+                    <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
+                    <h3>Highest Bid: {product.currentPrice} Baht</h3>
+                    {currentUser.email !== product.sellerEmail ?        
+                        <div>
+                            <label>Enter your Price</label>
+                            <input
+                            ref={inputRef}
+                            placeholder="0"
+                            type="number"
+                            name="price"
+                            ></input>
+                            <button onClick={handleBid}>Submit</button>   
+                        </div>
+                    : <h3>You are the owner.</h3>}
+                </>    
+            )
+        }
+    };
+
     return (
         <>
             <Header />
@@ -136,8 +166,7 @@ function Productpage() {
             <img src={product.productPhoto} alt="Item_Picture"></img>
             <h2>Product name: {product.productName}</h2>
             <p>Product info: {product.productInfo}</p>
-            {/* <p>Time: {product.duration}</p> */}
-            <h3>Highest Bit: {product.currentPrice} Baht</h3>
+            {/* <h3>Highest Bit: {product.currentPrice} Baht</h3>
             {currentUser.email !== product.sellerEmail ?        
                 <div>
                     <label>Enter your Price</label>
@@ -149,7 +178,13 @@ function Productpage() {
                     ></input>
                     <button onClick={handleBid}>Submit</button>   
                 </div>
-            : <h3>You are the owner.</h3>}
+            : <h3>You are the owner.</h3>} */}
+            {product.duration && (
+                <Countdown
+                    date={product.duration.toDate()}
+                    renderer={renderer}
+                />
+            )}
         </>
     );
 }
