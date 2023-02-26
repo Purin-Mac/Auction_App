@@ -55,8 +55,10 @@ const SellItemPage = () => {
                 productName: itemTitle.current.value,
                 productPhoto: itemImage.current.files[0],
                 productInfo: itemInfo.current.value,
-                currentPrice: startPrice.current.value,
-                buyNowPrice: buyNowPrice.current.value,
+                startPrice: Number(startPrice.current.value),
+                currentPrice: Number(startPrice.current.value),
+                buyNowPrice: Number(buyNowPrice.current.value),
+                isBrought: false,
                 createAt: currentDate,
                 duration: dueDate          
         };

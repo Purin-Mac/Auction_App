@@ -18,23 +18,36 @@ function Productpage() {
     const productID = location.state.id;
 
     const inputRef = useRef(null);
+    const inputAutoBidRef = useRef(null);
+    const previousBidPriceRef = useRef(null);
     const [bidPrice, setBidPrice] = useState(0);
+    const [autoBidPrice, setAutoBidPrice] = useState(0);
 
     //submit bid price
     const handleBid = () => {
+        const inputBidValue = Number(inputRef.current.value);
         if (currentUser.email === product.currentBidder) {
             showToastMessage(`You are already the highest bidder with ${product.currentPrice} Baht.`);
         }
-        else if (inputRef.current.value < Math.ceil((product.currentPrice/100) * 110)) {
-            console.log(inputRef.current.value);
-            console.log(Math.ceil((product.currentPrice/100) * 110))
+        else if (inputBidValue < Math.ceil((product.currentPrice/100) * 110)) {
+            console.log("Input Bid", inputRef.current.value);
+            console.log("Least highest bid price: ", Math.ceil((product.currentPrice/100) * 110))
             showToastMessage(`You need to bid at least ${Math.ceil((product.currentPrice/100) * 110)} Baht.`);
         }
         else {
-            setBidPrice(inputRef.current.value);
+            console.log("Input Bid", inputBidValue);
+            setBidPrice(inputBidValue);
         }
-        console.log(product.currentPrice);
+        console.log("Product current price: ", product.currentPrice);
         inputRef.current.value = null;
+    };
+
+    const handleAutoBid = () => {
+        const inputAutoBidValue = Number(inputAutoBidRef.current.value);
+        setAutoBidPrice(inputAutoBidValue);
+        showToastMessage(`Set the auto bid ceiling to ${inputAutoBidValue} Baht.`);
+        console.log(inputAutoBidValue)
+        inputAutoBidRef.current.value = null;
     };
 
     //Show alert message
@@ -67,8 +80,8 @@ function Productpage() {
     //set highest bid
     useEffect(() => {
         const docRef = doc(db, "Products", productID);
-        console.log(bidPrice);
-
+        console.log("Bid price: ", bidPrice);
+        
         const updateBid = async(transaction) => {
             const doc = await transaction.get(docRef);
             if (!doc.exists()) {
@@ -77,7 +90,8 @@ function Productpage() {
             }
             const docData = doc.data();
             console.log(docData);
-            if (currentUser.email !== docData.currentBidder && bidPrice > docData.currentPrice && bidPrice >= Math.ceil((docData.currentPrice/100) * 110)) {
+            if (currentUser.email !== docData.currentBidder && 
+                bidPrice > Number(docData.currentPrice) && bidPrice >= Math.ceil((docData.currentPrice/100) * 110)) {
                 transaction.update(docRef,{
                     currentPrice: bidPrice,
                     currentBidder: currentUser.email
@@ -87,30 +101,17 @@ function Productpage() {
             else if (bidPrice < Math.ceil((docData.currentPrice/100) * 110)) {
                 return Promise.reject("Not enough bidding price.");
             }
+            else {
+                // return Promise.reject(`${currentUser.email}, ${docData.currentBidder}, ${bidPrice}, ${docData.currentPrice}, ${Math.ceil((docData.currentPrice/100) * 110)}`);
+                // return Promise.reject(typeof(bidPrice));
+                return Promise.reject("Something is worng.");
+            }
         };
-
-        // // console.log(typeof( Number(product.currentPrice)))
-        // if (Number(product.currentPrice) < bidPrice) {
-        //     const newHighestBid = bidPrice;
-        //     updateDoc(docRef, {
-        //         currentPrice: newHighestBid,
-        //         currentBidder: currentUser.email
-        //     }).then(() => {
-        //         console.log("New bid update successfully");
-        //     }).catch((error) => {
-        //         console.log("Error updating bid: ", error);
-        //     });
-        // } 
-        // else if (Number(product.currentPrice) >= bidPrice) {
-        //     showToastMessage(`${bidPrice.toString() || 0} is not the highest bid.`);
-        //     // console.log(product.sellerEmail)
-        //     // console.log(highestBid);
-        // }
 
         if (bidPrice > Number(product.currentPrice)){
             runTransaction(db, updateBid)
                 .then(() => {
-                    showToastMessage(`You are now the current highest bidder with ${bidPrice}.`)
+                    showToastMessage(`You are now the current highest bidder with ${bidPrice} Baht.`)
                     console.log("Transaction completed.")
                 })
                 .catch((error) => {
@@ -121,13 +122,35 @@ function Productpage() {
         const unsub = onSnapshot(docRef, (doc) => {
             if (doc.exists()) {
                 setProduct(doc.data());
+                const docData = doc.data();
+                
+                if (currentUser.email !== docData.currentBidder && 
+                    docData.currentPrice !== docData.startPrice && 
+                    (previousBidPriceRef.current === null || docData.currentPrice > previousBidPriceRef.current)) {
+                    console.log(docData.currentBidder)
+                    showToastMessage(`There is a new highest bid with ${docData.currentPrice} Baht.`);
+                    previousBidPriceRef.current = docData.currentPrice;
+                };
+
+
+                if (autoBidPrice !== 0 && currentUser.email !== docData.currentBidder) {
+                    const newBidPrice = Math.ceil(docData.currentPrice * 1.1);
+                    console.log(newBidPrice);
+                    if (newBidPrice < autoBidPrice && newBidPrice !== docData.currentPrice) {
+                        setBidPrice(newBidPrice);
+                    }
+                    else{
+                        showToastMessage(`Bid price already pass the ceiling with ${newBidPrice} Baht.`);
+                        setAutoBidPrice(0);
+                    }
+                };
             }
         });
 
         return () => {
             unsub();
         };
-    }, [bidPrice, productID]);
+    }, [bidPrice, productID, autoBidPrice, currentUser]);
 
     if (product === []) {
         return <h3>Loading...</h3>;
@@ -140,19 +163,37 @@ function Productpage() {
         else{
             return (
                 <>
-                    <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
-                    <h3>Highest Bid: {product.currentPrice} Baht</h3>
-                    {currentUser.email !== product.sellerEmail ?        
+                    {currentUser.email !== product.sellerEmail ?    
                         <div>
-                            <label>Enter your Price</label>
-                            <input
-                            ref={inputRef}
-                            placeholder="0"
-                            type="number"
-                            name="price"
-                            ></input>
-                            <button onClick={handleBid}>Submit</button>   
-                        </div>
+                            <h2>Manual Bid</h2>
+                            <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
+                            <h3>Highest Bid: {product.currentPrice} Baht</h3>
+                                <div>
+                                    <label>Enter your Price</label>
+                                    <input
+                                    ref={inputRef}
+                                    placeholder="0"
+                                    type="number"
+                                    name="price"
+                                    ></input>
+                                    <button onClick={handleBid}>Submit</button>   
+                                </div>
+
+                            <br/>
+                            <h2>Auto Bid</h2>
+                            <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
+                            <h3>Highest Bid: {product.currentPrice} Baht</h3>     
+                            <div>
+                                <label>Enter your Ceiling</label>
+                                <input
+                                ref={inputAutoBidRef}
+                                placeholder="0"
+                                type="number"
+                                name="price"
+                                ></input>
+                                <button onClick={handleAutoBid}>Submit</button>   
+                            </div>
+                        </div>    
                     : <h3>You are the owner.</h3>}
                 </>    
             )
