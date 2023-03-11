@@ -1,6 +1,6 @@
 import { doc, getDoc, onSnapshot, runTransaction, updateDoc } from "firebase/firestore";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import UseIsMount from "../components/UseIsMount";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,7 +14,9 @@ function Productpage() {
     const { currentUser } = useContext(AuthContext);
     const [ product, setProduct ] = useState([]);
 
+    const navigate = useNavigate();
     const location = useLocation();
+    const categoryName = location.state.categoryName;
     const productID = location.state.id;
 
     const inputRef = useRef(null);
@@ -55,6 +57,31 @@ function Productpage() {
         inputAutoBidRef.current.value = null;
     };
 
+    const handleBuyNow = () => {
+        const docRef = doc(db, "Products", productID);
+        runTransaction(db, async(transaction) => {
+            const doc = await transaction.get(docRef);
+            if (!doc.exists()) {
+                console.log("Document does not exist!");
+                return;
+            }
+
+            const docData = doc.data();
+            if (!docData.isBrought) {
+                transaction.update(docRef,{
+                    isBrought: true,
+                    currentBuyer: currentUser.email
+                });
+            }
+        }).then(() => {
+            console.log("Transaction completed.")
+            showToastMessage(`You have buy ${product.productName}`);
+            navigate('/category_product', { state: { categoryName: categoryName, categoryID: product.categoryID} });
+        }).catch((error) => {
+            console.log("Transaction failed: ", error)
+        });
+    };
+
     //Show alert message
     const showToastMessage = (msg) => {
         if (product) {
@@ -72,7 +99,7 @@ function Productpage() {
         const docRef = doc(db, "Products", productID);
         getDoc(docRef).then(doc => {
             if (doc.exists()) {
-                setProduct(doc.data());               
+                setProduct(doc.data());
             } 
             else {
                 console.log("No such document!");
@@ -136,6 +163,11 @@ function Productpage() {
                 setProduct(doc.data());
                 const docData = doc.data();
                 
+                if (docData.isBrought) {
+                    showToastMessage(`The product has been purchased by someone else.`);
+                    navigate('/category_product', { state: { categoryName: categoryName, categoryID: docData.categoryID} });
+                };
+
                 if (currentUser.email !== docData.currentBidder && 
                     docData.currentPrice !== docData.startPrice && 
                     (previousBidPriceRef.current === null || docData.currentPrice > previousBidPriceRef.current)) {
@@ -143,7 +175,6 @@ function Productpage() {
                     showToastMessage(`There is a new highest bid with ${docData.currentPrice} Baht.`);
                     previousBidPriceRef.current = docData.currentPrice;
                 };
-
 
                 if (autoBidPrice !== 0 && currentUser.email !== docData.currentBidder) {
                     const newBidPrice = Math.ceil((docData.currentPrice / 100) * 110);
@@ -209,6 +240,18 @@ function Productpage() {
                                 ></input>
                                 <button onClick={handleAutoBid}>Submit</button>   
                             </div>
+
+                            {product.buyNowPrice !== 0 ? 
+                                <div>
+                                    <br/>
+                                    <h2>Buy Now</h2>
+                                    <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
+                                    <div>
+                                        <h2>Buy Now: {product.buyNowPrice}</h2>
+                                        <button onClick={handleBuyNow}>Buy Now</button>
+                                    </div>
+                                </div>
+                            : null}
                         </div>    
                     : <h3>You are the owner.</h3>}
                 </>    

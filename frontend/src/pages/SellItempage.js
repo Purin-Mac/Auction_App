@@ -57,7 +57,7 @@ const SellItemPage = () => {
                 productInfo: itemInfo.current.value,
                 startPrice: Number(startPrice.current.value),
                 currentPrice: Number(startPrice.current.value),
-                buyNowPrice: Number(buyNowPrice.current.value),
+                buyNowPrice: 0 || Number(buyNowPrice.current.value),
                 isBrought: false,
                 createAt: currentDate,
                 duration: dueDate          
@@ -103,8 +103,8 @@ const SellItemPage = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Form.Label>Buy Now Price</Form.Label>
-                    <Form.Control type="number" required ref={buyNowPrice} />
+                    <Form.Label>Buy Now Price (default: none)</Form.Label>
+                    <Form.Control type="number" ref={buyNowPrice} />
                 </Form.Group>
 
                 <Form.Group className="mb-3">

@@ -16,7 +16,7 @@ const ProductListpage = () => {
     useEffect(() => {
         const productsTemp = [];
         const productsCol = collection(db, "Products");
-        const q = query(productsCol, where("categoryID", "==", categoryID), where("duration", ">=", timestamp));  
+        const q = query(productsCol, where("categoryID", "==", categoryID), where("duration", ">=", timestamp), where("isBrought", "==", false));  
         getDocs(q).then(querySnapshot => {
             querySnapshot.forEach(doc => {
                 productsTemp.push( { id: doc.id, ...doc.data() } );
@@ -35,7 +35,7 @@ const ProductListpage = () => {
                         <Col key={product.id} md={3}>
                             <Card style={{ border: "1px solid #e5e5e5", height: "100%" }}>
                                 <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
-                                <Link to="/product" state={{ id: product.id }} style={{ textDecoration: "none", color: "black"}}>
+                                <Link to="/product" state={{ categoryName: categoryName, id: product.id }} style={{ textDecoration: "none", color: "black"}}>
                                     <Card.Body>
                                         <Card.Title>{product.productName}</Card.Title>
                                         <Card.Text>{product.productInfo}</Card.Text>
