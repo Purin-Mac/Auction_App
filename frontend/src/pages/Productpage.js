@@ -39,7 +39,12 @@ function Productpage() {
             setBidPrice(inputBidValue);
         }
         console.log("Product current price: ", product.currentPrice);
-        inputRef.current.value = null;
+        // inputRef.current.value = Math.ceil((product.currentPrice/100) * 110);
+    };
+
+    const handleIncreaseBid = (amount) => {
+        const inputBidValue = Number(inputRef.current.value);
+        inputRef.current.value = inputBidValue + Number(amount);
     };
 
     const handleAutoBid = () => {
@@ -67,20 +72,27 @@ function Productpage() {
         const docRef = doc(db, "Products", productID);
         getDoc(docRef).then(doc => {
             if (doc.exists()) {
-                setProduct(doc.data());
+                setProduct(doc.data());               
             } 
             else {
-            console.log("No such document!");
+                console.log("No such document!");
             }
         }).catch(error => {
             console.log("Error getting document: ", error);
         });
     }, [productID]);
 
+    //set the minimum bid
+    useEffect(() => {
+        if (product && inputRef.current) {
+            inputRef.current.value = Math.ceil((product.currentPrice/100) * 110)
+        }
+    }, [product]);
+
     //set highest bid
     useEffect(() => {
         const docRef = doc(db, "Products", productID);
-        console.log("Bid price: ", bidPrice);
+        // console.log("Bid price: ", bidPrice);
         
         const updateBid = async(transaction) => {
             const doc = await transaction.get(docRef);
@@ -134,7 +146,7 @@ function Productpage() {
 
 
                 if (autoBidPrice !== 0 && currentUser.email !== docData.currentBidder) {
-                    const newBidPrice = Math.ceil(docData.currentPrice * 1.1);
+                    const newBidPrice = Math.ceil((docData.currentPrice / 100) * 110);
                     console.log(newBidPrice);
                     if (newBidPrice < autoBidPrice && newBidPrice !== docData.currentPrice) {
                         setBidPrice(newBidPrice);
@@ -175,7 +187,11 @@ function Productpage() {
                                     placeholder="0"
                                     type="number"
                                     name="price"
+                                    readOnly
                                     ></input>
+                                    <button onClick={() => handleIncreaseBid(10)}>+10</button>
+                                    <button onClick={() => handleIncreaseBid(100)}>+100</button>
+                                    <button onClick={() => handleIncreaseBid(1000)}>+1000</button>
                                     <button onClick={handleBid}>Submit</button>   
                                 </div>
 
@@ -207,19 +223,6 @@ function Productpage() {
             <img src={product.productPhoto} alt="Item_Picture"></img>
             <h2>Product name: {product.productName}</h2>
             <p>Product info: {product.productInfo}</p>
-            {/* <h3>Highest Bit: {product.currentPrice} Baht</h3>
-            {currentUser.email !== product.sellerEmail ?        
-                <div>
-                    <label>Enter your Price</label>
-                    <input
-                    ref={inputRef}
-                    placeholder="0"
-                    type="number"
-                    name="price"
-                    ></input>
-                    <button onClick={handleBid}>Submit</button>   
-                </div>
-            : <h3>You are the owner.</h3>} */}
             {product.duration && (
                 <Countdown
                     date={product.duration.toDate()}
