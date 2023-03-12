@@ -8,6 +8,10 @@ import Header from "../components/Header";
 import { AuthContext } from "../service/AuthContext";
 import { db } from "../service/firebase";
 import Countdown from 'react-countdown';
+import '../style/main.css';
+import Footer from "../components/Footer";
+import Hood from '../resources/Bronx Hoodie.png';
+
 // import User from "../service/User";
 
 function Productpage() {
@@ -208,47 +212,61 @@ function Productpage() {
                 <>
                     {currentUser.email !== product.sellerEmail ?    
                         <div>
+                            <h5 style={{ textAlign: "left", font: "bold"}}>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
+                            <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice} Baht</h5>
                             <h2>Manual Bid</h2>
-                            <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
-                            <h3>Highest Bid: {product.currentPrice} Baht</h3>
                                 <div>
-                                    <label>Enter your Price</label>
+                                    <label>Enter your Price</label><br/>
                                     <input
                                     ref={inputRef}
                                     placeholder="0"
                                     type="number"
                                     name="price"
                                     readOnly
-                                    ></input>
-                                    <button onClick={() => handleIncreaseBid(10)}>+10</button>
+                                    ></input><br/>
+                                    {/* <input type="text" id="fname" name="firstname" placeholder="Enter Price ..."/><br/> */}
+                                    <input type="submit" value="+10" onClick={() => handleIncreaseBid(10)}/>
+                                    <input type="submit" value="+100" onClick={() => handleIncreaseBid(100)}/>
+                                    <input type="submit" value="+1,000" onClick={() => handleIncreaseBid(1000)}/><br/>
+                                    {/* <button onClick={() => handleIncreaseBid(10)}>+10</button>
                                     <button onClick={() => handleIncreaseBid(100)}>+100</button>
-                                    <button onClick={() => handleIncreaseBid(1000)}>+1000</button>
-                                    <button onClick={handleBid}>Submit</button>   
+                                    <button onClick={() => handleIncreaseBid(1000)}>+1000</button> */}
+                                    <div class="confirm">
+                                        <input type="submit" value="Place Bid" onClick={handleBid}/>
+                                    {/* <button onClick={handleBid}>Submit</button>    */}
+                                    </div>
                                 </div>
 
                             <br/>
                             <h2>Auto Bid</h2>
-                            <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
-                            <h3>Highest Bid: {product.currentPrice} Baht</h3>     
+                            {/* <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3> */}
+                            {/* <h3>Highest Bid: {product.currentPrice} Baht</h3>      */}
                             <div>
-                                <label>Enter your Ceiling</label>
+                                <label>Enter your Ceiling</label><br/>
                                 <input
                                 ref={inputAutoBidRef}
                                 placeholder="0"
                                 type="number"
                                 name="price"
                                 ></input>
-                                <button onClick={handleAutoBid}>Submit</button>   
+                                <div class="confirm">
+                                        <input type="submit" value="Place Auto Bid" onClick={handleAutoBid}/>
+                                    {/* <button onClick={handleAutoBid}>Submit</button>    */}
+                                </div>
                             </div>
 
                             {product.buyNowPrice !== 0 ? 
                                 <div>
                                     <br/>
                                     <h2>Buy Now</h2>
-                                    <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
+                                    {/* <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3> */}
                                     <div>
-                                        <h2>Buy Now: {product.buyNowPrice}</h2>
-                                        <button onClick={handleBuyNow}>Buy Now</button>
+                                        <h4>Buy Now: {product.buyNowPrice} THB</h4>
+                                        <div class="confirm">
+                                            <input type="submit" value="Buy Now" onClick={handleBuyNow}/>
+                                            {/* <button onClick={handleBid}>Submit</button>    */}
+                                        </div>
+                                        {/* <button onClick={handleBuyNow}>Buy Now</button> */}
                                     </div>
                                 </div>
                             : null}
@@ -262,16 +280,95 @@ function Productpage() {
     return (
         <>
             <Header />
-            <h1>Product page</h1>
-            <img src={product.productPhoto} alt="Item_Picture"></img>
-            <h2>Product name: {product.productName}</h2>
-            <p>Product info: {product.productInfo}</p>
-            {product.duration && (
-                <Countdown
-                    date={product.duration.toDate()}
-                    renderer={renderer}
-                />
-            )}
+            {/* <h1>Product page</h1> */}
+            
+
+        <main>
+            <div class="reccommend">
+                <h1>Product name: {product.productName}</h1>
+                <div class="cards">
+                    <div class="row">
+                        <div class="column-sale">
+                            <div class="card-sale-1">
+                                <img src={product.productPhoto} alt="Item_Picture" style={{ backgroundColor: "#F1F1F1", width: "100%",maxheight: "280px" }}></img>
+                                <h3>Description</h3>
+                                <p>Product info: {product.productInfo}</p>
+                            </div>
+                        </div>
+                    
+                        <div class="column-sale">
+                            {/* <div class="switch-card">
+                                <ul>
+                                    <li><a href="#">Place Bid</a></li>
+                                    <li><a href="#">Auto Bid</a></li>
+                                    <li><a href="#">Buy Now</a></li>
+                                </ul>
+                            </div> */}
+                            <div class="card-sale-2">
+                            {product.duration && (
+                                <Countdown
+                                    date={product.duration.toDate()}
+                                    renderer={renderer}
+                                />
+                            )}
+                                {/* <h3>Highest Bid : 1500 Baht</h3><br/>
+                                <h3>Buy now Price : 3000 Baht</h3><br/>
+                                <h3>Time Left : </h3><br/>
+                                <h2>Enter Your Price (THB)</h2>
+                                <div class="form-sale">
+                                    <input type="text" id="fname" name="firstname" placeholder="Enter Price ..."/><br/>
+                                    <input type="submit" value="+10"/>
+                                    <input type="submit" value="+100"/>
+                                    <input type="submit" value="+1,000"/>
+                                </div>
+                                <div class="confirm">
+                                    <input type="submit" value="Place Bid"/>
+                                </div> */}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="related">
+                        <h1>Related</h1>
+                        <div class="cards">
+                            <div class="row">
+                                <div class="column">
+                                    <div class="card">
+                                        <img src={Hood} alt="Fist Related" />
+                                        <h3>Nike Air Max 90</h3>
+                                        <p>2000 baht</p>
+                                    </div>
+                                </div>
+                            
+                                <div class="column">
+                                    <div class="card">
+                                        <img src={Hood} alt="Second Related" />
+                                        <h3>Jacket Rush Harrington</h3>
+                                        <p>955 baht</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="column">
+                                    <div class="card">
+                                        <img src={Hood} alt="Third Related" />
+                                        <h3>Bronx Hoodie</h3>
+                                        <p>963 baht</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="column">
+                                    <div class="card">
+                                        <img src={Hood} alt="Forth Related" />
+                                        <h3>Nike Air Max 270 React</h3>
+                                        <p>1500 baht</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <Footer/>
         </>
     );
 }

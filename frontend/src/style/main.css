@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Readex Pro', sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+header {
+    /* background: url(/Figma/image/Rectangle\ 20.svg) ; */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+nav {
+    height: 60px;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    background-color: #FFF9EA;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    width: 430px;
+    /* border: 1px solid red; */
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #1D1D1D 70%;
+}
+
+nav .logo {
+    display: flex;
+    /* border: 1px solid red; */
+    align-items: center;
+}
+
+nav .logo img {
+    width: 100px;
+    height: 380;
+}
+
+nav .profile {
+    width: 210px;
+    height: 60px;
+    display: flex;
+    /* border: 1px solid red; */
+    align-items: center;
+}
+
+nav .profile img {
+    margin-left: 20px;
+}
+
+ .banner {
+    width: 100%;
+    height: 530px;
+    border: 0.1px solid white;
+    background: url(//frontend/src/resources/BG-Banner.jpg)) ;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    /* justify-content: center; */
+}
+
+ .banner h1 {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 160px;
+}
+
+.banner-button {
+    margin-top: 47px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 122px;
+    height: 32px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFCB45;
+}
+
+.banner-button a {
+    text-decoration: none;
+}
+
+/* main {
+    border: 1px solid red;
+} */
+
+main h1 {
+    margin-left: 5%;
+    margin-top: 50px;
+    font-size: 32px;
+}
+
+main p {
+    margin-left: 5%;
+    margin-top: 20px;
+    color: #1D1D1D;
+}
+
+main h3{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.cards {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+}
+
+/* Float four columns side by side */
+.column {
+    float: left;
+    width: 25%;
+    padding: 0 10px;
+  }
+  
+.column-sale {
+    float: left;
+    width: 50%;
+    padding: 0 10px;
+  }
+
+  /* Remove extra left and right margins, due to padding */
+  .row {
+    margin: 0 -5px;
+    margin-top: 5%;
+}
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+  /* Style the counter cards */
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+  }
+
+  .card img {
+    width: 100%;
+    height: 280px;
+  }
+
+  .card p {
+    text-align: left;
+  }
+
+  .card-sale-1 {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+    height: 100%;
+  }
+
+  .card-sale-1 p{
+    text-align: left;
+  }
+
+  .card-sale-2{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+    height: 100%;
+  }
+
+  .card-sale-2 h3 {
+    text-align: left;
+  }
+  
+  .confirm input[type=submit] {
+    width: 80%;
+    background-color: #45a07e;
+    color: white;
+    padding: 20px 20px;
+    margin: 2% auto auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .confirm :hover {
+    background-color: #45a049;
+  }
+
+  .card-sale-2 .auction-button a{
+    text-decoration: none;
+    display: flex;
+  }
+
+  .advertise-card {
+    height: 20%;
+    margin-top: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #4ec66a;
+  }
+
+  .switch-card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #FFF9EA;
+    height: 50%;
+    margin-bottom: 2.5%;
+    /* background-color:blue */
+  }
+
+  .switch-card ul {
+    display: flex;
+    list-style: none;
+    width: 430px;
+    /* border: 1px solid red; */
+    justify-content: space-between;
+    align-items: center;
+    margin: auto auto;
+}
+
+  .switch-card ul li a {
+    text-decoration: none;
+    color: #1D1D1D 70%;
+    font-size: larger ;
+}
+
+  .form-sale input[type=text], select {
+    width: 60%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+  .form-sale input[type=button], input[type=submit], input[type=reset] {
+    background-color: #45a07e;
+    border: none;
+    color: white;
+    padding: 5px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+  input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+  .related h3{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    text-align: left;
+  }
+
+  section .main-advertise {
+    /* border: 1px solid red; */
+    width: 80%;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  section .main-advertise img {
+    width: 100%;
+  }
+
+footer{
+    margin-top: 5%;
+    height: auto;
+    background-color: #FFF9EA;
+}
+
+footer .logo{
+    display: flex;
+}
+
+footer .logo img{
+    margin-top: 5%;
+    width: 62px;
+    height: 50px;
+}
+
+footer .row {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%
+}
+
+footer ul {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    /* text-decoration: none; */
+}
+
+footer ul a {
+    margin-top: 20%;
+    text-decoration: none;
+}
+
+footer h1 {
+    margin-top: 10%;
+    font-size: 20px;
+    color: #1D1D1D;
+}
+
+footer li {
+    margin-top: 5%;
+}
+
+footer li a {
+    text-decoration: none;
+    line-height: 16px;
+}
+
+footer .bottom {
+    margin-top: 2%;
+    text-align: center;
+}

@@ -31,7 +31,7 @@ const Category = ( {link} ) => {
 
     return (
         <>
-            <CardGroup style={{ margin: "0 40px", display: "flex", justifyContent: "space-between" }}>
+            <CardGroup style={{ margin: "5% auto 0 auto", width: "80%", display: "flex", justifyContent: "space-between" }}>
                 <Card style={{ margin: "0 10px", border: "1px solid #e5e5e5" }}>
                     <Card.Img variant='top' src={ShoesPic} style={{ backgroundColor: "#F1F1F1", height: "80%", width: "100%" }}/>
                     <Link to={link} state={{ categoryName: "Shoes", categoryID: categoryIDs["Shoes"] }} style={{ textDecoration: "none", color: "black", height: "20%" }}>

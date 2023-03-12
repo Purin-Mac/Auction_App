@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-// import './App.css';
+import './App.css';
 import Homepage from "./pages/Homepage";
 import Category from "./pages/Categorypage"
 import Sellpage from "./pages/Sellpage";

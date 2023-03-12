@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import { db, timestamp } from "../service/firebase";
 import { Link } from 'react-router-dom';
+import Footer from "../components/Footer.js";
 
 const ProductListpage = () => {
     const [ products, setProducts ] = useState([]);
@@ -39,8 +40,8 @@ const ProductListpage = () => {
     
     return (
         <>
-            <Header />
-            <h1>Product: {categoryName}</h1>
+            <Header/>
+            <h1 style= {{ margin: "50px 0 0 5%" }}>Product: {categoryName}</h1>
             <Row style= {{ margin: "0 20px" }}>
                 {products.length !== 0 ?  
                     products.map((product) => (
@@ -58,6 +59,7 @@ const ProductListpage = () => {
                     ))
                 : <h3>None</h3> }
             </Row>
+            <Footer/>
         </>
     );
 };
