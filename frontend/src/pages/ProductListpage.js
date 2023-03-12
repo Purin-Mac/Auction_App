@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
@@ -14,15 +14,27 @@ const ProductListpage = () => {
     const categoryID = location.state.categoryID;
 
     useEffect(() => {
-        const productsTemp = [];
+        console.log(categoryName, categoryID)
         const productsCol = collection(db, "Products");
         const q = query(productsCol, where("categoryID", "==", categoryID), where("duration", ">=", timestamp), where("isBrought", "==", false));  
-        getDocs(q).then(querySnapshot => {
+        const unsub = onSnapshot(q, (querySnapshot) => {
+            const productsTemp = [];
             querySnapshot.forEach(doc => {
                 productsTemp.push( { id: doc.id, ...doc.data() } );
             });
             setProducts(productsTemp);
-        })
+        });
+
+        // getDocs(q).then(querySnapshot => {
+        //     querySnapshot.forEach(doc => {
+        //         productsTemp.push( { id: doc.id, ...doc.data() } );
+        //     });
+        //     setProducts(productsTemp);
+        // })
+
+        return () => {
+            unsub();
+        };
     }, [categoryID]);
     
     return (
