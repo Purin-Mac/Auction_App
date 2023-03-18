@@ -76,7 +76,7 @@ function Productpage() {
         }).then(() => {
             console.log("Transaction completed.")
             showToastMessage(`You have buy ${product.productName}`);
-            navigate('/category_product', { state: { categoryName: categoryName, categoryID: product.categoryID} });
+            // navigate('/category_product', { state: { categoryName: categoryName, categoryID: product.categoryID} });
         }).catch((error) => {
             console.log("Transaction failed: ", error)
         });
@@ -165,7 +165,7 @@ function Productpage() {
                 
                 if (docData.isBrought) {
                     showToastMessage(`The product has been purchased by someone else.`);
-                    navigate('/category_product', { state: { categoryName: categoryName, categoryID: docData.categoryID} });
+                    // navigate('/category_product', { state: { categoryName: categoryName, categoryID: docData.categoryID} });
                 };
 
                 if (currentUser.email !== docData.currentBidder && 

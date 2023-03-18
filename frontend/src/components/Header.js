@@ -16,7 +16,8 @@ function Header() {
         setSearchTerm(event.target.value);
     };
 
-    const handleSearchSubmit = () => {
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
         navigate(`/search?q=${searchTerm}`);
     };
 
