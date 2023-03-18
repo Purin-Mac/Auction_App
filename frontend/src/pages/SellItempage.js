@@ -53,6 +53,7 @@ const SellItemPage = () => {
                 sellerEmail: currentUser.email,
                 categoryID: categoryID,
                 productName: itemTitle.current.value,
+                searchName: itemTitle.current.value.toLowerCase(),
                 productPhoto: itemImage.current.files[0],
                 productInfo: itemInfo.current.value,
                 startPrice: Number(startPrice.current.value),

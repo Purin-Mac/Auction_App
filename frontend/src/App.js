@@ -11,6 +11,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from 'react-toastify'
 import { AuthProvider } from "./service/AuthContext";
 import ProductListpage from "./pages/ProductListpage";
+import SearchResultpage from "./pages/SearchResultpage";
 
 // const socket = socketIO.connect('http://localhost:4000');
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="/sell_item_details" element={<PrivateRoute> <SellItemPage/> </PrivateRoute>} />
           {/* <Route path="/item" element={<PrivateRoute> <Item socket={socket}/> </PrivateRoute>} /> */}
           <Route path="/product" element={<PrivateRoute> <Productpage/> </PrivateRoute>} />
+          <Route path="/search" element={<SearchResultpage/>} />
         </Routes>
       </AuthProvider>
     </>
