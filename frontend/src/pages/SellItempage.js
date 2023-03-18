@@ -109,8 +109,8 @@ const SellItemPage = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Form.Label>Auction Duration (Hours)</Form.Label>
-                    <Form.Control type="number" required ref={itemDuration} />
+                    <Form.Label>Auction Duration (Hours, Max 7 days)</Form.Label>
+                    <Form.Control type="number" max={168} required ref={itemDuration} />
                 </Form.Group>
 
                 <Form.Group controlId="formFile" className="mb-3">
