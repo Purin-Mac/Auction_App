@@ -40,7 +40,7 @@ function Header() {
                 </div>
 
                 <div className="slot">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
                     <form onSubmit={handleSearchSubmit}>
                           <input type="text" value={searchTerm} onChange={handleSearchChange}></input>
                           <button type="submit" onClick={handleSearchSubmit}>Search</button>

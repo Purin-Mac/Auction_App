@@ -163,10 +163,10 @@ function Productpage() {
                 setProduct(doc.data());
                 const docData = doc.data();
                 
-                if (docData.isBrought) {
+                if (docData.isBrought && currentUser.email !== docData.currentBuyer) {
                     showToastMessage(`The product has been purchased by someone else.`);
                     // navigate('/category_product', { state: { categoryName: categoryName, categoryID: docData.categoryID} });
-                };
+                }
 
                 if (currentUser.email !== docData.currentBidder && 
                     docData.currentPrice !== docData.startPrice && 
@@ -174,7 +174,7 @@ function Productpage() {
                     console.log(docData.currentBidder)
                     showToastMessage(`There is a new highest bid with ${docData.currentPrice} Baht.`);
                     previousBidPriceRef.current = docData.currentPrice;
-                };
+                }
 
                 if (autoBidPrice !== 0 && currentUser.email !== docData.currentBidder) {
                     const newBidPrice = Math.ceil((docData.currentPrice / 100) * 110);
@@ -208,6 +208,13 @@ function Productpage() {
                 <>
                     {currentUser.email !== product.sellerEmail ?    
                         <div>
+                            {product.isBrought ?
+                                (currentUser.email !== product.currentBuyer ?
+                                    <>
+                                        <h3>This product has been purchased.</h3>
+                                    </>
+                                : <h3>You have purchased this product.</h3>)
+                            : null}
                             <h2>Manual Bid</h2>
                             <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
                             <h3>Highest Bid: {product.currentPrice} Baht</h3>
@@ -220,10 +227,10 @@ function Productpage() {
                                     name="price"
                                     readOnly
                                     ></input>
-                                    <button onClick={() => handleIncreaseBid(10)}>+10</button>
-                                    <button onClick={() => handleIncreaseBid(100)}>+100</button>
-                                    <button onClick={() => handleIncreaseBid(1000)}>+1000</button>
-                                    <button onClick={handleBid}>Submit</button>   
+                                    <button onClick={() => handleIncreaseBid(10)} disabled={product.isBrought}>+10</button>
+                                    <button onClick={() => handleIncreaseBid(100)} disabled={product.isBrought}>+100</button>
+                                    <button onClick={() => handleIncreaseBid(1000)} disabled={product.isBrought}>+1000</button>
+                                    <button onClick={handleBid} disabled={product.isBrought}>Submit</button>   
                                 </div>
 
                             <br/>
@@ -237,8 +244,9 @@ function Productpage() {
                                 placeholder="0"
                                 type="number"
                                 name="price"
+                                readOnly={product.isBrought}
                                 ></input>
-                                <button onClick={handleAutoBid}>Submit</button>   
+                                <button onClick={handleAutoBid} disabled={product.isBrought}>Submit</button>   
                             </div>
 
                             {product.buyNowPrice !== 0 ? 
@@ -248,7 +256,7 @@ function Productpage() {
                                     <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3>
                                     <div>
                                         <h2>Buy Now: {product.buyNowPrice}</h2>
-                                        <button onClick={handleBuyNow}>Buy Now</button>
+                                        <button onClick={handleBuyNow} disabled={product.isBrought}>Buy Now</button>
                                     </div>
                                 </div>
                             : null}

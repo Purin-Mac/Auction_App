@@ -49,11 +49,15 @@ const SellItemPage = () => {
             return showToastMessage("Only JPEG, JPG and PNG files are accepted");
         }
 
+        const nameArray = itemTitle.current.value.toLowerCase().split(' ');
+        const searchPartial = nameArray.slice(1);
+
         const productsData = {
                 sellerEmail: currentUser.email,
                 categoryID: categoryID,
                 productName: itemTitle.current.value,
                 searchName: itemTitle.current.value.toLowerCase(),
+                searchPartial: searchPartial,
                 productPhoto: itemImage.current.files[0],
                 productInfo: itemInfo.current.value,
                 startPrice: Number(startPrice.current.value),
