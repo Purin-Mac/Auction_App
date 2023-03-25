@@ -42,11 +42,11 @@ const ProductListpage = () => {
         <>
             <Header/>
             <h1 style= {{ margin: "50px 0 0 5%" }}>Product: {categoryName}</h1>
-            <Row style= {{ margin: "0 20px" }}>
+            <Row style= {{ margin: "5% 5%" }}>
                 {products.length !== 0 ?  
                     products.map((product) => (
                         <Col key={product.id} md={3}>
-                            <Card style={{ border: "1px solid #e5e5e5", height: "100%" }}>
+                            <Card style={{ border: "1px solid #e5e5e5", height: "100%"}}>
                                 <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
                                 <Link to="/product" state={{ categoryName: categoryName, id: product.id }} style={{ textDecoration: "none", color: "black"}}>
                                     <Card.Body>

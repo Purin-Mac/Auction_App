@@ -3,6 +3,8 @@ import Accessories from '../resources/Watch.png';
 import Shoes from '../resources/Sneaker2.png';
 import MenClothes from '../resources/Bronx Hoodie.png';
 import WomenClothes from '../resources/WomenClothes.png';
+import Jacket from '../resources/Diesel.png';
+import AirMax from '../resources/Airjordan.png'
 
 function MainHome() {
     // const [user, setUser] = useState(null);
@@ -62,31 +64,31 @@ function MainHome() {
                         <div class="card">
                             <img src={Shoes} alt="Shoes" /> 
                             <h3>Nike Air Max 90</h3>
-                            <p>2000 baht</p>
+                            <p>2000 THB</p>
                         </div>
                     </div>
                 
                     <div class="column">
                         <div class="card">
-                            <img src={Shoes} alt="Shoes" /> 
+                            <img src={Jacket} alt="Shoes" /> 
                             <h3>Jacket Rush Harrington </h3>
-                            <p>955 baht</p>
+                            <p>955 THB</p>
                         </div>
                     </div>
                     
                     <div class="column">
                         <div class="card">
-                            <img src={Shoes} alt="Shoes" /> 
+                            <img src={MenClothes} alt="Shoes" /> 
                             <h3>Bronx Hoodie</h3>
-                            <p>963 baht</p>
+                            <p>963 THB</p>
                         </div>
                     </div>
                     
                     <div class="column">
                         <div class="card">
-                            <img src={Shoes} alt="Shoes" /> 
-                            <h3>Nike Air Max 270 React</h3>
-                            <p>1500 baht</p>
+                            <img src={AirMax} alt="Shoes" /> 
+                            <h3>Nike Airjordan</h3>
+                            <p>1500 THB</p>
                         </div>
                     </div>
                 </div>
