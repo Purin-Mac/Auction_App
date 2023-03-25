@@ -1,10 +1,10 @@
 import '../style/main.css';
-import Accessories from '../resources/Watch.png';
 import Shoes from '../resources/Sneaker2.png';
 import MenClothes from '../resources/Bronx Hoodie.png';
-import WomenClothes from '../resources/WomenClothes.png';
 import Jacket from '../resources/Diesel.png';
 import AirMax from '../resources/Airjordan.png'
+import { useContext } from 'react';
+import { AuthContext } from '../service/AuthContext';
 
 function MainHome() {
     // const [user, setUser] = useState(null);
@@ -16,6 +16,8 @@ function MainHome() {
     // }, []);
   
     // console.log(user);
+
+    const { appsPicture } = useContext(AuthContext); 
   
     return (
     <>
@@ -28,28 +30,28 @@ function MainHome() {
                 <div class="row">
                     <div class="column">
                         <div class="card">
-                            <img src={Accessories} alt="Accessories" />  
+                            <img src={appsPicture["Accessories.png"]} alt="Accessories" />  
                             <h3>Accesssories</h3>
                         </div>
                     </div>
                 
                     <div class="column">
                         <div class="card">
-                            <img src={Shoes} alt="Shoes" />  
+                            <img src={appsPicture["Shoes.png"]} alt="Shoes" />  
                             <h3>Shoes</h3>
                         </div>
                     </div>
                     
                     <div class="column">
                         <div class="card">
-                            <img src={MenClothes} alt="MenClothes" />  
+                            <img src={appsPicture["Men clothes.png"]} alt="MenClothes" />  
                             <h3>Men's Clothes</h3>
                         </div>
                     </div>
                     
                     <div class="column">
                         <div class="card">
-                            <img src={WomenClothes} alt="WomenClothes" />  
+                            <img src={appsPicture["Women clothes.png"]} alt="WomenClothes" />  
                             <h3>Woman's Clothes</h3>
                         </div>
                     </div>

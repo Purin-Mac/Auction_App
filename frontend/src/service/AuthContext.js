@@ -1,7 +1,8 @@
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
 import { createContext, useState, useEffect, useMemo } from "react";
-import { auth, db, timestamp } from "./firebase";
+import { auth, db, storage, timestamp } from "./firebase";
 import { doc, setDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { getDownloadURL, ref } from "firebase/storage";
 // import { genProducts } from "./SeedDB";
 
 export const AuthContext = createContext();
@@ -15,6 +16,13 @@ export const AuthProvider = ({ children }) => {
         "Women's clothes": "", 
         "Shoes": "", 
         "Accessories": ""
+    }), []);
+    const appsPicture = useMemo(() => ({
+        "Logo.png": "",
+        "Men clothes.png": "", 
+        "Women clothes.png": "", 
+        "Shoes.png": "", 
+        "Accessories.png": ""
     }), []);
 
     const signIN = () => {
@@ -124,8 +132,23 @@ export const AuthProvider = ({ children }) => {
           ...prevUser,
           money: newMoneyValue,
         }));
-      }
-      
+    }
+
+    // const getCategoryPictureURL = (PictureName) => {
+    //     return getDownloadURL(ref(storage, `apps/Categories/${PictureName}`)).then((url) => {
+    //         // console.log(url);
+    //         return url;
+    //     });
+    // };
+    // getCategoryPictureURL("Shoes.png").then(url => console.log(url));    
+    
+    useEffect(() => {
+        Object.keys(appsPicture).forEach(async (key) => {
+            getDownloadURL(ref(storage, `apps/${key}`)).then((url) => {
+                appsPicture[key] = url;
+            });
+        });
+    }, []);
     
     useEffect(() => {
         const categoriesCol = collection(db, "Categories");
@@ -133,7 +156,7 @@ export const AuthProvider = ({ children }) => {
             const q = query(categoriesCol, where("categoryName", "==", key));
             const querySnapshot = await getDocs(q)
             querySnapshot.forEach((doc) => {
-                    categoryID[key] = doc.id;
+                categoryID[key] = doc.id;
             });
         });
     }, [categoryID]);
@@ -161,7 +184,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return(
-        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserDataMoney, categoryID}}>
+        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserDataMoney, categoryID, appsPicture}}>
             {!loading && children}
         </AuthContext.Provider>
     );

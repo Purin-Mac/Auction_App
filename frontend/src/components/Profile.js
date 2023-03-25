@@ -8,7 +8,7 @@ function Profile() {
     // console.log(currentUser)
 
     if (currentUser && userData) {
-        console.log(userData)
+        // console.log(userData)
         return (
             <>
                 <div className="user-container">

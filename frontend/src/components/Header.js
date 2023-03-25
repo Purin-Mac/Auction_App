@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import "../style/Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logo from "../resources/Hammer of the God.png";
+// import logo from "../resources/Hammer of the God.png";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from '../service/AuthContext';
 // import firebase, { signInWithGoogle } from '../service/firebase';
 // import User from '../service/User';
 import Profile from "./Profile";
 
 function Header() {
+    const { appsPicture } = useContext(AuthContext);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ function Header() {
             <div className="header">
                 <div className="slot">
                     <Link className="logo" to="/">
-                        Let's Auct <img src={logo} alt="Official logo" />
+                        Let's Auct <img src={appsPicture["Logo.png"]} alt="Official logo" />
                     </Link>
                 </div>
 
