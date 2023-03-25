@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     const [currentUser, setCurrentUser] = useState(null);
+    const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const categoryID = useMemo(() => ({
         "Men's clothes": "", 
@@ -34,11 +35,12 @@ export const AuthProvider = ({ children }) => {
                     city: null,
                     state: null,
                     zip: null
-                }
+                },
+                money: 0
             };
             // setDoc(doc(users), userData);
             const q = query(users, where("email", "==", result.user.email));
-            console.log(typeof(q))
+            // console.log(typeof(q))
             getDocs(q).then(querySnapshot => {
                 if (querySnapshot.empty){
                     setDoc(doc(users), userData);
@@ -116,6 +118,14 @@ export const AuthProvider = ({ children }) => {
     const signOUT = () => {
         signOut(auth)
     }
+
+    const updateUserDataMoney = (newMoneyValue) => {
+        setUserData((prevUser) => ({
+          ...prevUser,
+          money: newMoneyValue,
+        }));
+      }
+      
     
     useEffect(() => {
         const categoriesCol = collection(db, "Categories");
@@ -131,13 +141,27 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
+            if (user) {
+                const users = collection(db, 'Users');
+                const q = query(users, where('email', '==', user.email));
+                getDocs(q).then((querySnapshot) => {
+                  if (!querySnapshot.empty) {
+                    querySnapshot.forEach((doc) => {
+                      setUserData({ id: doc.id, ...doc.data() });
+                    });
+                  }
+                });
+            } 
+            else {
+                setUserData(null);
+            }
             setLoading(false);
         });
         return () => unsubscribe();
     }, []);
 
     return(
-        <AuthContext.Provider value={{ currentUser, signIN, signOUT, getData, categoryID}}>
+        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserDataMoney, categoryID}}>
             {!loading && children}
         </AuthContext.Provider>
     );

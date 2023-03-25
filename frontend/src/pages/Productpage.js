@@ -11,7 +11,7 @@ import Countdown from 'react-countdown';
 // import User from "../service/User";
 
 function Productpage() {
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, userData } = useContext(AuthContext);
     const [ product, setProduct ] = useState([]);
 
     const navigate = useNavigate();
