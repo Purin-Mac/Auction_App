@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import { db, timestamp } from "../service/firebase";
 import { Link } from 'react-router-dom';
+import Footer from "../components/Footer.js";
 
 const ProductListpage = () => {
     const [ products, setProducts ] = useState([]);
@@ -39,13 +40,13 @@ const ProductListpage = () => {
     
     return (
         <>
-            <Header />
-            <h1>Product: {categoryName}</h1>
-            <Row style= {{ margin: "0 20px" }}>
+            <Header/>
+            <h1 style= {{ margin: "50px 0 0 5%" }}>Product: {categoryName}</h1>
+            <Row style= {{ margin: "5% 5%" }}>
                 {products.length !== 0 ?  
                     products.map((product) => (
                         <Col key={product.id} md={3}>
-                            <Card style={{ border: "1px solid #e5e5e5", height: "100%" }}>
+                            <Card style={{ border: "1px solid #e5e5e5", height: "100%"}}>
                                 <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
                                 <Link to="/product" state={{ categoryName: categoryName, id: product.id }} style={{ textDecoration: "none", color: "black"}}>
                                     <Card.Body>
@@ -58,6 +59,7 @@ const ProductListpage = () => {
                     ))
                 : <h3>None</h3> }
             </Row>
+            <Footer/>
         </>
     );
 };
