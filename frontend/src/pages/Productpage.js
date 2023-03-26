@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, onSnapshot, query, runTransaction, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, query, runTransaction, Timestamp, updateDoc, where } from "firebase/firestore";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import UseIsMount from "../components/UseIsMount";
@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
 import { AuthContext } from "../service/AuthContext";
-import { db } from "../service/firebase";
+import { db, timestamp } from "../service/firebase";
 import Countdown from 'react-countdown';
 import '../style/main.css';
 import Footer from "../components/Footer";
@@ -41,10 +41,10 @@ function Productpage() {
             showToastMessage(`You need to bid at least ${Math.ceil((product.currentPrice/100) * 110)} Baht.`);
         }
         else {
-            console.log("Input Bid", inputBidValue);
+            // console.log("Input Bid", inputBidValue);
             setBidPrice(inputBidValue);
         }
-        console.log("Product current price: ", product.currentPrice);
+        // console.log("Product current price: ", product.currentPrice);
         // inputRef.current.value = Math.ceil((product.currentPrice/100) * 110);
     };
 
@@ -65,6 +65,7 @@ function Productpage() {
         const docRef = doc(db, "Products", productID);
         const userRef = doc(db, "Users", userData.id);
         const userItemsRef = doc(userRef, 'Items', productID);
+        const currentDate = Timestamp.now();
         runTransaction(db, async(transaction) => {
             const doc = await transaction.get(docRef);
             const userDoc = await transaction.get(userRef);
@@ -86,12 +87,15 @@ function Productpage() {
 
                     transaction.update(docRef,{
                         isBrought: true,
-                        currentBuyer: currentUser.email
+                        currentBuyer: currentUser.email,
+                        broughtAt: currentDate
                     });
                     
                     transaction.set(userItemsRef, {
                         productName: docData.productName,
-                        price: docData.buyNowPrice,
+                        productPhoto: docData.productPhoto,
+                        buyNowPrice: docData.buyNowPrice,
+                        broughtAt: currentDate,
                         productRef: docRef
                     });
 
@@ -157,18 +161,21 @@ function Productpage() {
     //set highest bid
     useEffect(() => {
         const docRef = doc(db, "Products", productID);
+        const userRef = doc(db, "Users", userData.id);
         // console.log("Bid price: ", bidPrice);
-        
         const updateBid = async(transaction) => {
             const doc = await transaction.get(docRef);
+            const userDoc = await transaction.get(userRef);
             if (!doc.exists()) {
                 console.log("Document does not exist!");
                 return;
             }
             const docData = doc.data();
-            console.log(docData);
-            if (currentUser.email !== docData.currentBidder && 
-                bidPrice > Number(docData.currentPrice) && bidPrice >= Math.ceil((docData.currentPrice/100) * 110)) {
+            const userDataFB = userDoc.data();
+            // console.log(docData);
+            // console.log(userDataFB.money);
+            if (currentUser.email !== docData.currentBidder && bidPrice > Number(docData.currentPrice) 
+            && bidPrice >= Math.ceil((docData.currentPrice/100) * 110) && bidPrice <= userDataFB.money) {
                 transaction.update(docRef,{
                     currentPrice: bidPrice,
                     currentBidder: currentUser.email
@@ -178,7 +185,12 @@ function Productpage() {
             else if (bidPrice < Math.ceil((docData.currentPrice/100) * 110)) {
                 return Promise.reject("Not enough bidding price.");
             }
+            else if (bidPrice > userDataFB.money) {
+                return Promise.reject("You don't have enough money.");
+            }
             else {
+                console.log(bidPrice)
+                console.log(userDataFB.money)
                 // return Promise.reject(`${currentUser.email}, ${docData.currentBidder}, ${bidPrice}, ${docData.currentPrice}, ${Math.ceil((docData.currentPrice/100) * 110)}`);
                 // return Promise.reject(typeof(bidPrice));
                 return Promise.reject("Something is worng.");
@@ -192,7 +204,10 @@ function Productpage() {
                     console.log("Transaction completed.")
                 })
                 .catch((error) => {
+                    showToastMessage(error)
                     console.log("Transaction failed: ", error)
+                    setBidPrice(0);
+                    setAutoBidPrice(0);
                 });
         };
 

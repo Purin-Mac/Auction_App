@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, Timestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage, timestamp } from "./firebase";
 import imageFile1 from '../resources/Airjordan.png';
@@ -89,7 +89,7 @@ export const genProducts = (database) => {
             productInfo: "",
             startPrice: 1200,
             buyNowPrice: 2000,
-            createAt: timestamp,
+            createAt: Timestamp.now(),
             duration: ""           
         }
     ];

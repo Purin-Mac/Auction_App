@@ -1,4 +1,4 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useContext, useRef } from "react";
 import { Form, Button } from "react-bootstrap";
@@ -40,8 +40,8 @@ const SellItemPage = () => {
         // let dueDate = new Date(currentDate);
         // dueDate.setHours(currentDate.getHours() + Number(itemDuration.current.value));
 
-        let currentDate = timestamp;
-        let dueDate = timestamp.toDate();
+        let currentDate = Timestamp.now();
+        let dueDate = currentDate.toDate();
         dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
 
         

@@ -34,7 +34,7 @@ export const db = getFirestore(app);
 // genProducts(db);
 
 // export const timestamp = serverTimestamp();
-export const timestamp = Timestamp.now();
+// export const timestamp = Timestamp.now();
 
 //initialize cloud storage
 export const storage = getStorage(app);
