@@ -1,7 +1,7 @@
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
 import { createContext, useState, useEffect, useMemo } from "react";
 import { auth, db, storage, timestamp } from "./firebase";
-import { doc, setDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, query, where, getDoc, addDoc } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 // import { genProducts } from "./SeedDB";
 
@@ -28,9 +28,9 @@ export const AuthProvider = ({ children }) => {
     }), []);
 
     const signIN = () => {
-        signInWithPopup(auth, provider).then((result) => {
+        signInWithPopup(auth, provider).then(async(result) => {
             // console.log((result.user.photoURL));
-            const users = collection(db, "Users");
+            const usersCol = collection(db, "Users");
             const userData = {
                 // uid: result.user.uid,
                 userName: result.user.displayName,
@@ -49,32 +49,41 @@ export const AuthProvider = ({ children }) => {
                 money: 0
             };
             // setDoc(doc(users), userData);
-            const q = query(users, where("email", "==", result.user.email));
+            const q = query(usersCol, where("email", "==", result.user.email));
             // console.log(typeof(q))
-            getDocs(q).then(querySnapshot => {
-                if (querySnapshot.empty){
-                    setDoc(doc(users), userData);
-                    console.log("Create user data successful");
-                }
-                else{
-                    querySnapshot.forEach((doc) => {
-                        console.log(doc.id, " => ", doc.data());
-                    });
-                }
-            }).catch(error => {
-                console.log(`Error: ${error}`);
-            });
+            const querySnapshot = await getDocs(q);
+            if (querySnapshot.empty){
+                const newUserRef = await addDoc(usersCol, userData)
+                const newUserData = { id: newUserRef.id, ...userData };
+                setUserData(newUserData);
+                console.log("Create user data successful")
+            }
+            else{
+                querySnapshot.forEach((doc) => {
+                    setUserData({ id: doc.id, ...doc.data() });
+                    console.log(doc.id, " => ", doc.data());
+                });
+            }
+            
+            // getDocs(q).then(querySnapshot => {
+            //     if (querySnapshot.empty){
+            //         setDoc(doc(usersCol), userData).then(
+            //             console.log("Create user data successful")
+            //         ).catch((error) => {
+            //             console.log(`Error: ${error}`);
+            //         });
+            //     }
+            //     else{
+            //         querySnapshot.forEach((doc) => {
+            //             setUserData({ id: doc.id, ...doc.data() });
+            //             console.log(doc.id, " => ", doc.data());
+            //         });
+            //     }
+            // }).catch(error => {
+            //     console.log(`Error: ${error}`);
+            // });
         });
     };
-
-    // const queryData = async(collection, keyword, operator, value) => {
-    //     const q = query(collection, where(keyword, operator, value));
-    //     const querySnapshot = await getDocs(q);
-    //     querySnapshot.forEach((doc) => {
-    //         // doc.data() is never undefined for query doc snapshots
-    //         console.log(doc.id, " => ", doc.data());
-    //     });
-    // }
 
     const getData = async() => {
         let currentDate = new Date();
@@ -82,67 +91,39 @@ export const AuthProvider = ({ children }) => {
         let dueDate = new Date(tempDate.setHours(tempDate.getHours() + 8));
         console.log(currentDate);
         console.log(dueDate);
-
-        // const docCol = collection(db, "Users");
-        // // console.log(docCol);
-        // const docAll = await getDocs(docCol);
-        // // console.log(docAll);
-        // if (docAll.empty) {
-        //     console.log("There is no documents.");
-        // }
-        // else{
-        //     docAll.forEach(doc => {
-        //         console.log(doc.id, " => ", doc.data());
-        //     });
-        // }
-
-        // const users = collection(db , "Users");
-        // const q = query(users, where("email", "==", currentUser.email));
-        // const querySnapshot = await getDocs(q)
-        // querySnapshot.forEach(doc => {
-        //     console.log(doc.id, " => ", doc.data());
-        // });
-
-        // const docCol = collection(db, "Categories");
-        // const categoryDict = {
-        //     "Men's clothes": "", 
-        //     "Women's clothes": "", 
-        //     "Shoes": "", 
-        //     "Accessories": ""
-        // };
-        // Object.keys(categoryDict).forEach(async (key) => {
-        //     const q = query(docCol, where("categoryName", "==", key));
-        //     const querySnapshot = await getDocs(q)
-        //     querySnapshot.forEach((doc) => {
-        //         // doc.data() is never undefined for query doc snapshots
-        //         // console.log(doc.id, " => ", doc.data());
-        //         // console.log(typeof(doc.id))
-        //         // (function (key) {
-        //             categoryDict[key] = doc.id;
-        //         // })
-        //     });
-        // });
-        // genProducts(db)
     }
 
     const signOUT = () => {
         signOut(auth)
     }
 
-    const updateUserDataMoney = (newMoneyValue) => {
-        setUserData((prevUser) => ({
-          ...prevUser,
-          money: newMoneyValue,
-        }));
-    }
+    const updateUserData = async(userId) => {
+        const userRef = doc(db, "Users", userId);
+        getDoc(userRef).then(doc => {
+            if (doc.exists()) {
+                setUserData(doc.data());
+            } 
+            else {
+                console.log("No such document!");
+            }
+        }).catch(error => {
+            console.log("Error getting document: ", error);
+        });
+        // const userDoc = await getDoc(userRef);
 
-    // const getCategoryPictureURL = (PictureName) => {
-    //     return getDownloadURL(ref(storage, `apps/Categories/${PictureName}`)).then((url) => {
-    //         // console.log(url);
-    //         return url;
-    //     });
-    // };
-    // getCategoryPictureURL("Shoes.png").then(url => console.log(url));    
+        // console.log("userDoc:", userDoc); 
+        // console.log("userDoc.data():", userDoc.data());
+
+        // if (!userDoc.exists()) {
+        //     throw new Error("User not found.");
+        // }
+        // else {
+        //     setUserData(userDoc.data());
+        // }
+        
+        // const userData = userDoc.data();
+        // setUserData(userDoc);
+    }
     
     useEffect(() => {
         const promises = Object.keys(appsPicture).map(async (key) => {
@@ -180,8 +161,8 @@ export const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
             if (user) {
-                const users = collection(db, 'Users');
-                const q = query(users, where('email', '==', user.email));
+                const usersCol = collection(db, 'Users');
+                const q = query(usersCol, where('email', '==', user.email));
                 getDocs(q).then((querySnapshot) => {
                   if (!querySnapshot.empty) {
                     querySnapshot.forEach((doc) => {
@@ -199,7 +180,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return(
-        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserDataMoney, categoryIDs, appsPicture}}>
+        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserData, categoryIDs, appsPicture}}>
             {!userLoading && !pictureLoading && !categoryIDLoading && children}
         </AuthContext.Provider>
     );

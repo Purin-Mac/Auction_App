@@ -9,7 +9,8 @@ import { AuthContext } from '../service/AuthContext';
 // import User from '../service/User';
 import Profile from "./Profile";
 
-function Header() {
+
+const Header = () => {
     const { appsPicture } = useContext(AuthContext);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();

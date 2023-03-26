@@ -1,11 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import '../style/User.css'
 // import { auth, signInWithGoogle } from "../service/firebase";
 import { AuthContext } from '../service/AuthContext';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../service/firebase';
 
 function Profile() {
-    const { currentUser, userData, signIN, signOUT } = useContext(AuthContext)
+    const { currentUser, userData, signIN, signOUT, updateUserData } = useContext(AuthContext)
+    const [ userMoney, setUserMoney] = useState(0);
     // console.log(currentUser)
+
+    useEffect(() => {
+        if (userData) {
+            const userDocRef = doc(db, "Users", userData.id);
+            const unsub = onSnapshot(userDocRef, (doc) => {
+                setUserMoney(doc.data().money);
+                // console.log(doc.id)
+            });
+    
+            return () => {
+                unsub();
+            };
+        }
+    }, [userData]);
 
     if (currentUser && userData) {
         // console.log(userData)
@@ -14,7 +31,7 @@ function Profile() {
                 <div className="user-container">
                     <h3> {currentUser.displayName}</h3>
                     <img src={currentUser.photoURL} alt="profile_image"/>
-                    <h6> {userData.money} THB</h6>
+                    <h6> {userMoney} THB</h6>
                 </div>
                 {/* <button onClick={() => auth.signOut()}>Sign out</button> */}
                 <button onClick={() => signOUT()}>Sign out</button>

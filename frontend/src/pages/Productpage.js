@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot, runTransaction, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, query, runTransaction, updateDoc, where } from "firebase/firestore";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import UseIsMount from "../components/UseIsMount";
@@ -15,7 +15,7 @@ import Hood from '../resources/Bronx Hoodie.png';
 // import User from "../service/User";
 
 function Productpage() {
-    const { currentUser, userData } = useContext(AuthContext);
+    const { currentUser, userData, updateUserData } = useContext(AuthContext);
     const [ product, setProduct ] = useState([]);
 
     // const navigate = useNavigate();
@@ -63,27 +63,60 @@ function Productpage() {
 
     const handleBuyNow = () => {
         const docRef = doc(db, "Products", productID);
-        // const userItemsRef = doc(db, "Users", userData.id, 'Items', productID);
+        const userRef = doc(db, "Users", userData.id);
+        const userItemsRef = doc(userRef, 'Items', productID);
         runTransaction(db, async(transaction) => {
             const doc = await transaction.get(docRef);
-            if (!doc.exists()) {
-                console.log("Document does not exist!");
-                return;
+            const userDoc = await transaction.get(userRef);
+            if (!doc.exists() || !userDoc.exists()) {
+                // console.log("Document does not exist!");
+                // return;
+                throw new Error("Document does not exist!");
             }
-
+            
             const docData = doc.data();
+            const userDataFB = userDoc.data();
             if (!docData.isBrought) {
-                transaction.update(docRef,{
-                    isBrought: true,
-                    currentBuyer: currentUser.email
-                });
+                if (userDataFB.money < docData.buyNowPrice) {
+                    throw new Error("You don't have enough money to buy this product");
+                }
+                else {
+                    const sellerQuerySnapshot = await getDocs(query(collection(db, "Users"),where("email", "==", docData.sellerEmail)));
+                    
+
+                    transaction.update(docRef,{
+                        isBrought: true,
+                        currentBuyer: currentUser.email
+                    });
+                    
+                    transaction.set(userItemsRef, {
+                        productName: docData.productName,
+                        price: docData.buyNowPrice,
+                        productRef: docRef
+                    });
+
+                    transaction.update(userRef, {
+                        money: userDataFB.money - docData.buyNowPrice
+                    });
+
+                    if (!sellerQuerySnapshot.empty) {
+                        const sellerDoc = sellerQuerySnapshot.docs[0];
+                        const sellerData = sellerDoc.data();
+
+                        transaction.update(sellerDoc.ref, {
+                          money: sellerData.money + docData.buyNowPrice,
+                        });
+                    }
+                }
             }
         }).then(() => {
-            console.log("Transaction completed.")
+            console.log("Transaction completed.");
             showToastMessage(`You have buy ${product.productName}`);
+            // updateUserData(userData.id)
             // navigate('/category_product', { state: { categoryName: categoryName, categoryID: product.categoryID} });
         }).catch((error) => {
-            console.log("Transaction failed: ", error)
+            console.log("Transaction failed: ", error);
+            showToastMessage(error.message);
         });
     };
 
