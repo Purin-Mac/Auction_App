@@ -18,7 +18,7 @@ function Productpage() {
     const { currentUser, userData } = useContext(AuthContext);
     const [ product, setProduct ] = useState([]);
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const location = useLocation();
     const categoryName = location.state.categoryName;
     const productID = location.state.id;
@@ -63,6 +63,7 @@ function Productpage() {
 
     const handleBuyNow = () => {
         const docRef = doc(db, "Products", productID);
+        // const userItemsRef = doc(db, "Users", userData.id, 'Items', productID);
         runTransaction(db, async(transaction) => {
             const doc = await transaction.get(docRef);
             if (!doc.exists()) {

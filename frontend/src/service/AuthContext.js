@@ -10,8 +10,10 @@ export const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const categoryID = useMemo(() => ({
+    const [userLoading, setUserLoading] = useState(true);
+    const [pictureLoading, setPictureLoading] = useState(true);
+    const [categoryIDLoading, setCategoryIDLoading] = useState(true);
+    const categoryIDs = useMemo(() => ({
         "Men's clothes": "", 
         "Women's clothes": "", 
         "Shoes": "", 
@@ -143,23 +145,36 @@ export const AuthProvider = ({ children }) => {
     // getCategoryPictureURL("Shoes.png").then(url => console.log(url));    
     
     useEffect(() => {
-        Object.keys(appsPicture).forEach(async (key) => {
-            getDownloadURL(ref(storage, `apps/${key}`)).then((url) => {
-                appsPicture[key] = url;
-            });
+        const promises = Object.keys(appsPicture).map(async (key) => {
+            // getDownloadURL(ref(storage, `apps/${key}`)).then((url) => {
+            //     appsPicture[key] = url;
+            // });
+            const url = await getDownloadURL(ref(storage, `apps/${key}`));
+            appsPicture[key] = url;
+        });
+
+        Promise.all(promises).then(() => {
+            setPictureLoading(false);
         });
     }, []);
     
     useEffect(() => {
-        const categoriesCol = collection(db, "Categories");
-        Object.keys(categoryID).forEach(async (key) => {
-            const q = query(categoriesCol, where("categoryName", "==", key));
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach((doc) => {
-                categoryID[key] = doc.id;
+        const fetchCategoryIDs = async() => {
+            const categoriesCol = collection(db, "Categories");
+            const promises = Object.keys(categoryIDs).map(async (key) => {
+                const q = query(categoriesCol, where("categoryName", "==", key));
+                const querySnapshot = await getDocs(q)
+                querySnapshot.forEach((doc) => {
+                    categoryIDs[key] = doc.id;
+                });
             });
-        });
-    }, [categoryID]);
+
+            await Promise.all(promises);
+            setCategoryIDLoading(false);
+        };
+
+        fetchCategoryIDs();
+    }, [categoryIDs]);
     
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -178,14 +193,14 @@ export const AuthProvider = ({ children }) => {
             else {
                 setUserData(null);
             }
-            setLoading(false);
+            setUserLoading(false);
         });
         return () => unsubscribe();
     }, []);
 
     return(
-        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserDataMoney, categoryID, appsPicture}}>
-            {!loading && children}
+        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserDataMoney, categoryIDs, appsPicture}}>
+            {!userLoading && !pictureLoading && !categoryIDLoading && children}
         </AuthContext.Provider>
     );
 };

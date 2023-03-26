@@ -1,30 +1,30 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { Card, CardGroup } from 'react-bootstrap'
-import { useEffect, useState } from 'react';
-import { db, storage } from '../service/firebase';
-import { collection, getDocs } from 'firebase/firestore';
-import { getDownloadURL, ref } from 'firebase/storage';
+// import { useEffect, useState } from 'react';
+// import { db, storage } from '../service/firebase';
+// import { collection, getDocs } from 'firebase/firestore';
+// import { getDownloadURL, ref } from 'firebase/storage';
 import { AuthContext } from '../service/AuthContext';
 
 const Category = ( {link} ) => {
-    const { appsPicture } = useContext(AuthContext); 
-    const [categoryIDs, setCategoryIDs] = useState({});
+    const { appsPicture, categoryIDs } = useContext(AuthContext); 
+    // const [categoryIDs, setCategoryIDs] = useState({});
 
-    useEffect(() => {
-        const fetchCategoryID = async() => {
-            const categoriesCol = collection(db, "Categories");
-            const querySnapshot = await getDocs(categoriesCol);
-            const tempCategoryID = {};
-            querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                // console.log(doc.id, " => ", doc.data().categoryName);
-                tempCategoryID[doc.data().categoryName] = doc.id;
-            });
-            setCategoryIDs(tempCategoryID);
-        };
-        fetchCategoryID();
-    }, []);
+    // useEffect(() => {
+    //     const fetchCategoryID = async() => {
+    //         const categoriesCol = collection(db, "Categories");
+    //         const querySnapshot = await getDocs(categoriesCol);
+    //         const tempCategoryID = {};
+    //         querySnapshot.forEach((doc) => {
+    //             // doc.data() is never undefined for query doc snapshots
+    //             // console.log(doc.id, " => ", doc.data().categoryName);
+    //             tempCategoryID[doc.data().categoryName] = doc.id;
+    //         });
+    //         setCategoryIDs(tempCategoryID);
+    //     };
+    //     fetchCategoryID();
+    // }, []);
 
     return (
         <>
