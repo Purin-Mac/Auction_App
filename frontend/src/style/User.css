@@ -4,11 +4,26 @@
     flex-direction: row-reverse;
     /* justify-content: space-between; */
 }
+.user-info {
+    display: flex;
+    align-items: center;
+    
+}
+.user-link{
+    text-decoration: none;
+    color: black;
+}
 .user-container h3{
-    margin-left: 10px;
+    font-size: 1.2em;
+    margin: 0;
+    flex: 1;
+    align-self: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .user-container img{
-    margin: 10px 10px;
+    margin: 10px 0 10px 10px;
     width: 20%;
     height: auto;
     border-radius: 50%;

@@ -53,7 +53,7 @@ const ProductSearch = ({ searchTerm }) => {
                         <Link to="/product" state={{ id: product.id }} style={{ textDecoration: "none", color: "black"}}>
                             <h3>{product.productName}</h3>
                             <img src={product.productPhoto}></img>
-                            <p>{product.productName}</p>         
+                            <p>{product.productInfo}</p>         
                         </Link>
                     </div>
                 ))

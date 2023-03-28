@@ -4,6 +4,7 @@ import '../style/User.css'
 import { AuthContext } from '../service/AuthContext';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../service/firebase';
+import { Link } from 'react-router-dom';
 
 function Profile() {
     const { currentUser, userData, signIN, signOUT, updateUserData } = useContext(AuthContext)
@@ -29,12 +30,16 @@ function Profile() {
         return (
             <>
                 <div className="user-container">
-                    <h3> {currentUser.displayName}</h3>
-                    <img src={currentUser.photoURL} alt="profile_image"/>
+                    <Link className="user-link" to="/profile">
+                        <div className="user-info">
+                            <img src={currentUser.photoURL} alt="profile_image"/>
+                            <h3> {currentUser.displayName}</h3>
+                        </div>
+                    </Link>
                     <h6> {userMoney} THB</h6>
                 </div>
                 {/* <button onClick={() => auth.signOut()}>Sign out</button> */}
-                <button onClick={() => signOUT()}>Sign out</button>
+                {/* <button onClick={() => signOUT()}>Sign out</button> */}
             </>
         );
     }else{

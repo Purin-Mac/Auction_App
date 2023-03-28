@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
 import { AuthContext } from "../service/AuthContext";
-import { db, timestamp } from "../service/firebase";
+import { db } from "../service/firebase";
 import Countdown from 'react-countdown';
 import '../style/main.css';
 import Footer from "../components/Footer";
