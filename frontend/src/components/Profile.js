@@ -32,7 +32,7 @@ function Profile() {
                 <div className="user-container">
                     <Link className="user-link" to="/profile">
                         <div className="user-info">
-                            <img src={currentUser.photoURL} alt="profile_image"/>
+                            <img src={currentUser.photoURL} alt="profile"/>
                             <h3> {currentUser.displayName}</h3>
                         </div>
                     </Link>

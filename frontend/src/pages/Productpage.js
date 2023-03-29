@@ -82,33 +82,32 @@ function Productpage() {
                     throw new Error("You don't have enough money to buy this product");
                 }
                 else {
-                    const sellerQuerySnapshot = await getDocs(query(collection(db, "Users"),where("email", "==", docData.sellerEmail)));
+                    const sellerQuerySnapshot = await getDocs(query(collection(db, "Users"),where("email", "==", docData.sellerEmail)));  
                     
-
-                    transaction.update(docRef,{
-                        isBrought: true,
-                        currentBuyer: currentUser.email,
-                        broughtAt: currentDate
-                    });
-                    
-                    transaction.set(userItemsRef, {
-                        productName: docData.productName,
-                        productPhoto: docData.productPhoto,
-                        buyNowPrice: docData.buyNowPrice,
-                        broughtAt: currentDate,
-                        productRef: docRef
-                    });
-
-                    transaction.update(userRef, {
-                        money: userDataFB.money - docData.buyNowPrice
-                    });
-
                     if (!sellerQuerySnapshot.empty) {
                         const sellerDoc = sellerQuerySnapshot.docs[0];
                         const sellerData = sellerDoc.data();
 
+                        transaction.update(docRef,{
+                            isBrought: true,
+                            currentBuyer: currentUser.email,
+                            broughtAt: currentDate
+                        });
+                        
+                        transaction.set(userItemsRef, {
+                            productName: docData.productName,
+                            productPhoto: docData.productPhoto,
+                            price: docData.buyNowPrice,
+                            broughtAt: currentDate,
+                            productRef: docRef
+                        });
+                        
+                        transaction.update(userRef, {
+                            money: userDataFB.money - docData.buyNowPrice
+                        });
+
                         transaction.update(sellerDoc.ref, {
-                          money: sellerData.money + docData.buyNowPrice,
+                            money: sellerData.money + docData.buyNowPrice
                         });
                     }
                 }
