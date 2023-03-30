@@ -1,5 +1,15 @@
-import { collection, getDocs, query, Timestamp, where } from "firebase/firestore";
+import {
+    collection,
+    doc,
+    getDocs,
+    onSnapshot,
+    query,
+    Timestamp,
+    updateDoc,
+    where,
+} from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
+import Countdown from "react-countdown";
 import { toast } from "react-toastify";
 import ButtonSwitch from "../components/ButtonSwitch";
 import Footer from "../components/Footer";
@@ -23,28 +33,29 @@ const SellingHistorypage = () => {
         });
     };
 
-    const fetchData = async() => {
+    
+    useEffect(() => {
         setIsLoading(true);
         if (activeButton === "current") {
             const productsCols = collection(db, "Products");
-            const productsTemp = [];
             const q = query(
                 productsCols,
                 where("isBrought", "==", false),
-                where("sellerEmail", "==", currentUser.email)
-            );
-            getDocs(q)
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        productsTemp.push({ id: doc.id, ...doc.data() });
-                    });
-                    setProducts(productsTemp);
-                    setIsLoading(false);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setIsLoading(false);
+                where("sellerEmail", "==", currentUser.email),
+                );
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const productsTemp = [];
+                querySnapshot.forEach((doc) => {
+                    productsTemp.push({ id: doc.id, ...doc.data() });
                 });
+                setProducts(productsTemp);
+                setIsLoading(false);
+            }, error => {
+                console.log(error);
+                setIsLoading(false);
+            });
+
+            return () => unsubscribe();
         } else if (activeButton === "history") {
             const productsTemp = [];
             const itemsCols = collection(db, "Users", userData.id, "Items");
@@ -64,20 +75,56 @@ const SellingHistorypage = () => {
             console.log("Empty Active Button");
             setIsLoading(false);
         }
+    }, [activeButton]);
+
+    const handleDeliver = async (productID) => {
+        const productRef = doc(db, "Products", productID);
+        await updateDoc(productRef, {
+            isSend: true,
+            sendAt: Timestamp.now()
+        });
     };
 
-    useEffect(() => {
-        fetchData();
-    }, [activeButton]);
-    
+    const renderer = (
+        { days, hours, minutes, seconds, completed },
+        productID,
+        productPrice,
+        currentBidder,
+        productIsSend
+    ) => {
+        if (completed) {
+            return (
+                <div>
+                    <p>Price: {productPrice}</p>
+                    {currentBidder ? (
+                        productIsSend ? <p>Waiting for payment.</p> : <button onClick={() => handleDeliver(productID)}>Deliver</button>
+                    ) : <p>No one bid this product :{"("}</p>}
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <p>Highest Bid: {productPrice}</p>
+                    <p>
+                        Remaning Time: {days} day, {hours} hours, {minutes}{" "}
+                        minutes, {seconds} seconds
+                    </p>
+                </div>
+            );
+        }
+    };
+
     return (
         <div>
             <Header />
-            <Sidebar /> 
+            <Sidebar />
             <h3>SellingHistorypage</h3>
-            <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
+            <ButtonSwitch
+                activeButton={activeButton}
+                setActiveButton={setActiveButton}
+            />
 
-            <br/>
+            <br />
             {isLoading ? (
                 <p>Loading...</p>
             ) : activeButton === "current" ? (
@@ -86,9 +133,20 @@ const SellingHistorypage = () => {
                         <div key={product.id}>
                             <img src={product.productPhoto}></img>
                             <h3>{product.productName}</h3>
-                            {product.duration > Timestamp.now() ? (
-                                <p>Highest Bid: {product.currentPrice}</p>                
-                            ) : <p>Price: {product.currentPrice}</p>}
+                            {product.duration && (
+                                <Countdown
+                                    date={product.duration.toDate()}
+                                    renderer={(props) =>
+                                        renderer(
+                                            props,
+                                            product.id,
+                                            product.currentPrice,
+                                            product.currentBidder,
+                                            product.isSend
+                                        )
+                                    }
+                                />
+                            )}
                         </div>
                     ))
                 ) : (

@@ -7,7 +7,7 @@ import { db } from '../service/firebase';
 import { Link } from 'react-router-dom';
 
 function Profile() {
-    const { currentUser, userData, signIN, signOUT, updateUserData } = useContext(AuthContext)
+    const { currentUser, userData, signIN, signOUT, updateUserData, appsPicture } = useContext(AuthContext)
     const [ userMoney, setUserMoney] = useState(0);
     // console.log(currentUser)
 
@@ -32,7 +32,7 @@ function Profile() {
                 <div className="user-container">
                     <Link className="user-link" to="/profile">
                         <div className="user-info">
-                            <img src={currentUser.photoURL} alt="profile"/>
+                            <img src={currentUser.photoURL} alt="profile" onError={(e) => {e.target.onerror = null; e.target.src = appsPicture["User.png"]}}/>
                             <h3> {currentUser.displayName}</h3>
                         </div>
                     </Link>

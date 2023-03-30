@@ -63,7 +63,9 @@ const SellItemPage = () => {
                 startPrice: Number(startPrice.current.value),
                 currentPrice: Number(startPrice.current.value),
                 buyNowPrice: 0 || Number(buyNowPrice.current.value),
+                currentBidder: null,
                 isBrought: false,
+                isSend: false,
                 createAt: currentDate,
                 duration: dueDate          
         };

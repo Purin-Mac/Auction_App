@@ -8,6 +8,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    onSnapshot,
     query,
     runTransaction,
     setDoc,
@@ -67,10 +68,10 @@ const BuyingHistorypage = () => {
                     if (userData.money < productData.currentPrice) {
                         throw new Error("You don't have enough money to pay this product");
                     }
-
                     
                     if (!sellerQuerySnapshot.empty) {
                         const sellerDoc = sellerQuerySnapshot.docs[0];
+                        const sellerItemRef = doc(sellerDoc.ref, 'Items', productID);
                         const sellerData = sellerDoc.data();
                         
                         transaction.update(productRef,{
@@ -80,6 +81,15 @@ const BuyingHistorypage = () => {
                         });
     
                         transaction.set(userItemsRef, {
+                            productName: productData.productName,
+                            productPhoto: productData.productPhoto,
+                            price: productData.currentPrice,
+                            broughtAt: productData.duration,
+                            payAt: currentDate,
+                            productRef: productRef
+                        });
+
+                        transaction.set(sellerItemRef, {
                             productName: productData.productName,
                             productPhoto: productData.productPhoto,
                             price: productData.currentPrice,
@@ -98,7 +108,7 @@ const BuyingHistorypage = () => {
                     }
                 })
 
-                await fetchData();
+                // await fetchData();
                 showToastMessage("Payment successful");
             } else {
                 console.log("Product not found");
@@ -113,29 +123,30 @@ const BuyingHistorypage = () => {
         return dueDate.setHours(dueDate.getHours() + 72);
     };
     
-    const fetchData = async() => {
+    
+    useEffect(() => {
         setIsLoading(true);
         if (activeButton === "current") {
             const productsCols = collection(db, "Products");
-            const productsTemp = [];
             const q = query(
                 productsCols,
                 where("duration", "<", Timestamp.now()),
                 where("isBrought", "==", false),
                 where("currentBidder", "==", currentUser.email)
             );
-            getDocs(q)
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        productsTemp.push({ id: doc.id, ...doc.data() });
-                    });
-                    setProducts(productsTemp);
-                    setIsLoading(false);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setIsLoading(false);
+            const unsubscribe = onSnapshot(q, querySnapshot => {
+                const productsTemp = [];
+                querySnapshot.forEach(doc => {
+                    productsTemp.push({ id: doc.id, ...doc.data() });
                 });
+                setProducts(productsTemp);
+                setIsLoading(false);
+            }, error => {
+                console.log(error);
+                setIsLoading(false);
+            });
+
+            return () => unsubscribe();
         } else if (activeButton === "history") {
             const productsTemp = [];
             const itemsCols = collection(db, "Users", userData.id, "Items");
@@ -155,15 +166,11 @@ const BuyingHistorypage = () => {
             console.log("Empty Active Button");
             setIsLoading(false);
         }
-    };
-    
-    useEffect(() => {
-        fetchData();
     }, [activeButton]);
 
     const renderer = (
         { days, hours, minutes, seconds, completed },
-        productID
+        productID, productSendTime
     ) => {
         if (completed) {
             return <p>Out of time</p>;
@@ -199,14 +206,14 @@ const BuyingHistorypage = () => {
                             <img src={product.productPhoto}></img>
                             <h3>{product.productName}</h3>
                             <p>Price: {product.currentPrice}</p>
-                            {product.duration && (
+                            {product.isSend ? (
                                 <Countdown
-                                    date={limitPayTime(product.duration)}
+                                    date={limitPayTime(product.sendAt)}
                                     renderer={(props) =>
                                         renderer(props, product.id)
                                     }
                                 />
-                            )}
+                            ) : <p>Waiting for seller.</p>}
                         </div>
                     ))
                 ) : (

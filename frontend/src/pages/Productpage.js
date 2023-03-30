@@ -86,7 +86,6 @@ function Productpage() {
                     
                     if (!sellerQuerySnapshot.empty) {
                         const sellerDoc = sellerQuerySnapshot.docs[0];
-                        console.log(sellerDoc.ref)
                         const sellerItemRef = doc(sellerDoc.ref, 'Items', productID);
                         const sellerData = sellerDoc.data();
 
