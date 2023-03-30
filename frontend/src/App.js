@@ -15,6 +15,7 @@ import SearchResultpage from "./pages/SearchResultpage";
 import UserProfilepage from './pages/UserProfilepage';
 import Chatpage from './pages/Chatpage';
 import BuyingHistorypage from './pages/BuyingHistorypage';
+import SellingHistorypage from './pages/SellingHistorypage';
 
 // const socket = socketIO.connect('http://localhost:4000');
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="/search" element={<SearchResultpage/>} />
           <Route path="/profile" element={<PrivateRoute> <UserProfilepage/> </PrivateRoute>} />
           <Route path="/buying_history" element={<PrivateRoute> <BuyingHistorypage/> </PrivateRoute>} />
+          <Route path="/selling_history" element={<PrivateRoute> <SellingHistorypage/> </PrivateRoute>} />
           <Route path="/messager" element={<PrivateRoute> <Chatpage/> </PrivateRoute>} />
         </Routes>
       </AuthProvider>

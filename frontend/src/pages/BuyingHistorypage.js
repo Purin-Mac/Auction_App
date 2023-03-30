@@ -19,6 +19,7 @@ import { db } from "../service/firebase";
 import { AuthContext } from "../service/AuthContext";
 import Countdown from "react-countdown";
 import { toast } from "react-toastify";
+import ButtonSwitch from "../components/ButtonSwitch";
 
 const BuyingHistorypage = () => {
     const { currentUser, userData } = useContext(AuthContext);
@@ -35,17 +36,17 @@ const BuyingHistorypage = () => {
         });
     };
 
-    const handleCurrentClick = () => {
-        if (activeButton !== "current") {
-            setActiveButton("current");
-        }
-    };
+    // const handleCurrentClick = () => {
+    //     if (activeButton !== "current") {
+    //         setActiveButton("current");
+    //     }
+    // };
 
-    const handleHistoryClick = () => {
-        if (activeButton !== "history") {
-            setActiveButton("history");
-        }
-    };
+    // const handleHistoryClick = () => {
+    //     if (activeButton !== "history") {
+    //         setActiveButton("history");
+    //     }
+    // };
 
     const handlePayment = async (productID) => {
         try {
@@ -185,18 +186,7 @@ const BuyingHistorypage = () => {
             <Header />
             <Sidebar />
             <h3>BuyingHistorypage</h3>
-            <button
-                onClick={handleCurrentClick}
-                className={activeButton === "current" ? "active-current" : ""}
-            >
-                Current
-            </button>
-            <button
-                onClick={handleHistoryClick}
-                className={activeButton === "history" ? "active-history" : ""}
-            >
-                History
-            </button>
+            <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
 
             <br />
 

@@ -62,52 +62,62 @@ function Productpage() {
     };
 
     const handleBuyNow = () => {
-        const docRef = doc(db, "Products", productID);
+        const productRef = doc(db, "Products", productID);
         const userRef = doc(db, "Users", userData.id);
         const userItemsRef = doc(userRef, 'Items', productID);
         const currentDate = Timestamp.now();
         runTransaction(db, async(transaction) => {
-            const doc = await transaction.get(docRef);
+            const productDoc = await transaction.get(productRef);
             const userDoc = await transaction.get(userRef);
-            if (!doc.exists() || !userDoc.exists()) {
+            if (!productDoc.exists() || !userDoc.exists()) {
                 // console.log("Document does not exist!");
                 // return;
                 throw new Error("Document does not exist!");
             }
             
-            const docData = doc.data();
+            const productData = productDoc.data();
             const userDataFB = userDoc.data();
-            if (!docData.isBrought) {
-                if (userDataFB.money < docData.buyNowPrice) {
+            if (!productData.isBrought) {
+                if (userDataFB.money < productData.buyNowPrice) {
                     throw new Error("You don't have enough money to buy this product");
                 }
                 else {
-                    const sellerQuerySnapshot = await getDocs(query(collection(db, "Users"),where("email", "==", docData.sellerEmail)));  
+                    const sellerQuerySnapshot = await getDocs(query(collection(db, "Users"),where("email", "==", productData.sellerEmail)));  
                     
                     if (!sellerQuerySnapshot.empty) {
                         const sellerDoc = sellerQuerySnapshot.docs[0];
+                        console.log(sellerDoc.ref)
+                        const sellerItemRef = doc(sellerDoc.ref, 'Items', productID);
                         const sellerData = sellerDoc.data();
 
-                        transaction.update(docRef,{
+                        transaction.update(productRef,{
                             isBrought: true,
                             currentBuyer: currentUser.email,
                             broughtAt: currentDate
                         });
                         
                         transaction.set(userItemsRef, {
-                            productName: docData.productName,
-                            productPhoto: docData.productPhoto,
-                            price: docData.buyNowPrice,
+                            productName: productData.productName,
+                            productPhoto: productData.productPhoto,
+                            price: productData.buyNowPrice,
                             broughtAt: currentDate,
-                            productRef: docRef
+                            productRef: productRef
+                        });
+
+                        transaction.set(sellerItemRef, {
+                            productName: productData.productName,
+                            productPhoto: productData.productPhoto,
+                            price: productData.buyNowPrice,
+                            broughtAt: currentDate,
+                            productRef: productRef
                         });
                         
                         transaction.update(userRef, {
-                            money: userDataFB.money - docData.buyNowPrice
+                            money: userDataFB.money - productData.buyNowPrice
                         });
 
                         transaction.update(sellerDoc.ref, {
-                            money: sellerData.money + docData.buyNowPrice
+                            money: sellerData.money + productData.buyNowPrice
                         });
                     }
                 }
