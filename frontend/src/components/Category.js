@@ -29,8 +29,6 @@ const Category = ( {link} ) => {
     return (
         <>
             <main>
-            <h1>Plaese Select Category</h1>
-            <p>Select your category</p>
             </main>
             <CardGroup style={{ margin: "5% auto 0 auto", width: "80%", display: "flex", justifyContent: "space-between" }}>
                 <Card style={{ margin: "0 10px", border: "1px solid #e5e5e5" }}>

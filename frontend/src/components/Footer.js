@@ -55,12 +55,14 @@ function Footer() {
                     </ul>
                 </div>
             </div>
+            <br/>
+            <br/>
         </div>
-        <div class="bottom">
-            <p>© 2022 Let's Auct. ALL RIGHT RESERVED.<br/><br/></p>
-        </div>
+        {/* <div class="bottom">
+           © 2022 Let's Auct. ALL RIGHT RESERVED.
+        </div> */}
     </footer>   
-      </>
+    </>
     );
   };
   

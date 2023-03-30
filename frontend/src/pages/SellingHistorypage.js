@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import ButtonSwitch from "../components/ButtonSwitch";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import ProfileBanner from "../components/ProfileBanner";
 import Sidebar from "../components/Sidebar";
 import { AuthContext } from "../service/AuthContext";
 import { db } from "../service/firebase";
@@ -121,6 +122,7 @@ const SellingHistorypage = () => {
     return (
         <div>
             <Header />
+            <ProfileBanner/>
             <Sidebar />
             <h3>SellingHistorypage</h3>
             <ButtonSwitch

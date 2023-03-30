@@ -21,6 +21,7 @@ import { AuthContext } from "../service/AuthContext";
 import Countdown from "react-countdown";
 import { toast } from "react-toastify";
 import ButtonSwitch from "../components/ButtonSwitch";
+import ProfileBanner from "../components/ProfileBanner";
 
 const BuyingHistorypage = () => {
     const { currentUser, userData } = useContext(AuthContext);
@@ -197,6 +198,7 @@ const BuyingHistorypage = () => {
     return (
         <div>
             <Header />
+            <ProfileBanner/>
             <Sidebar />
             <h3>BuyingHistorypage</h3>
             <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>

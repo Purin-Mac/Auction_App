@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import { AuthContext } from "../service/AuthContext";
 import { db, storage, timestamp } from "../service/firebase";
 import { toast } from "react-toastify"
+import Footer from "../components/Footer";
 
 const SellItemPage = () => {
     const navigate = useNavigate();
@@ -86,53 +87,56 @@ const SellItemPage = () => {
     return (
         <>
             <Header />
-            <h1>Sell Item Page</h1>
-            {/* <p>Category: {categoryName}</p> */}
-            <Form style={{ margin: "0 20px" }} onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Product Name</Form.Label>
-                    <Form.Control type="text" required ref={itemTitle} />
-                </Form.Group>
+            <div className="sellform">
+                <h1>Sell Item Page</h1>
+                {/* <p>Category: {categoryName}</p> */}
+                <Form style={{ margin: "0 20px" }} onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Product Name</Form.Label>
+                        <Form.Control type="text" required ref={itemTitle} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Category</Form.Label>
-                    <Form.Control type="text" value={categoryName} disabled readOnly/>
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Category</Form.Label>
+                        <Form.Control type="text" value={categoryName} disabled readOnly/>
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Product Info</Form.Label>
-                    <Form.Control type="text" required ref={itemInfo} />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Product Info</Form.Label>
+                        <Form.Control type="text" required ref={itemInfo} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Start Price</Form.Label>
-                    <Form.Control type="number" required ref={startPrice} />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Start Price</Form.Label>
+                        <Form.Control type="number" required ref={startPrice} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Buy Now Price (default: none)</Form.Label>
-                    <Form.Control type="number" ref={buyNowPrice} />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Buy Now Price (default: none)</Form.Label>
+                        <Form.Control type="number" ref={buyNowPrice} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Auction Duration (Hours, Max 7 days / 168 Hours)</Form.Label>
-                    <Form.Control type="number" max={168} required ref={itemDuration} />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Auction Duration (Hours, Max 7 days / 168 Hours)</Form.Label>
+                        <Form.Control type="number" max={168} required ref={itemDuration} />
+                    </Form.Group>
 
-                <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Product Image</Form.Label>
-                    <Form.Control type="file" required ref={itemImage}/>
-                </Form.Group>
+                    <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Label>Product Image</Form.Label>
+                        <Form.Control type="file" required ref={itemImage}/>
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Seller</Form.Label>
-                    <Form.Control type="text" value={currentUser.email} disabled readOnly/>
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Seller</Form.Label>
+                        <Form.Control type="text" value={currentUser.email} disabled readOnly/>
+                    </Form.Group>
 
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-            </Form>
+                    <Button variant="primary" type="submit">
+                        Submit
+                    </Button>
+                </Form>
+            </div>
+            <Footer/>
         </>
     );
 };
