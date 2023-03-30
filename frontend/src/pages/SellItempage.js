@@ -115,7 +115,7 @@ const SellItemPage = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Form.Label>Auction Duration (Hours, Max 7 days)</Form.Label>
+                    <Form.Label>Auction Duration (Hours, Max 7 days / 168 Hours)</Form.Label>
                     <Form.Control type="number" max={168} required ref={itemDuration} />
                 </Form.Group>
 

@@ -59,7 +59,11 @@ const SellingHistorypage = () => {
         } else if (activeButton === "history") {
             const productsTemp = [];
             const itemsCols = collection(db, "Users", userData.id, "Items");
-            getDocs(itemsCols)
+            const sellerItemSnapshot = query(
+                itemsCols,
+                where("sellerEmail", "==", currentUser.email),
+            );
+            getDocs(sellerItemSnapshot)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         productsTemp.push({ id: doc.id, ...doc.data() });

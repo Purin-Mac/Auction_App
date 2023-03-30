@@ -100,7 +100,8 @@ function Productpage() {
                             productPhoto: productData.productPhoto,
                             price: productData.buyNowPrice,
                             broughtAt: currentDate,
-                            productRef: productRef
+                            productRef: productRef,
+                            sellerEmail: productData.sellerEmail
                         });
 
                         transaction.set(sellerItemRef, {
@@ -108,7 +109,8 @@ function Productpage() {
                             productPhoto: productData.productPhoto,
                             price: productData.buyNowPrice,
                             broughtAt: currentDate,
-                            productRef: productRef
+                            productRef: productRef,
+                            sellerEmail: productData.sellerEmail
                         });
                         
                         transaction.update(userRef, {

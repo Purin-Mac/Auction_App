@@ -86,7 +86,8 @@ const BuyingHistorypage = () => {
                             price: productData.currentPrice,
                             broughtAt: productData.duration,
                             payAt: currentDate,
-                            productRef: productRef
+                            productRef: productRef,
+                            sellerEmail: productData.sellerEmail
                         });
 
                         transaction.set(sellerItemRef, {
@@ -95,7 +96,8 @@ const BuyingHistorypage = () => {
                             price: productData.currentPrice,
                             broughtAt: productData.duration,
                             payAt: currentDate,
-                            productRef: productRef
+                            productRef: productRef,
+                            sellerEmail: productData.sellerEmail
                         });
 
                         transaction.update(userRef, {
@@ -150,7 +152,11 @@ const BuyingHistorypage = () => {
         } else if (activeButton === "history") {
             const productsTemp = [];
             const itemsCols = collection(db, "Users", userData.id, "Items");
-            getDocs(itemsCols)
+            const buyerItemSnapshot = query(
+                itemsCols,
+                where("sellerEmail", "!=", currentUser.email),
+            );
+            getDocs(buyerItemSnapshot)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         productsTemp.push({ id: doc.id, ...doc.data() });
