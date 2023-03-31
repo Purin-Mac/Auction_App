@@ -138,7 +138,7 @@ const SellingHistorypage = () => {
                             products.length !== 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
-                                    <img src={product.productPhoto}></img>
+                                    <img src={product.productPhoto} alt={"product pic"}></img>
                                     <h3>{product.productName}</h3>
                                     {product.duration && (
                                         <Countdown
@@ -163,7 +163,7 @@ const SellingHistorypage = () => {
                             products.length !== 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
-                                    <img src={product.productPhoto}></img>
+                                    <img src={product.productPhoto} alt={"product pic"}></img>
                                     <h3>{product.productName}</h3>
                                     <p>{product.price}</p>
                                     <p>

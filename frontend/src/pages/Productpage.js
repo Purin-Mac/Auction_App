@@ -11,6 +11,7 @@ import Countdown from 'react-countdown';
 import '../style/main.css';
 import Footer from "../components/Footer";
 import Hood from '../resources/Bronx Hoodie.png';
+import RelatedProduct from "../components/RelatedProduct";
 
 // import User from "../service/User";
 
@@ -359,7 +360,7 @@ function Productpage() {
                             <div class="card-sale-1">
                                 <img src={product.productPhoto} alt="Item_Picture" style={{ backgroundColor: "#F1F1F1", width: "100%",maxheight: "280px" }}></img>
                                 <h3>Description</h3>
-                                <p>Product info: {product.productInfo}</p>
+                                <p>{product.productInfo}</p>
                             </div>
                         </div>
                     
@@ -394,44 +395,7 @@ function Productpage() {
                             </div>
                         </div>
                     </div>
-                    <div class="related">
-                        <h1>Related</h1>
-                        <div class="cards">
-                            <div class="row">
-                                <div class="column">
-                                    <div class="card">
-                                        <img src={Hood} alt="Fist Related" />
-                                        <h3>Nike Air Max 90</h3>
-                                        <p>2000 baht</p>
-                                    </div>
-                                </div>
-                            
-                                <div class="column">
-                                    <div class="card">
-                                        <img src={Hood} alt="Second Related" />
-                                        <h3>Jacket Rush Harrington</h3>
-                                        <p>955 baht</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="column">
-                                    <div class="card">
-                                        <img src={Hood} alt="Third Related" />
-                                        <h3>Bronx Hoodie</h3>
-                                        <p>963 baht</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="column">
-                                    <div class="card">
-                                        <img src={Hood} alt="Forth Related" />
-                                        <h3>Nike Air Max 270 React</h3>
-                                        <p>1500 baht</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <RelatedProduct categoryID={product.categoryID} currentProductDuration={product.duration}/>
                 </div>
             </div>
         </main>

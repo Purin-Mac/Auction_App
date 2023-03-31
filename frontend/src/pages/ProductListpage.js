@@ -51,8 +51,8 @@ const ProductListpage = () => {
                                 <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
                                 <Link to="/product" state={{ categoryName: categoryName, id: product.id }} style={{ textDecoration: "none", color: "black"}}>
                                     <Card.Body>
-                                        <Card.Title>{product.productName}</Card.Title>
-                                        <Card.Text>{product.productInfo}</Card.Text>
+                                        <Card.Title className="text-truncate">{product.productName}</Card.Title>
+                                        <Card.Text className="text-truncate">{product.productInfo}</Card.Text>
                                     </Card.Body>
                                 </Link>
                             </Card>

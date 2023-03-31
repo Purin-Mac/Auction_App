@@ -103,7 +103,7 @@ const SellItemPage = () => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Product Info</Form.Label>
-                        <Form.Control type="text" required ref={itemInfo} />
+                        <Form.Control as="textarea" rows={4} required ref={itemInfo} />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
