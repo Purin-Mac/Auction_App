@@ -5,3 +5,18 @@
 .active-history {
     background-color: #7EB2FF;
 }
+
+.Historymain {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.sidebar {
+    flex-shrink: 0;
+}
+
+.History-container {
+    width: 74%;
+    overflow-y: auto;
+}

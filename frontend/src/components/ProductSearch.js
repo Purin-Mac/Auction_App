@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { db } from "../service/firebase";
 import { collection, endAt, onSnapshot, orderBy, query, startAt, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import { Card, Col, Row } from "react-bootstrap";
 
 
 const ProductSearch = ({ searchTerm }) => {
@@ -47,7 +48,24 @@ const ProductSearch = ({ searchTerm }) => {
 
     return (
         <>
-            {products.length !== 0 ?  
+            <Row style= {{ margin: "5% 5% 5% 5%"}}>
+                {products.length !== 0 ?  
+                    products.map((product) => (
+                        <Col key={product.id} md={3} style= {{ margin: "0 0 5% 0"}}>
+                            <Card style={{ border: "1px solid #e5e5e5", height: "100%"}}>
+                                <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
+                                <Link to="/product" state={{ id: product.id }} style={{ textDecoration: "none", color: "black"}}>
+                                    <Card.Body>
+                                        <Card.Title className="text-truncate">{product.productName}</Card.Title>
+                                        <Card.Text className="text-truncate">{product.productInfo}</Card.Text>
+                                    </Card.Body>      
+                                </Link>
+                            </Card>
+                        </Col>
+                    ))
+                : <h3>None</h3> }
+            </Row>
+            {/* {products.length !== 0 ?  
                 products.map((product) => (
                     <div key={product.id}>
                         <Link to="/product" state={{ id: product.id }} style={{ textDecoration: "none", color: "black"}}>
@@ -57,7 +75,7 @@ const ProductSearch = ({ searchTerm }) => {
                         </Link>
                     </div>
                 ))
-            : <h3>None</h3> }
+            : <h3>None</h3> } */}
         </>
     );
 };

@@ -199,54 +199,56 @@ const BuyingHistorypage = () => {
         <div>
             <Header />
             <ProfileBanner/>
-            <Sidebar />
-            <h3>BuyingHistorypage</h3>
-            <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
+            <div className="Historymain">
+                <Sidebar />
+                <div className="History-container" >
+                    <h3>BuyingHistorypage</h3>
+                    <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
 
-            <br />
-
-            {isLoading ? (
-                <p>Loading...</p>
-            ) : activeButton === "current" ? (
-                products.length !== 0 ? (
-                    products.map((product) => (
-                        <div key={product.id}>
-                            <img src={product.productPhoto}></img>
-                            <h3>{product.productName}</h3>
-                            <p>Price: {product.currentPrice}</p>
-                            {product.isSend ? (
-                                <Countdown
-                                    date={limitPayTime(product.sendAt)}
-                                    renderer={(props) =>
-                                        renderer(props, product.id)
-                                    }
-                                />
-                            ) : <p>Waiting for seller.</p>}
-                        </div>
-                    ))
-                ) : (
-                    <h4>None</h4>
-                )
-            ) : activeButton === "history" ? (
-                products.length !== 0 ? (
-                    products.map((product) => (
-                        <div key={product.id}>
-                            <img src={product.productPhoto}></img>
-                            <h3>{product.productName}</h3>
-                            <p>{product.price}</p>
-                            <p>
-                                Date:{" "}
-                                {product.broughtAt &&
-                                    product.broughtAt
-                                        .toDate()
-                                        .toLocaleDateString()}
-                            </p>
-                        </div>
-                    ))
-                ) : (
-                    <h4>None</h4>
-                )
-            ) : null}
+                    {isLoading ? (
+                        <p>Loading...</p>
+                        ) : activeButton === "current" ? (
+                            products.length !== 0 ? (
+                                products.map((product) => (
+                                    <div key={product.id} className="History-products">
+                                    <img src={product.productPhoto}></img>
+                                    <h3>{product.productName}</h3>
+                                    <p>Price: {product.currentPrice}</p>
+                                    {product.isSend ? (
+                                        <Countdown
+                                        date={limitPayTime(product.sendAt)}
+                                        renderer={(props) =>
+                                            renderer(props, product.id)
+                                        }
+                                        />
+                                        ) : <p>Waiting for seller.</p>}
+                                </div>
+                            ))
+                        ) : (
+                            <h4>None</h4>
+                        )
+                        ) : activeButton === "history" ? (
+                            products.length !== 0 ? (
+                                products.map((product) => (
+                                    <div key={product.id} className="History-products">
+                                        <img src={product.productPhoto}></img>
+                                        <h3>{product.productName}</h3>
+                                        <p>{product.price}</p>
+                                        <p>
+                                            Date:{" "}
+                                            {product.broughtAt &&
+                                                product.broughtAt
+                                                .toDate()
+                                                .toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                ))
+                                ) : (
+                                    <h4>None</h4>
+                                    )
+                                    ) : null}
+                </div>
+            </div>
             <Footer />
         </div>
     );

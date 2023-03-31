@@ -10,7 +10,7 @@ const SearchResultpage = () => {
     return (
         <div>
             <Header />
-            <h2>Search Results for "{searchTerm}"</h2>
+            <h1 style= {{ margin: "50px 0 0 5%" }}>Search Results for "{searchTerm}"</h1>
             <ProductSearch searchTerm={searchTerm} />
         </div>
     );
