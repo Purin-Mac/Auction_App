@@ -100,7 +100,7 @@ const SellingHistorypage = () => {
         if (completed) {
             return (
                 <div>
-                    <p>Price: {productPrice}</p>
+                    <p>Price: {productPrice} THB</p>
                     {currentBidder ? (
                         productIsSend ? <p>Waiting for payment.</p> : <button onClick={() => handleDeliver(productID)}>Deliver</button>
                     ) : <p>No one bid this product :{"("}</p>}
@@ -109,7 +109,7 @@ const SellingHistorypage = () => {
         } else {
             return (
                 <div>
-                    <p>Highest Bid: {productPrice}</p>
+                    <p>Highest Bid: {productPrice} THB</p>
                     <p>
                         Remaning Time: {days} day, {hours} hours, {minutes}{" "}
                         minutes, {seconds} seconds
@@ -167,7 +167,7 @@ const SellingHistorypage = () => {
                                     <div key={product.id} className="History-products">
                                     <img src={product.productPhoto} alt={"product pic"}></img>
                                     <h5>{product.productName}</h5>
-                                    <h5>{product.price}</h5>
+                                    <h5>Price: {product.price} THB</h5>
                                     <h5>
                                         Date:{" "}
                                         {product.broughtAt &&

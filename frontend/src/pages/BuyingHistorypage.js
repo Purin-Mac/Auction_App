@@ -214,9 +214,9 @@ const BuyingHistorypage = () => {
                             products.length !== 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
-                                        <img src={product.productPhoto}></img>
+                                        <img src={product.productPhoto} alt="product pic"></img>
                                         <h5>{product.productName}</h5>
-                                        <h5>Price: {product.currentPrice}</h5>
+                                        <h5>Price: {product.currentPrice} THB</h5>
                                         {product.isSend ? (
                                             <Countdown
                                             date={limitPayTime(product.sendAt)}
@@ -234,7 +234,7 @@ const BuyingHistorypage = () => {
                             products.length !== 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
-                                        <img src={product.productPhoto}></img>
+                                        <img src={product.productPhoto} alt="product pic"></img>
                                         <h5>{product.productName}</h5>
                                         <h5>{product.price} THB</h5>
                                         <h5>
