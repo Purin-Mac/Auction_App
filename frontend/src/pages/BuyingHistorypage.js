@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import ButtonSwitch from "../components/ButtonSwitch";
 import ProfileBanner from "../components/ProfileBanner";
 
+
 const BuyingHistorypage = () => {
     const { currentUser, userData } = useContext(AuthContext);
     const [activeButton, setActiveButton] = useState("current");
@@ -196,33 +197,35 @@ const BuyingHistorypage = () => {
     };
 
     return (
-        <div>
+        <div className="paint">
             <Header />
             <ProfileBanner/>
             <div className="Historymain">
                 <Sidebar />
                 <div className="History-container" >
+                    <div className="topside">
                     <h3>BuyingHistorypage</h3>
-                    <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
-
+                        <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
+                    </div>
+                    <div className="content">
                     {isLoading ? (
                         <p>Loading...</p>
                         ) : activeButton === "current" ? (
                             products.length !== 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
-                                    <img src={product.productPhoto}></img>
-                                    <h3>{product.productName}</h3>
-                                    <p>Price: {product.currentPrice}</p>
-                                    {product.isSend ? (
-                                        <Countdown
-                                        date={limitPayTime(product.sendAt)}
-                                        renderer={(props) =>
-                                            renderer(props, product.id)
-                                        }
-                                        />
-                                        ) : <p>Waiting for seller.</p>}
-                                </div>
+                                        <img src={product.productPhoto}></img>
+                                        <h5>{product.productName}</h5>
+                                        <h5>Price: {product.currentPrice}</h5>
+                                        {product.isSend ? (
+                                            <Countdown
+                                            date={limitPayTime(product.sendAt)}
+                                            renderer={(props) =>
+                                                renderer(props, product.id)
+                                            }
+                                            />
+                                            ) : <h5>Waiting for seller.</h5>}
+                                    </div>
                             ))
                         ) : (
                             <h4>None</h4>
@@ -232,23 +235,25 @@ const BuyingHistorypage = () => {
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
                                         <img src={product.productPhoto}></img>
-                                        <h3>{product.productName}</h3>
-                                        <p>{product.price}</p>
-                                        <p>
+                                        <h5>{product.productName}</h5>
+                                        <h5>{product.price} THB</h5>
+                                        <h5>
                                             Date:{" "}
                                             {product.broughtAt &&
                                                 product.broughtAt
                                                 .toDate()
                                                 .toLocaleDateString()}
-                                        </p>
+                                        </h5>
                                     </div>
                                 ))
                                 ) : (
                                     <h4>None</h4>
                                     )
                                     ) : null}
+                    </div>
                 </div>
             </div>
+            
             <Footer />
         </div>
     );

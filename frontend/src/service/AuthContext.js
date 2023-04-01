@@ -25,7 +25,9 @@ export const AuthProvider = ({ children }) => {
         "Women clothes.png": "", 
         "Shoes.png": "", 
         "Accessories.png": "",
-        "User.png": ""
+        "User.png": "",
+        "ProfileBan.png": "",
+        "BG-Banner.png": ""
     }), []);
 
     const signIN = () => {

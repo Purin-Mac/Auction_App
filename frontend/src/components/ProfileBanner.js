@@ -5,14 +5,21 @@ import { AuthContext } from '../service/AuthContext';
 
 function ProfileBanner() {
 
-  const { appsPicture, categoryIDs } = useContext(AuthContext); 
+  const {appsPicture} = useContext(AuthContext); 
   const {currentUser} = useContext(AuthContext)
+
+  const styles = {
+    backgroundImage: `url(${appsPicture["ProfileBan.png"]})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    /* other background styles */
+  };
 
   return (
 
-    <div className='ProfileBanner'>
+    <div className='ProfileBanner' style={styles}>
         <div class="about">
-            {/* <img src={appsPicture["BG-Banner.png"]}/> */}
+            {/* <img src={appsPicture["ProfileBan.png"]}/> */}
             <h1> Welcome {currentUser.displayName} !</h1>
             <img src={currentUser.photoURL}/>
         </div>

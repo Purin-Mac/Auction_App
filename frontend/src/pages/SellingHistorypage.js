@@ -120,18 +120,19 @@ const SellingHistorypage = () => {
     };
 
     return (
-        <div>
+        <div className="paint">
             <Header />
             <ProfileBanner/>
             <div className="Historymain">
-            <Sidebar />
+                <Sidebar />
                 <div className="History-container" >
+                    <div className="topside">
                     <h3>SellingHistorypage</h3>
                     <ButtonSwitch
                         activeButton={activeButton}
                         setActiveButton={setActiveButton}
                         />
-
+                    </div>
                     {isLoading ? (
                         <p>Loading...</p>
                         ) : activeButton === "current" ? (
@@ -139,8 +140,8 @@ const SellingHistorypage = () => {
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
                                     <img src={product.productPhoto} alt={"product pic"}></img>
-                                    <h3>{product.productName}</h3>
-                                    {product.duration && (
+                                    <h5>{product.productName}</h5>
+                                    <p>{product.duration && (
                                         <Countdown
                                         date={product.duration.toDate()}
                                         renderer={(props) =>
@@ -154,6 +155,7 @@ const SellingHistorypage = () => {
                                                 }
                                                 />
                                     )}
+                                    </p>
                                 </div>
                             ))
                             ) : (
@@ -164,15 +166,15 @@ const SellingHistorypage = () => {
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
                                     <img src={product.productPhoto} alt={"product pic"}></img>
-                                    <h3>{product.productName}</h3>
-                                    <p>{product.price}</p>
-                                    <p>
+                                    <h5>{product.productName}</h5>
+                                    <h5>{product.price}</h5>
+                                    <h5>
                                         Date:{" "}
                                         {product.broughtAt &&
                                             product.broughtAt
                                             .toDate()
                                             .toLocaleDateString()}
-                                    </p>
+                                    </h5>
                                 </div>
                             ))
                             ) : (

@@ -21,7 +21,7 @@ function Footer() {
     return (
     <>
     
-    <footer>
+    <div className="footer">
         <div class="container">
             <div class="row">
                 <div class="column">
@@ -58,10 +58,7 @@ function Footer() {
             <br/>
             <br/>
         </div>
-        {/* <div class="bottom">
-           © 2022 Let's Auct. ALL RIGHT RESERVED.
-        </div> */}
-    </footer>   
+    </div>   
     </>
     );
   };

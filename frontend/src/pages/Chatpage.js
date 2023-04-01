@@ -9,6 +9,7 @@ import ProfileBanner from "../components/ProfileBanner";
 const Chatpage = () => {
     return (
         <>
+            <div className="paint">
             <Header/>
             <ProfileBanner/>
             <div className="Chatmain">
@@ -19,7 +20,7 @@ const Chatpage = () => {
                 </div>
             </div>
             <Footer/>
-
+            </div>
         </>
     )
 };
