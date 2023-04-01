@@ -1,6 +1,6 @@
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, Timestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
@@ -12,10 +12,10 @@ import Footer from "../components/Footer";
 const SellItemPage = () => {
     const navigate = useNavigate();
     const { currentUser } = useContext(AuthContext);
-
+    const [ categoryName, setCategoryName ] = useState('');
     const location = useLocation();
-    const categoryName = location.state.categoryName;
-    const categoryID = location.state.categoryID;
+    const searchParams = new URLSearchParams(location.search);
+    const categoryID = searchParams.get("id");
 
     const itemTitle = useRef();
     const itemInfo = useRef();
@@ -83,6 +83,19 @@ const SellItemPage = () => {
             });
         });
     };
+
+    useEffect(() => {
+        const categoryRef = doc(db, "Categories", categoryID);
+        getDoc(categoryRef).then((doc) => {
+            if (doc.exists()) {
+                setCategoryName(doc.data().categoryName);
+            } else {
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+    }, []);
 
     return (
         <>
