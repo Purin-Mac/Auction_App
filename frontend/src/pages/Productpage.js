@@ -21,8 +21,8 @@ function Productpage() {
 
     // const navigate = useNavigate();
     const location = useLocation();
-    const categoryName = location.state.categoryName;
-    const productID = location.state.id;
+    const searchParams = new URLSearchParams(location.search);
+    const productID = searchParams.get("id");
 
     const inputRef = useRef(null);
     const inputAutoBidRef = useRef(null);

@@ -38,7 +38,7 @@ const RelatedProduct = ({ categoryID, currentProductDuration }) => {
                     <div class="row">
                         {relatedProducts.map((product) => (
                             <div className="column" key={product.id}>
-                                <Link to="/product" state={{ id: product.id }} style={{ textDecoration: "none", color: "black"}}>
+                                <Link to={`/product?id=${product.id}`} style={{ textDecoration: "none", color: "black"}}>
                                     <div className="card">
                                         <img src={product.productPhoto} alt="Related Product" />
                                         <h5>{product.productName}</h5>

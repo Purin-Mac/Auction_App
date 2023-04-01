@@ -13,7 +13,7 @@ function Homepage() {
             {/* <h1>Home Page</h1> */}
             {/* <button onClick={() => getData()}>Get Data</button> */}
             <Banner/>
-            <MainHome link={"/category_product"}/>
+            <MainHome/>
             <Footer/>
         </>
     );

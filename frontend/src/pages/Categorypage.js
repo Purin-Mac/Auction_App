@@ -12,7 +12,7 @@ function Categorypage() {
         <p>Select your category to browse item !</p>
         </main>
         {/* <h1>Category page</h1> */}
-        <Category link={"/category_product"} ></Category>
+        <Category link={"/category_product"} />
         <Footer/>
     </>
   )

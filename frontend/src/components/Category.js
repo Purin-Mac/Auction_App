@@ -28,12 +28,10 @@ const Category = ( {link} ) => {
 
     return (
         <>
-            <main>
-            </main>
             <CardGroup style={{ margin: "5% auto 0 auto", width: "80%", display: "flex", justifyContent: "space-between" }}>
                 <Card style={{ margin: "0 10px", border: "1px solid #e5e5e5" }}>
                     <Card.Img variant='top' src={appsPicture["Shoes.png"]} style={{ backgroundColor: "#F1F1F1", height: "80%", width: "100%" }}/>
-                    <Link to={link} state={{ categoryName: "Shoes", categoryID: categoryIDs["Shoes"] }} style={{ textDecoration: "none", color: "black", height: "20%" }}>
+                    <Link to={`${link}?id=${categoryIDs["Shoes"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
                         <Card.Body style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
                             <Card.Title>Shoes</Card.Title>
                         </Card.Body>
@@ -41,7 +39,7 @@ const Category = ( {link} ) => {
                 </Card>
                 <Card style={{ margin: "0 10px", border: "1px solid #e5e5e5" }}>
                     <Card.Img variant='top' src={appsPicture["Men clothes.png"]} style={{ backgroundColor: "#F1F1F1", height: "80%", width: "100%" }}/>
-                    <Link to={link} state={{ categoryName: "Men's clothes", categoryID: categoryIDs["Men's clothes"] }} style={{ textDecoration: "none", color: "black", height: "20%" }}>
+                    <Link to={`${link}?id=${categoryIDs["Men's clothes"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
                         <Card.Body style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
                             <Card.Title>Men's clothes</Card.Title>
                         </Card.Body>
@@ -49,7 +47,7 @@ const Category = ( {link} ) => {
                 </Card>
                 <Card style={{ margin: "0 10px", border: "1px solid #e5e5e5" }}>
                     <Card.Img variant='top' src={appsPicture["Women clothes.png"]} style={{ backgroundColor: "#F1F1F1", height: "80%", width: "100%" }}/>
-                    <Link to={link} state={{ categoryName: "Women's clothes", categoryID: categoryIDs["Women's clothes"] }} style={{ textDecoration: "none", color: "black", height: "20%" }}>
+                    <Link to={`${link}?id=${categoryIDs["Women's clothes"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
                         <Card.Body style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
                             <Card.Title>Women's clothes</Card.Title>
                         </Card.Body>
@@ -57,7 +55,7 @@ const Category = ( {link} ) => {
                 </Card>
                 <Card style={{ margin: "0 10px", border: "1px solid #e5e5e5" }}>
                     <Card.Img variant='top' src={appsPicture["Accessories.png"]} style={{ backgroundColor: "#F1F1F1", height: "80%", width: "100%" }}/>
-                    <Link to={link} state={{ categoryName: "Accessories", categoryID: categoryIDs["Accessories"] }} style={{ textDecoration: "none", color: "black", height: "20%" }}>
+                    <Link to={`${link}?id=${categoryIDs["Accessories"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
                         <Card.Body style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
                             <Card.Title>Accessories</Card.Title>
                         </Card.Body>
