@@ -352,19 +352,19 @@ function Productpage() {
             
 
         <main>
-            <div class="reccommend">
+            <div className="reccommend">
                 <h1>Product name: {product.productName}</h1>
-                <div class="cards">
-                    <div class="row">
-                        <div class="column-sale">
-                            <div class="card-sale-1">
+                <div className="cards">
+                    <div className="row">
+                        <div className="column-sale">
+                            <div className="card-sale-1">
                                 <img src={product.productPhoto} alt="Item_Picture" style={{ backgroundColor: "#F1F1F1", width: "100%",maxheight: "280px" }}></img>
                                 <h3>Description</h3>
                                 <p>{product.productInfo}</p>
                             </div>
                         </div>
                     
-                        <div class="column-sale">
+                        <div className="column-sale">
                             {/* <div class="switch-card">
                                 <ul>
                                     <li><a href="#">Place Bid</a></li>
@@ -372,7 +372,7 @@ function Productpage() {
                                     <li><a href="#">Buy Now</a></li>
                                 </ul>
                             </div> */}
-                            <div class="card-sale-2">
+                            <div className="card-sale-2">
                             {product.duration && (
                                 <Countdown
                                     date={product.duration.toDate()}

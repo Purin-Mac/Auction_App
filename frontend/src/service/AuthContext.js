@@ -3,6 +3,7 @@ import { createContext, useState, useEffect, useMemo } from "react";
 import { auth, db, storage, timestamp } from "./firebase";
 import { doc, setDoc, collection, getDocs, query, where, getDoc, addDoc } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 // import { genProducts } from "./SeedDB";
 
 export const AuthContext = createContext();
@@ -13,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     const [userLoading, setUserLoading] = useState(true);
     const [pictureLoading, setPictureLoading] = useState(true);
     const [categoryIDLoading, setCategoryIDLoading] = useState(true);
+    const navigate = useNavigate();
     const categoryIDs = useMemo(() => ({
         "Men's clothes": "", 
         "Women's clothes": "", 
@@ -64,7 +66,7 @@ export const AuthProvider = ({ children }) => {
             else{
                 querySnapshot.forEach((doc) => {
                     setUserData({ id: doc.id, ...doc.data() });
-                    console.log(doc.id, " => ", doc.data());
+                    // console.log(doc.id, " => ", doc.data());
                 });
             }
             
@@ -97,7 +99,9 @@ export const AuthProvider = ({ children }) => {
     }
 
     const signOUT = () => {
-        signOut(auth)
+        signOut(auth).then(() => {
+            navigate('/')
+        })
     }
 
     const updateUserData = async(userId) => {

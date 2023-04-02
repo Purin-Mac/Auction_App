@@ -8,6 +8,9 @@ import { AuthContext } from "../service/AuthContext";
 import { db, storage, timestamp } from "../service/firebase";
 import { toast } from "react-toastify"
 import Footer from "../components/Footer";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { add } from 'date-fns';
 
 const SellItemPage = () => {
     const navigate = useNavigate();
@@ -21,7 +24,8 @@ const SellItemPage = () => {
     const itemInfo = useRef();
     const startPrice = useRef();
     const buyNowPrice = useRef();
-    const itemDuration = useRef();
+    // const itemDuration = useRef();
+    const [ itemDuration, setItemDuration ] = useState(null);
     const itemImage = useRef();
     const imgTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
@@ -42,8 +46,8 @@ const SellItemPage = () => {
         // dueDate.setHours(currentDate.getHours() + Number(itemDuration.current.value));
 
         let currentDate = Timestamp.now();
-        let dueDate = currentDate.toDate();
-        dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
+        // let dueDate = currentDate.toDate();
+        // dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
 
         
         if (!imgTypes.includes(itemImage.current.files[0].type)) {
@@ -68,7 +72,7 @@ const SellItemPage = () => {
                 isBrought: false,
                 isSend: false,
                 createAt: currentDate,
-                duration: dueDate          
+                duration: itemDuration          
         };
 
         const imageRef = ref(storage, `images/${productsData.productName}`);
@@ -121,17 +125,31 @@ const SellItemPage = () => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Start Price</Form.Label>
-                        <Form.Control type="number" required ref={startPrice} />
+                        <Form.Control type="number" min={0} required ref={startPrice} onWheel={event => event.currentTarget.blur()}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                         <Form.Label>Buy Now Price (default: none)</Form.Label>
-                        <Form.Control type="number" ref={buyNowPrice} />
+                        <Form.Control type="number" min={0} ref={buyNowPrice} onWheel={event => event.currentTarget.blur()}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Auction Duration (Hours, Max 7 days / 168 Hours)</Form.Label>
-                        <Form.Control type="number" max={168} required ref={itemDuration} />
+                        <Form.Label>Auction Duration (Max 7 days)</Form.Label>
+                        {/* <Form.Control type="number" max={168} required ref={itemDuration} onWheel={event => event.currentTarget.blur()}/> */}
+                        <DatePicker 
+                            customInput={<Form.Control />}
+                            selected={itemDuration}
+                            onChange={(date) => setItemDuration(date)}
+                            showTimeSelect
+                            timeFormat="HH:mm"
+                            timeIntervals={15}
+                            dateFormat="dd/MM/yyyy HH:mm"
+                            minDate={Timestamp.now().toDate()}
+                            maxDate={add(Timestamp.now().toDate(), { days: 7 })}
+                            popperPlacement="top"
+                            required
+                            isClearable
+                        />
                     </Form.Group>
 
                     <Form.Group controlId="formFile" className="mb-3">
