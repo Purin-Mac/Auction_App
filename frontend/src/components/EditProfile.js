@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../service/AuthContext';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../service/firebase';
-import { Link } from 'react-router-dom';
 import '../style/Profile.css';
 
-function ProfileForm() {
+function EditProfile() {
 
   const { currentUser, userData } = useContext(AuthContext)
   const [ userMoney, setUserMoney] = useState(0);
@@ -25,10 +24,10 @@ function ProfileForm() {
   }, [userData]);
 
   return (
-
         <div className='UserProfileMain'>
+        <div className='EditProfile'>
             <div className='UserInfo'>
-                <h2>Your Profile</h2>
+                <h2>Edit Your Profile</h2>
                 <p>Username : {currentUser.displayName}</p>
                 <p>Email Address : {currentUser.email}</p>
                 <p>Your Money : {userMoney}</p>
@@ -37,13 +36,12 @@ function ProfileForm() {
                 <p>Address : {userData.address.street}, {userData.address.city}, {userData.address.state}, {userData.address.zip}</p>
                 <p>Identity Number : {userData.numberID}</p>
                 <p>Phone Number : {userData.phoneNumber}</p>
-                <Link to="/editprofile">
-                        <button>Edit your profile</button>
-                </Link>
+                <button type='submit'>Save your profile</button>
             </div>
+        </div>
         </div>
 
   )
 }
 
-export default ProfileForm
+export default EditProfile

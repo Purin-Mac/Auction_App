@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ProfileBanner from "../components/ProfileBanner";
 import Sidebar from "../components/Sidebar";
-import { UserProfileForm } from "../components/UserProfileForm";
-
+import ProfileForm from "../components/UserProfileForm";
+import { Link } from 'react-router-dom';
 
 const UserProfilepage = () => {
+    
     return (
         <>
             <div className="paint">
@@ -15,7 +16,7 @@ const UserProfilepage = () => {
             <div className="Chatmain">                
             <Sidebar/>
                 <div className="chat-container">
-                    <UserProfileForm/>
+                    <ProfileForm/>
                 </div>
             </div>
             <Footer/>

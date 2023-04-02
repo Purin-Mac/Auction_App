@@ -3,3 +3,9 @@
     width: 100%;
     height: 100%;
 }
+
+.UserProfileMain .UserInfo {
+    background-color: white;
+    margin-left: 2%;
+    margin-top: 2%;
+}

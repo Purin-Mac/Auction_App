@@ -53,6 +53,11 @@
     /* padding: 18.6 5; */
   }
 
+.content h4 {
+    margin-left: 2% ;
+    margin-top: 2%;
+}
+
 .Historymain {
     height: 430px;
 }
