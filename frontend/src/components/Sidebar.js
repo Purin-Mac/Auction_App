@@ -8,11 +8,11 @@ const Sidebar = () => {
 
     return (
         <div className="sidebar">
-                <li><a><Link to="/profile">Profile</Link></a></li>
-                <li><a><Link to="/buying_history">Buying</Link></a></li>
-                <li><a><Link to="/selling_history">Selling</Link></a></li>
-                <li><a><Link to="/messager">Messager</Link></a></li>
-                <li><a><Link onClick={() => signOUT()}>Sign out</Link></a></li>
+                <li><Link className="sidebar-text" to="/profile">Profile</Link></li>
+                <li><Link className="sidebar-text" to="/buying_history">Buying</Link></li>
+                <li><Link className="sidebar-text" to="/selling_history">Selling</Link></li>
+                <li><Link className="sidebar-text" to="/messager">Messager</Link></li>
+                <li><Link className="sidebar-text" onClick={() => signOUT()}>Sign out</Link></li>
         </div>
     );
 };

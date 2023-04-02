@@ -296,11 +296,11 @@ main h3{
     background-color: #65716c;  
 }
 
-  .related h3{
+  .related h5{
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: clip;
-    text-align: left;
+    text-overflow: ellipsis;
+    text-align: center;
   }
 
   .related .card{
@@ -328,7 +328,9 @@ main h3{
   }
 
   .discover .card .bottomcard h3{
+    text-align: center;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .discover .card p {
@@ -467,7 +469,7 @@ main h3{
   /* padding: 25px 9.3px; */
 }
 
-.profileMain .sidebar li a {
+.profileMain .sidebar li .sidebar-text {
   text-decoration: none;
   width: 100%;
 }

@@ -18,7 +18,7 @@ function ProfileBanner() {
   return (
 
     <div className='ProfileBanner' style={styles}>
-        <div class="about">
+        <div className="about">
             {/* <img src={appsPicture["ProfileBan.png"]}/> */}
             <h1> Welcome {currentUser.displayName} !</h1>
             <img src={currentUser.photoURL} alt="profile" onError={(e) => {e.target.onerror = null; e.target.src = appsPicture["User.png"]}}/>

@@ -24,11 +24,11 @@ function Banner() {
     return (
     <>
     
-    <div class="banner" style={styles}>
-                <div class="info">
+    <div className="banner" style={styles}>
+                <div className="info">
                     <h1>“Get what ever you want” <br/> With us Let’s Auct !</h1>                    
                 </div>
-                <div class="banner-button">
+                <div className="banner-button">
                     <a href="#">Get Start</a>
                 </div>
             </div>

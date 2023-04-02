@@ -26,17 +26,17 @@ function MainHome() {
     <>
     
     <main>
-        <div class="reccommend">
+        <div className="reccommend">
             <h1>Our Recommend</h1>
             <p>Explore categories that we recommend.</p>
             <Category link={"/category_product"}/>
         </div>
-        <div class="discover">
+        <div className="discover">
             <h1>Discover</h1>
-            <div class="cards">
-                <div class="row">
-                    <div class="column">
-                        <div class="card">
+            <div className="cards">
+                <div className="row">
+                    <div className="column">
+                        <div className="card">
                             <img src={Shoes} alt="Shoes" /> 
                             <div className='bottomcard'>
                             <h3>Nike Air Max 90</h3>
@@ -45,8 +45,8 @@ function MainHome() {
                         </div>
                     </div>
                 
-                    <div class="column">
-                        <div class="card">
+                    <div className="column">
+                        <div className="card">
                             <img src={Jacket} alt="Shoes" /> 
                             <div className='bottomcard'>
                             <h3>Jacket Rush Harrington </h3>
@@ -55,8 +55,8 @@ function MainHome() {
                         </div>
                     </div>
                     
-                    <div class="column">
-                        <div class="card">
+                    <div className="column">
+                        <div className="card">
                             <img src={MenClothes} alt="Shoes" /> 
                             <div className='bottomcard'>
                             <h3>Bronx Hoodie</h3>
@@ -65,8 +65,8 @@ function MainHome() {
                         </div>
                     </div>
                     
-                    <div class="column">
-                        <div class="card">
+                    <div className="column">
+                        <div className="card">
                             <img src={AirMax} alt="Shoes" /> 
                             <div className='bottomcard'>
                             <h3>Nike Airjordan</h3>
@@ -80,7 +80,7 @@ function MainHome() {
     </main>
 
     <section>
-        <div class="main-advertise">
+        <div className="main-advertise">
             <h1>Advertise</h1>
             {/* <img src={Advertise} alt="Advertise" />  */}
         </div>

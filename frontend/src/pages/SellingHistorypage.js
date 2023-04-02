@@ -127,11 +127,11 @@ const SellingHistorypage = () => {
                 <Sidebar />
                 <div className="History-container" >
                     <div className="topside">
-                    <h3>SellingHistorypage</h3>
-                    <ButtonSwitch
-                        activeButton={activeButton}
-                        setActiveButton={setActiveButton}
-                        />
+                        <h3>SellingHistorypage</h3>
+                        <ButtonSwitch
+                            activeButton={activeButton}
+                            setActiveButton={setActiveButton}
+                            />
                     </div>
                     {isLoading ? (
                         <p>Loading...</p>
@@ -139,24 +139,24 @@ const SellingHistorypage = () => {
                             products.length !== 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
-                                    <img src={product.productPhoto} alt={"product pic"}></img>
-                                    <h5>{product.productName}</h5>
-                                    <p>{product.duration && (
-                                        <Countdown
-                                        date={product.duration.toDate()}
-                                        renderer={(props) =>
-                                            renderer(
-                                                props,
-                                                product.id,
-                                                product.currentPrice,
-                                                product.currentBidder,
-                                                    product.isSend
-                                                    )
-                                                }
-                                                />
-                                    )}
-                                    </p>
-                                </div>
+                                        <img src={product.productPhoto} alt={"product pic"}></img>
+                                        <h5>{product.productName}</h5>
+                                        <div>{product.duration && (
+                                            <Countdown
+                                            date={product.duration.toDate()}
+                                            renderer={(props) =>
+                                                renderer(
+                                                    props,
+                                                    product.id,
+                                                    product.currentPrice,
+                                                    product.currentBidder,
+                                                        product.isSend
+                                                        )
+                                                    }
+                                                    />
+                                        )}
+                                        </div>
+                                    </div>
                             ))
                             ) : (
                             <h4>None</h4>
@@ -165,17 +165,17 @@ const SellingHistorypage = () => {
                             products.length !== 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="History-products">
-                                    <img src={product.productPhoto} alt={"product pic"}></img>
-                                    <h5>{product.productName}</h5>
-                                    <h5>Price: {product.price} THB</h5>
-                                    <h5>
-                                        Date:{" "}
-                                        {product.broughtAt &&
-                                            product.broughtAt
-                                            .toDate()
-                                            .toLocaleDateString()}
-                                    </h5>
-                                </div>
+                                        <img src={product.productPhoto} alt={"product pic"}></img>
+                                        <h5>{product.productName}</h5>
+                                        <h5>Price: {product.price} THB</h5>
+                                        <h5>
+                                            Date:{" "}
+                                            {product.broughtAt &&
+                                                product.broughtAt
+                                                .toDate()
+                                                .toLocaleDateString()}
+                                        </h5>
+                                    </div>
                             ))
                             ) : (
                                 <h4>None</h4>
