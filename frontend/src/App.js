@@ -3,7 +3,7 @@ import './App.css';
 import Homepage from "./pages/Homepage";
 import Category from "./pages/Categorypage"
 import Sellpage from "./pages/Sellpage";
-import SellItemPage from "./pages/SellItempage";
+import SellItempage from "./pages/SellItempage";
 import Productpage from "./pages/Productpage";
 import {Route, Routes} from 'react-router-dom'
 import PrivateRoute from "./components/PrivateRoute";
@@ -46,7 +46,7 @@ function App() {
           <Route path="/category" element={<Category/>} />
           <Route path="/category_product" element={<ProductListpage/>} />
           <Route path="/sell" element={<PrivateRoute> <Sellpage/> </PrivateRoute>} />
-          <Route path="/sell_item_details" element={<PrivateRoute> <SellItemPage/> </PrivateRoute>} />
+          <Route path="/sell_item_details" element={<PrivateRoute> <SellItempage/> </PrivateRoute>} />
           {/* <Route path="/item" element={<PrivateRoute> <Item socket={socket}/> </PrivateRoute>} /> */}
           <Route path="/product" element={<PrivateRoute> <Productpage/> </PrivateRoute>} />
           <Route path="/search" element={<SearchResultpage/>} />

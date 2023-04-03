@@ -237,13 +237,23 @@ const BuyingHistorypage = () => {
                                         <img src={product.productPhoto} alt="product pic"></img>
                                         <h5>{product.productName}</h5>
                                         <h5>{product.price} THB</h5>
-                                        <h5>
-                                            Date:{" "}
-                                            {product.broughtAt &&
-                                                product.broughtAt
-                                                .toDate()
-                                                .toLocaleDateString()}
-                                        </h5>
+                                        {product.payAt ? 
+                                            <h5>
+                                                Date:{" "}
+                                                {product.payAt &&
+                                                    product.payAt
+                                                    .toDate()
+                                                    .toLocaleDateString()}
+                                            </h5>
+                                        : 
+                                            <h5>
+                                                Date:{" "}
+                                                {product.broughtAt &&
+                                                    product.broughtAt
+                                                    .toDate()
+                                                    .toLocaleDateString()}
+                                            </h5>
+                                        }
                                     </div>
                                 ))
                                 ) : (

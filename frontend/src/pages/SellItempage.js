@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, Timestamp } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
@@ -12,13 +12,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { add } from 'date-fns';
 
-const SellItemPage = () => {
+const SellItempage = () => {
     const navigate = useNavigate();
     const { currentUser } = useContext(AuthContext);
     const [ categoryName, setCategoryName ] = useState('');
+    const [ categoryID, setCategoryID ] = useState('');
+    const [ productID, setProductID ] = useState('');
+    const [ productPic, setProductPic ] = useState(null);
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const categoryID = searchParams.get("id");
 
     const itemTitle = useRef();
     const itemInfo = useRef();
@@ -48,58 +49,111 @@ const SellItemPage = () => {
         let currentDate = Timestamp.now();
         // let dueDate = currentDate.toDate();
         // dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
-
         
-        if (!imgTypes.includes(itemImage.current.files[0].type)) {
-            return showToastMessage("Only JPEG, JPG and PNG files are accepted");
-        }
-
+        
+        
         const nameArray = itemTitle.current.value.toLowerCase().split(' ');
         const searchPartial = nameArray.slice(1);
-
-        const productsData = {
-                sellerEmail: currentUser.email,
-                categoryID: categoryID,
+        
+        if (productID) {
+            const productRef = doc(db, "Products", productID);
+            const updatedProductData = {
                 productName: itemTitle.current.value,
                 searchName: itemTitle.current.value.toLowerCase(),
                 searchPartial: searchPartial,
-                productPhoto: itemImage.current.files[0],
                 productInfo: itemInfo.current.value,
                 startPrice: Number(startPrice.current.value),
                 currentPrice: Number(startPrice.current.value),
                 buyNowPrice: 0 || Number(buyNowPrice.current.value),
-                currentBidder: null,
-                isBrought: false,
-                isSend: false,
                 createAt: currentDate,
                 duration: itemDuration          
-        };
+            };
+            await updateDoc(productRef, updatedProductData)
+            navigate(`/category_product?id=${categoryID}`);
+        }
+        else {
+            if (!imgTypes.includes(itemImage.current.files[0].type)) {
+                return showToastMessage("Only JPEG, JPG and PNG files are accepted");
+            }
 
-        const imageRef = ref(storage, `images/${productsData.productName}`);
-        uploadBytes(imageRef, productsData.productPhoto).then((snapshot) => {
-            console.log('Uploaded a file!');
-            getDownloadURL(ref(storage, `images/${productsData.productName}`)).then((url) => {
-                // console.log(url);
-                productsData.productPhoto = url;
-                const productCol = collection(db, "Products");
-                addDoc((productCol), productsData);
-                navigate('/sell');
+            const productsData = {
+                sellerEmail: currentUser.email,
+                    categoryID: categoryID,
+                    productName: itemTitle.current.value,
+                    searchName: itemTitle.current.value.toLowerCase(),
+                    searchPartial: searchPartial,
+                    productPhoto: itemImage.current.files[0],
+                    productInfo: itemInfo.current.value,
+                    startPrice: Number(startPrice.current.value),
+                    currentPrice: Number(startPrice.current.value),
+                    buyNowPrice: 0 || Number(buyNowPrice.current.value),
+                    currentBidder: null,
+                    isBrought: false,
+                    isSend: false,
+                    createAt: currentDate,
+                    duration: itemDuration          
+            };
+    
+            const imageRef = ref(storage, `images/${productsData.productName}`);
+            uploadBytes(imageRef, productsData.productPhoto).then((snapshot) => {
+                console.log('Uploaded a file!');
+                getDownloadURL(ref(storage, `images/${productsData.productName}`)).then((url) => {
+                    // console.log(url);
+                    productsData.productPhoto = url;
+                    const productCol = collection(db, "Products");
+                    addDoc((productCol), productsData);
+                    navigate(`/category_product?id=${categoryID}`);
+                });
             });
-        });
+        }
     };
 
+    //get product data
     useEffect(() => {
-        const categoryRef = doc(db, "Categories", categoryID);
-        getDoc(categoryRef).then((doc) => {
-            if (doc.exists()) {
-                setCategoryName(doc.data().categoryName);
-            } else {
-                console.log("No such document!");
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
-    }, []);
+        const searchParams = new URLSearchParams(location.search);
+        const tempProductID = searchParams.get("productID");
+        if (tempProductID) {
+            // console.log(productId)
+            setProductID(tempProductID)
+            const productRef = doc(db, "Products", tempProductID);
+            getDoc(productRef).then((doc) => {
+                if (doc.exists()) {
+                    const productData = doc.data();
+                    setCategoryID(productData.categoryID);
+                    itemTitle.current.value = productData.productName;
+                    itemInfo.current.value = productData.productInfo;
+                    startPrice.current.value = productData.startPrice;
+                    buyNowPrice.current.value = productData.buyNowPrice || 0;
+                    // setItemDuration(productData.duration.toDate())
+                    setProductPic(productData.productPhoto);
+                } else {
+                    console.log("No such document!");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
+        else {
+            const categoryID = searchParams.get("id");
+            setCategoryID(categoryID);
+        }
+    }, [location.search]);
+
+    //get category name
+    useEffect(() => {
+        if (categoryID) {
+            const categoryRef = doc(db, "Categories", categoryID);
+            getDoc(categoryRef).then((doc) => {
+                if (doc.exists()) {
+                    setCategoryName(doc.data().categoryName);
+                } else {
+                    console.log("No such document!");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        };
+    }, [categoryID]);
 
     return (
         <>
@@ -125,7 +179,7 @@ const SellItemPage = () => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Start Price</Form.Label>
-                        <Form.Control type="number" min={0} required ref={startPrice} onWheel={event => event.currentTarget.blur()}/>
+                        <Form.Control type="number" min={1} required ref={startPrice} onWheel={event => event.currentTarget.blur()}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
@@ -154,7 +208,11 @@ const SellItemPage = () => {
 
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Product Image</Form.Label>
-                        <Form.Control type="file" required ref={itemImage}/>
+                        {productPic ? 
+                            <div className="text-center">
+                                <img src={productPic} alt="product" className="img-fluid shadow-sm p-3 mb-5 bg-body rounded border"/>
+                            </div>
+                        : <Form.Control type="file" required ref={itemImage}/>}
                     </Form.Group>
 
                     <Form.Group className="mb-3">
@@ -172,4 +230,4 @@ const SellItemPage = () => {
     );
 };
 
-export default SellItemPage;
+export default SellItempage;

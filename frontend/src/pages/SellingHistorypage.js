@@ -18,6 +18,7 @@ import ProfileBanner from "../components/ProfileBanner";
 import Sidebar from "../components/Sidebar";
 import { AuthContext } from "../service/AuthContext";
 import { db } from "../service/firebase";
+import { Link } from "react-router-dom";
 
 const SellingHistorypage = () => {
     const { currentUser, userData } = useContext(AuthContext);
@@ -103,7 +104,14 @@ const SellingHistorypage = () => {
                     <p>Price: {productPrice} THB</p>
                     {currentBidder ? (
                         productIsSend ? <p>Waiting for payment.</p> : <button onClick={() => handleDeliver(productID)}>Deliver</button>
-                    ) : <p>No one bid this product :{"("}</p>}
+                    ) : (
+                        <div>
+                            <p>No one bid this product :{"("}</p>
+                            <Link to={`/sell_item_details?productID=${productID}`}>
+                                <button >Re Auction</button>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             );
         } else {
@@ -168,13 +176,23 @@ const SellingHistorypage = () => {
                                         <img src={product.productPhoto} alt={"product pic"}></img>
                                         <h5>{product.productName}</h5>
                                         <h5>Price: {product.price} THB</h5>
-                                        <h5>
-                                            Date:{" "}
-                                            {product.broughtAt &&
-                                                product.broughtAt
-                                                .toDate()
-                                                .toLocaleDateString()}
-                                        </h5>
+                                        {product.payAt ? 
+                                            <h5>
+                                                Date:{" "}
+                                                {product.payAt &&
+                                                    product.payAt
+                                                    .toDate()
+                                                    .toLocaleDateString()}
+                                            </h5>
+                                        : 
+                                            <h5>
+                                                Date:{" "}
+                                                {product.broughtAt &&
+                                                    product.broughtAt
+                                                    .toDate()
+                                                    .toLocaleDateString()}
+                                            </h5>
+                                        }
                                     </div>
                             ))
                             ) : (
