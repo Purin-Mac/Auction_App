@@ -12,7 +12,7 @@ import { db } from "../service/firebase";
 import { AuthContext } from "../service/AuthContext";
 
 export const Chats = () => {
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, appsPicture } = useContext(AuthContext);
     const [chatrooms, setChatrooms] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -63,10 +63,10 @@ export const Chats = () => {
         return <h3>Loading chatrooms...</h3>;
     }
 
-    // if (chatrooms.length === 0) {
-    //     console.log(chatrooms);
-    //     return <h3>No chatrooms found.</h3>;
-    // }
+    if (chatrooms.length === 0) {
+        console.log(chatrooms);
+        return <h3>No chatrooms found.</h3>;
+    }
 
     return (
         <div className="Chats">
@@ -80,6 +80,7 @@ export const Chats = () => {
                                     : chatroom.buyer.userPhoto
                             }
                             alt="userPic"
+                            onError={(e) => {e.target.onerror = null; e.target.src = appsPicture["User.png"]}}
                         />
                         <div className="userChatInfo">
                             <span>
