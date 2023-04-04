@@ -18,6 +18,7 @@ import RelatedProduct from "../components/RelatedProduct";
 function Productpage() {
     const { currentUser, userData, updateUserData } = useContext(AuthContext);
     const [ product, setProduct ] = useState([]);
+    const [ sellerData, setSellerData ] = useState([]);
 
     // const navigate = useNavigate();
     const location = useLocation();
@@ -152,7 +153,7 @@ function Productpage() {
         const docRef = doc(db, "Products", productID);
         getDoc(docRef).then(doc => {
             if (doc.exists()) {
-                setProduct(doc.data());
+                setProduct({ id: doc.id, ...doc.data() });
             } 
             else {
                 console.log("No such document!");
@@ -161,6 +162,22 @@ function Productpage() {
             console.log("Error getting document: ", error);
         });
     }, [productID]);
+
+    //get seller data
+    useEffect(() => {
+        if (product.sellerEmail) {
+            const usersCol = collection(db, "Users");
+            const q = query(usersCol, where("email", "==", product.sellerEmail));
+            getDocs(q).then((querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    const sellerData = querySnapshot.docs[0].data();
+                    setSellerData(sellerData);
+                } else {
+                    console.log("No seller found.");
+                }
+            });
+        }
+    }, [product.sellerEmail]);
 
     //set the minimum bid
     useEffect(() => {
@@ -280,7 +297,9 @@ function Productpage() {
                                 : <h3>You have purchased this product.</h3>)
                             : null}
                             <h5 style={{ textAlign: "left", font: "bold"}}>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
-                            <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice} Baht</h5>
+                            {product.currentPrice === product.startPrice ? 
+                            <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.currentPrice} Baht</h5>
+                            : <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice} Baht</h5>}
                             <h2>Manual Bid</h2>
                                 <div>
                                     <label>Enter your Price</label><br/>
@@ -361,7 +380,7 @@ function Productpage() {
                                 <img src={product.productPhoto} alt="Item_Picture" style={{ backgroundColor: "#F1F1F1", width: "100%",maxheight: "280px" }}></img>
                                 <br></br><br></br><h3>Description</h3>
                                 <p>{product.productInfo}</p>
-                                <p>Sell by : {product.sellerEmail}</p>
+                                <p>Sell by : {sellerData.userName}</p>
                                 <button>Chat With Seller</button>
                             </div>
                         </div>

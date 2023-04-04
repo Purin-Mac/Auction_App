@@ -1,13 +1,14 @@
 import '../style/main.css';
-import Shoes from '../resources/Sneaker2.png';
-import MenClothes from '../resources/Bronx Hoodie.png';
-import Jacket from '../resources/Diesel.png';
-import AirMax from '../resources/Airjordan.png'
+// import Shoes from '../resources/Sneaker2.png';
+// import MenClothes from '../resources/Bronx Hoodie.png';
+// import Jacket from '../resources/Diesel.png';
+// import AirMax from '../resources/Airjordan.png'
 import { useContext } from 'react';
 import { AuthContext } from '../service/AuthContext';
 import { Card, CardGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Category from './Category';
+import Discover from './Discover';
 
 
 function MainHome() {
@@ -33,7 +34,8 @@ function MainHome() {
         </div>
         <div className="discover">
             <h1>Discover</h1>
-            <div className="cards">
+            <Discover />
+            {/* <div className="cards">
                 <div className="row">
                     <div className="column">
                         <div className="card">
@@ -75,7 +77,7 @@ function MainHome() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     </main>
 
