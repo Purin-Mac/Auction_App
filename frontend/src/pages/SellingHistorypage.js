@@ -141,6 +141,7 @@ const SellingHistorypage = () => {
                             setActiveButton={setActiveButton}
                             />
                     </div>
+                    <div className="content">
                     {isLoading ? (
                         <p>Loading...</p>
                         ) : activeButton === "current" ? (
@@ -199,6 +200,7 @@ const SellingHistorypage = () => {
                                 <h4>None</h4>
                                 )
                                 ) : null}
+                    </div>
                 </div>
             </div>
             <Footer />

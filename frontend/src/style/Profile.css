@@ -9,3 +9,7 @@
     margin-left: 2%;
     margin-top: 2%;
 }
+
+.EditProfile form label input {
+    margin-left: 10px;
+}

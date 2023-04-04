@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }) => {
         const userRef = doc(db, "Users", userId);
         getDoc(userRef).then(doc => {
             if (doc.exists()) {
-                setUserData(doc.data());
+                setUserData({ id: doc.id, ...doc.data() });
             } 
             else {
                 console.log("No such document!");
