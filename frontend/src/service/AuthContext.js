@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
             const userData = {
                 // uid: result.user.uid,
                 userName: result.user.displayName,
-                // userPhoto: result.user.photoURL,
+                userPhoto: result.user.photoURL,
                 firstName: null,
                 lastName: null,
                 email: result.user.email,

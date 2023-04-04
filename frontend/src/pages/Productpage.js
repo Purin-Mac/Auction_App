@@ -359,8 +359,10 @@ function Productpage() {
                         <div className="column-sale">
                             <div className="card-sale-1">
                                 <img src={product.productPhoto} alt="Item_Picture" style={{ backgroundColor: "#F1F1F1", width: "100%",maxheight: "280px" }}></img>
-                                <h3>Description</h3>
+                                <br></br><br></br><h3>Description</h3>
                                 <p>{product.productInfo}</p>
+                                <p>Sell by : {product.sellerEmail}</p>
+                                <button>Chat With Seller</button>
                             </div>
                         </div>
                     

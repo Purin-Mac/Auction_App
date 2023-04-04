@@ -71,6 +71,11 @@ function EditProfile() {
                             <input type="text" ref={lastName} placeholder={userData.lastName}/>
                         </label><br></br><br></br>
 
+                        <label className='Street'>
+                            Street : 
+                            <input type="text" ref={street} placeholder={userData.address.street}/>
+                        </label>
+
                         <label className='City'>
                             City : 
                             <input type="text" ref={city} placeholder={userData.address.city}/>
@@ -79,11 +84,6 @@ function EditProfile() {
                         <label className='State'>
                             State : 
                             <input type="text" ref={state} placeholder={userData.address.state}/>
-                        </label>
-
-                        <label className='Street'>
-                            Street : 
-                            <input type="text" ref={street} placeholder={userData.address.street}/>
                         </label>
 
                         <label className='Zip'>

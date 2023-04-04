@@ -13,3 +13,11 @@
 .EditProfile form label input {
     margin-left: 10px;
 }
+
+.EditProfile .UserInfo form .City {
+    margin-left: 2%;
+}
+
+.EditProfile .UserInfo form .Zip {
+    margin-left: 2%;
+}

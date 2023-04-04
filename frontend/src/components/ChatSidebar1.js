@@ -6,10 +6,10 @@ import { Chats } from './Chats';
 
 export const ChatSidebar1 = () => {
   return (
-    <div className='Chatsidebar'>
-      {/* <Chatnavbar/> */}
-      <ChatSearch/>
-      <Chats/>
-    </div>
+      <div className='Chatsidebar'>
+          {/* <Chatnavbar/> */}
+          {/* <ChatSearch/> */}
+          <Chats/>
+      </div>
   )
 }

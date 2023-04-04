@@ -10,7 +10,6 @@ export const Chats = () => {
 
           <div className='userChatInfo'>
               <span>Jane</span>
-              <p>Hello</p>
           </div>
 
         </div>
@@ -19,7 +18,6 @@ export const Chats = () => {
 
           <div className='userChatInfo'>
               <span>Jane</span>
-              <p>Hello</p>
           </div>
 
         </div>
@@ -28,7 +26,6 @@ export const Chats = () => {
 
           <div className='userChatInfo'>
               <span>Jane</span>
-              <p>Hello</p>
           </div>
 
         </div>
@@ -37,7 +34,6 @@ export const Chats = () => {
 
           <div className='userChatInfo'>
               <span>Jane</span>
-              <p>Hello</p>
           </div>
 
         </div>
