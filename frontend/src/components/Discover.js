@@ -30,16 +30,16 @@ const Discover = () => {
     }, []);
 
     return (
-        <div className="cards">
+        <div className="discover-cards">
             <div className="row">
                 {discoverProducts.map((product) => (
                     <div className="column" key={product.id}>
                         <Link to={`/product?id=${product.id}`} style={{ textDecoration: "none", color: "black"}}>
-                            <div className="card">
+                            <div className="discover-card">
                                 <img src={product.productPhoto} alt={product.productName} />
                                 <div className="bottomcard">
-                                    <h3>{product.productName}</h3>
-                                    <p>{product.currentPrice} THB</p>
+                                    <h5>{product.productName}</h5>
+                                    <p> {product.currentPrice} THB</p><br></br><br></br><br></br>
                                 </div>
                             </div>
                         </Link>

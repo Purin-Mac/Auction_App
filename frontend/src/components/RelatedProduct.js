@@ -45,7 +45,7 @@ const RelatedProduct = ({ categoryID, currentProductDuration }) => {
         <>
             <div className="related">
                 <h1>Related</h1>
-                <div className="cards">
+                <div className="related-cards">
                     <div className="row">
                         {relatedProducts.map((product) => (
                             <div className="column" key={product.id}>
@@ -56,7 +56,7 @@ const RelatedProduct = ({ categoryID, currentProductDuration }) => {
                                         color: "black",
                                     }}
                                 >
-                                    <div className="card">
+                                    <div className="related-card">
                                         <img
                                             src={product.productPhoto}
                                             alt="Related Product"

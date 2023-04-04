@@ -82,6 +82,8 @@
     align-items: center;
     margin-right: 2%;
     text-align: left;
+    max-height: 30%;
+    width: 100%;
 }
 
 .History-products h5 {
@@ -93,10 +95,8 @@
 }
 
 .History-products img {
-    width: 20%;
-    height: 5%;
-    display: flex;
-    align-items: center;
-    max-width: 20%;
-    max-height: 5%;
+    width: 12%;
+    margin-left: 2%;
+    margin-top: 2%;
+
 }
