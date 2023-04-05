@@ -75,7 +75,7 @@ export const Chats = () => {
                     <div className="userChat" key={chatroom.id}>
                         <img
                             src={
-                                chatroom.buyer.buyerEmail === currentUser.email
+                                chatroom.buyerEmail === currentUser.email
                                     ? chatroom.seller.userPhoto
                                     : chatroom.buyer.userPhoto
                             }
@@ -84,7 +84,7 @@ export const Chats = () => {
                         />
                         <div className="userChatInfo">
                             <span>
-                                {chatroom.buyer.buyerEmail === currentUser.email
+                                {chatroom.buyerEmail === currentUser.email
                                     ? chatroom.seller.userName
                                     : chatroom.buyer.userName}
                             </span>

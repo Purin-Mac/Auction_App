@@ -12,6 +12,7 @@ import '../style/main.css';
 import Footer from "../components/Footer";
 import Hood from '../resources/Bronx Hoodie.png';
 import RelatedProduct from "../components/RelatedProduct";
+import Createchat from "../components/Createchat";
 
 // import User from "../service/User";
 
@@ -170,7 +171,7 @@ function Productpage() {
             const q = query(usersCol, where("email", "==", product.sellerEmail));
             getDocs(q).then((querySnapshot) => {
                 if (!querySnapshot.empty) {
-                    const sellerData = querySnapshot.docs[0].data();
+                    const sellerData = { id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() };
                     setSellerData(sellerData);
                 } else {
                     console.log("No seller found.");
@@ -252,7 +253,7 @@ function Productpage() {
                 if (currentUser.email !== docData.currentBidder && 
                     docData.currentPrice !== docData.startPrice && 
                     (previousBidPriceRef.current === null || docData.currentPrice > previousBidPriceRef.current)) {
-                    console.log(docData.currentBidder)
+                    // console.log(docData.currentBidder)
                     showToastMessage(`There is a new highest bid with ${docData.currentPrice} Baht.`);
                     previousBidPriceRef.current = docData.currentPrice;
                 }
@@ -317,7 +318,7 @@ function Productpage() {
                                     {/* <button onClick={() => handleIncreaseBid(10)}>+10</button>
                                     <button onClick={() => handleIncreaseBid(100)}>+100</button>
                                     <button onClick={() => handleIncreaseBid(1000)}>+1000</button> */}
-                                    <div class="confirm">
+                                    <div className="confirm">
                                         <input type="submit" value="Place Bid" onClick={handleBid} disabled={product.isBrought}/>
                                     {/* <button onClick={handleBid}>Submit</button>    */}
                                     </div>
@@ -336,7 +337,7 @@ function Productpage() {
                                 name="price"
                                 readOnly={product.isBrought}
                                 ></input>
-                                <div class="confirm">
+                                <div className="confirm">
                                         <input type="submit" value="Place Auto Bid" onClick={handleAutoBid} disabled={product.isBrought}/>
                                     {/* <button onClick={handleAutoBid}>Submit</button>    */}
                                 </div>
@@ -349,7 +350,7 @@ function Productpage() {
                                     {/* <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3> */}
                                     <div>
                                         <h4>Buy Now: {product.buyNowPrice} THB</h4>
-                                        <div class="confirm">
+                                        <div className="confirm">
                                             <input type="submit" value="Buy Now" onClick={handleBuyNow} disabled={product.isBrought}/>
                                             {/* <button onClick={handleBid}>Submit</button>    */}
                                         </div>
@@ -381,7 +382,7 @@ function Productpage() {
                                 <br></br><br></br><h3>Description</h3>
                                 <p>{product.productInfo}</p>
                                 <p>Sell by : {sellerData.userName}</p>
-                                <button>Chat With Seller</button>
+                                {product.sellerEmail !== currentUser.email ? <Createchat sellerData={sellerData}/> : null}
                             </div>
                         </div>
                     
