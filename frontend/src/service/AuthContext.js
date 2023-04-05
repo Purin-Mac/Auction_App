@@ -11,9 +11,11 @@ export const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [currentChat, setcurrentChat] = useState(null);
     const [userLoading, setUserLoading] = useState(true);
     const [pictureLoading, setPictureLoading] = useState(true);
     const [categoryIDLoading, setCategoryIDLoading] = useState(true);
+    
     const navigate = useNavigate();
     const categoryIDs = useMemo(() => ({
         "Men's clothes": "", 
@@ -187,7 +189,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return(
-        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserData, categoryIDs, appsPicture}}>
+        <AuthContext.Provider value={{ currentUser, signIN, signOUT, userData, getData, updateUserData, categoryIDs, appsPicture, currentChat, setcurrentChat}}>
             {!userLoading && !pictureLoading && !categoryIDLoading && children}
         </AuthContext.Provider>
     );

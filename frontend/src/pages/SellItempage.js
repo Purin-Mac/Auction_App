@@ -102,6 +102,12 @@ const SellItempage = () => {
                     productsData.productPhoto = url;
                     const productCol = collection(db, "Products");
                     addDoc((productCol), productsData);
+                    toast("Add new product succesful", {
+                        position: toast.POSITION.TOP_CENTER,
+                        pauseOnHover: false,
+                        pauseOnFocusLoss: false,
+                        autoClose: 3000
+                    });
                     navigate(`/category_product?id=${categoryID}`);
                 });
             });
