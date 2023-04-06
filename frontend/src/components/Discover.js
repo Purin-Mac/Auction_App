@@ -39,7 +39,7 @@ const Discover = () => {
                                 <img src={product.productPhoto} alt={product.productName} />
                                 <div className="bottomcard">
                                     <h5>{product.productName}</h5>
-                                    <p> {product.currentPrice} THB</p><br></br><br></br><br></br>
+                                    <p> {product.currentPrice?.toLocaleString()} THB</p><br></br><br></br><br></br>
                                 </div>
                             </div>
                         </Link>

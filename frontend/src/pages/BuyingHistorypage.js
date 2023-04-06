@@ -216,7 +216,7 @@ const BuyingHistorypage = () => {
                                     <div key={product.id} className="History-products">
                                         <img src={product.productPhoto} alt="product pic"></img>
                                         <h5>{product.productName}</h5>
-                                        <h5>Price: {product.currentPrice} THB</h5>
+                                        <h5>Price: {product.currentPrice?.toLocaleString()} THB</h5>
                                         {product.isSend ? (
                                             <Countdown
                                             date={limitPayTime(product.sendAt)}
@@ -236,7 +236,7 @@ const BuyingHistorypage = () => {
                                     <div key={product.id} className="History-products">
                                         <img src={product.productPhoto} alt="product pic"></img>
                                         <h5>{product.productName}</h5>
-                                        <h5>{product.price} THB</h5>
+                                        <h5>{product.price?.toLocaleString()} THB</h5>
                                         {product.payAt ? 
                                             <h5>
                                                 Date:{" "}

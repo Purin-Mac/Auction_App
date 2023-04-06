@@ -299,8 +299,8 @@ function Productpage() {
                             : null}
                             <h5 style={{ textAlign: "left", font: "bold"}}>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
                             {product.currentPrice === product.startPrice ? 
-                            <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.currentPrice} Baht</h5>
-                            : <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice} Baht</h5>}
+                            <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.currentPrice?.toLocaleString()} Baht</h5>
+                            : <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice?.toLocaleString()} Baht</h5>}
                             <h2>Manual Bid</h2>
                                 <div>
                                     <label>Enter your Price</label><br/>
@@ -349,7 +349,7 @@ function Productpage() {
                                     <h2>Buy Now</h2>
                                     {/* <h3>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h3> */}
                                     <div>
-                                        <h4>Buy Now: {product.buyNowPrice} THB</h4>
+                                        <h4>Buy Now: {product.buyNowPrice.toLocaleString()} THB</h4>
                                         <div className="confirm">
                                             <input type="submit" value="Buy Now" onClick={handleBuyNow} disabled={product.isBrought}/>
                                             {/* <button onClick={handleBid}>Submit</button>    */}

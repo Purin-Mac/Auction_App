@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const ButtonSwitch = ({ activeButton, setActiveButton }) => {
     const handleCurrentClick = () => {
@@ -15,7 +14,7 @@ const ButtonSwitch = ({ activeButton, setActiveButton }) => {
     };
 
     return (
-        <div>
+        <div className="button-switch">
             <button
                 onClick={handleCurrentClick}
                 className={activeButton === "current" ? "active-current" : ""}

@@ -36,7 +36,7 @@ function Profile() {
                             <h3> {currentUser.displayName}</h3>
                         </div>
                     </Link>
-                    <h6> {userMoney} THB</h6>
+                    <h6> {userMoney?.toLocaleString()} THB</h6>
                 </div>
                 {/* <button onClick={() => auth.signOut()}>Sign out</button> */}
                 {/* <button onClick={() => signOUT()}>Sign out</button> */}

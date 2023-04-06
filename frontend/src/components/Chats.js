@@ -12,7 +12,7 @@ import { db } from "../service/firebase";
 import { AuthContext } from "../service/AuthContext";
 
 export const Chats = () => {
-    const { currentUser, appsPicture, setcurrentChat } = useContext(AuthContext);
+    const { currentUser, appsPicture, currentChat,setcurrentChat } = useContext(AuthContext);
     const [chatrooms, setChatrooms] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -74,7 +74,7 @@ export const Chats = () => {
         <div className="Chats">
             {chatrooms.length !== 0 ? (
                 chatrooms.map((chatroom) => (
-                    <div className="userChat" key={chatroom.id} onClick={() => handleSelectChat(chatroom.id)}>
+                    <div className={`userChat ${currentChat === chatroom.id ? 'selected' : ''}`} key={chatroom.id} onClick={() => handleSelectChat(chatroom.id)}>
                         <img
                             src={
                                 chatroom.buyerEmail === currentUser.email

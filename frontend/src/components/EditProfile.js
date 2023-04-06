@@ -88,17 +88,17 @@ function EditProfile() {
 
                         <label className='Zip'>
                             Zip : 
-                            <input type="text" ref={zip} minlength="5" maxlength="5" placeholder={userData.address.zip}/>
+                            <input type="text" ref={zip} minLength="5" maxLength="5" placeholder={userData.address.zip}/>
                         </label><br></br><br></br>
 
                         <label className='Identity'>
                             Identity Number : 
-                            <input type="text" ref={numberID} minlength="13" maxlength="13" placeholder={userData.numberID}/>
+                            <input type="text" ref={numberID} minLength="13" maxLength="13" placeholder={userData.numberID}/>
                         </label><br></br><br></br>
 
                         <label className='Phone'>
                             Phone Number : 
-                            <input type="text" ref={phoneNumber} minlength="10" maxlength="10" placeholder={userData.phoneNumber}/>
+                            <input type="text" ref={phoneNumber} minLength="10" maxLength="10" placeholder={userData.phoneNumber}/>
                         </label><br></br><br></br>
 
                         <button type="submit">Submit</button>

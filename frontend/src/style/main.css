@@ -682,6 +682,10 @@ main h3{
   font-weight: light;
 }
 
+.selected {
+  background-color: #2f2d52;
+}
+
 .Chatsidebar .Chatsearching .searchForm input {
   background-color: transparent;
   border: none;

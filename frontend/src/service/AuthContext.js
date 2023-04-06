@@ -1,7 +1,7 @@
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
 import { createContext, useState, useEffect, useMemo } from "react";
 import { auth, db, storage, timestamp } from "./firebase";
-import { doc, setDoc, collection, getDocs, query, where, getDoc, addDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, query, where, getDoc, addDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 // import { genProducts } from "./SeedDB";
@@ -66,9 +66,18 @@ export const AuthProvider = ({ children }) => {
                 console.log("Create user data successful")
             }
             else{
-                querySnapshot.forEach((doc) => {
-                    setUserData({ id: doc.id, ...doc.data() });
-                    // console.log(doc.id, " => ", doc.data());
+                querySnapshot.forEach(async(userDoc) => {
+                    if (userDoc.data().userName !== result.user.displayName || userDoc.data().userPhoto !== result.user.photoURL) {
+                        const userRef = doc(usersCol, userDoc.id);
+                        await updateDoc(userRef, {
+                            userName: result.user.displayName,
+                            userPhoto: result.user.photoURL,
+                        });
+                        setUserData({ id: userDoc.id, ...userDoc.data(), userName: result.user.displayName, userPhoto: result.user.photoURL });
+                    }else{
+                        setUserData({ id: userDoc.id, ...userDoc.data() });
+                    }
+                    // console.log(userDoc.id, " => ", userDoc.data());
                 });
             }
             

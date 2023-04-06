@@ -1,3 +1,4 @@
+import "../style/History.css";
 import {
     collection,
     doc,
@@ -101,7 +102,7 @@ const SellingHistorypage = () => {
         if (completed) {
             return (
                 <div>
-                    <p>Price: {productPrice} THB</p>
+                    <p>Price: {productPrice?.toLocaleString()} THB</p>
                     {currentBidder ? (
                         productIsSend ? <p>Waiting for payment.</p> : <button onClick={() => handleDeliver(productID)}>Deliver</button>
                     ) : (
@@ -117,7 +118,7 @@ const SellingHistorypage = () => {
         } else {
             return (
                 <div>
-                    <p>Highest Bid: {productPrice} THB</p>
+                    <p>Highest Bid: {productPrice?.toLocaleString()} THB</p>
                     <p>
                         Remaning Time: {days} day, {hours} hours, {minutes}{" "}
                         minutes, {seconds} seconds
@@ -176,7 +177,7 @@ const SellingHistorypage = () => {
                                     <div key={product.id} className="History-products">
                                         <img src={product.productPhoto} alt={"product pic"}></img>
                                         <h5>{product.productName}</h5>
-                                        <h5>Price: {product.price} THB</h5>
+                                        <h5>Price: {product.price?.toLocaleString()} THB</h5>
                                         {product.payAt ? 
                                             <h5>
                                                 Date:{" "}
