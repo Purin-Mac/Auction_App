@@ -66,7 +66,7 @@ export const Chats = () => {
     }
 
     if (chatrooms.length === 0) {
-        console.log(chatrooms);
+        // console.log(chatrooms);
         return <h3>No chatrooms found.</h3>;
     }
 

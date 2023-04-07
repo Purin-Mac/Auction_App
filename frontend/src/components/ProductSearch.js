@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../service/firebase";
-import { collection, endAt, onSnapshot, orderBy, query, startAt, where } from "firebase/firestore";
+import { Timestamp, collection, endAt, onSnapshot, orderBy, query, startAt, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
 
@@ -27,7 +27,9 @@ const ProductSearch = ({ searchTerm }) => {
         const unsub1 = onSnapshot(productsQuery, (querySnapshot) => {
             const productsTemp = [];
             querySnapshot.forEach(doc => {
-                productsTemp.push( { id: doc.id, ...doc.data() } );
+                if (doc.data().duration && doc.data().duration > Timestamp.now()) {
+                    productsTemp.push( { id: doc.id, ...doc.data() } );
+                }
             });
             setProducts(prevProducts => [...prevProducts, ...productsTemp]);
         });
@@ -35,7 +37,9 @@ const ProductSearch = ({ searchTerm }) => {
         const unsub2 = onSnapshot(partialsQuery, (querySnapshot) => {
             const productsTemp = [];
             querySnapshot.forEach(doc => {
-              productsTemp.push({ id: doc.id, ...doc.data() });
+                if (doc.data().duration && doc.data().duration > Timestamp.now()) {
+                    productsTemp.push({ id: doc.id, ...doc.data() });
+                }
             });
             setProducts(prevProducts => [...new Set([...prevProducts, ...productsTemp])]);
         });
@@ -54,7 +58,7 @@ const ProductSearch = ({ searchTerm }) => {
                         <Col key={product.id} md={3} style= {{ margin: "0 0 5% 0"}}>
                             <Card style={{ border: "1px solid #e5e5e5", height: "100%"}}>
                                 <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
-                                <Link to="/product" state={{ id: product.id }} style={{ textDecoration: "none", color: "black"}}>
+                                <Link to={`/product?id=${product.id}`} style={{ textDecoration: "none", color: "black"}}>
                                     <Card.Body>
                                         <Card.Title className="text-truncate">{product.productName}</Card.Title>
                                         <Card.Text className="text-truncate">{product.productInfo}</Card.Text>

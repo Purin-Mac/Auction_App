@@ -13,7 +13,7 @@ import { AuthContext } from "../service/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Createchat = ({ sellerData }) => {
-    const { currentUser, userData } = useContext(AuthContext);
+    const { currentUser, userData, setcurrentChat} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleChat = () => {
@@ -34,9 +34,12 @@ const Createchat = ({ sellerData }) => {
                     buyerRef: userRef,
                     sellerEmail: sellerData.email,
                     sellerRef: sellerRef,
+                }).then((docRef) => {
+                    setcurrentChat(docRef.id);
                 });
                 navigate("/messager");
             } else {
+                setcurrentChat(querySnapshot.docs[0].id);
                 navigate("/messager");
             }
         });

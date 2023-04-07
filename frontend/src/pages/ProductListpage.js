@@ -25,7 +25,7 @@ const ProductListpage = () => {
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
-    }, []);
+    }, [categoryID]);
 
     useEffect(() => {
         // console.log(categoryName, categoryID)
