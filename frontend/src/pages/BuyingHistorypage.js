@@ -204,7 +204,7 @@ const BuyingHistorypage = () => {
                 <Sidebar />
                 <div className="History-container" >
                     <div className="topside">
-                    <h3>BuyingHistorypage</h3>
+                    <h3>Buying History</h3>
                         <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
                     </div>
                     <div className="content">

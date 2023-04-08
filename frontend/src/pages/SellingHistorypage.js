@@ -136,7 +136,7 @@ const SellingHistorypage = () => {
                 <Sidebar />
                 <div className="History-container" >
                     <div className="topside">
-                        <h3>SellingHistorypage</h3>
+                        <h3>Selling History</h3>
                         <ButtonSwitch
                             activeButton={activeButton}
                             setActiveButton={setActiveButton}
