@@ -20,6 +20,7 @@ const SellItempage = () => {
     const [ categoryID, setCategoryID ] = useState('');
     const [ productID, setProductID ] = useState('');
     const [ productPic, setProductPic ] = useState(null);
+    const [ isSubmitting, setIsSubmitting ] = useState(false);
     const location = useLocation();
     
     const itemTitle = useRef();
@@ -118,7 +119,8 @@ const SellItempage = () => {
         // let dueDate = currentDate.toDate();
         // dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
 
-        if (isThaiInput(itemTitle.current.value.toLowerCase())) {
+        if (isThaiInput(itemTitle.current.value.toLowerCase()) && !isSubmitting) {
+            setIsSubmitting(true)
             try {
                 // Send an API call to the Node.js server to perform wordcut
                 const response = await axios.post('http://localhost:5000/wordcut', { text: itemTitle.current.value.toLowerCase(), skipFirstWord: true });
@@ -127,13 +129,19 @@ const SellItempage = () => {
                 const { searchPartial } = response.data;
                 addProduct(searchPartial);
             } catch (error) {
+                setIsSubmitting(false)
                 console.error(error);
-                showToastMessage('Error performing wordcut');
             }
-        } else{
-            const nameArray = itemTitle.current.value.toLowerCase().split(' ');
-            const searchPartial = nameArray.slice(1);
-            addProduct(searchPartial);
+        } else if (!isSubmitting) {
+            try {
+                setIsSubmitting(true)
+                const nameArray = itemTitle.current.value.toLowerCase().split(' ');
+                const searchPartial = nameArray.slice(1);
+                addProduct(searchPartial);
+            } catch (error) {
+                setIsSubmitting(false)
+                console.error(error);
+            }
         }
     };
 
