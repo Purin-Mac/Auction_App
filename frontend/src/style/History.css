@@ -9,6 +9,13 @@
     text-align: center;
 }
 
+ button{
+    margin: 5px;
+    padding: 3px 5px;
+    /* border-radius: 25px; */
+    text-align: center;
+}
+
 .active-current {
     background-color: #FFAAAA;
 }

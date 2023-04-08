@@ -24,10 +24,17 @@ export const Message = ({ chatData, anotherUserData, messages }) => {
                         <span>
                             {message.sendTime
                                 .toDate()
-                                .toLocaleString("en-US", {
+                                .toLocaleDateString("en-US", {
                                     dateStyle: "medium",
-                                    timeStyle: "short",
+                        
                                 })}
+                            
+                        </span>
+                        <span>
+                            {message.sendTime
+                                    .toDate()
+                                    .toLocaleTimeString(
+                                    )}
                         </span>
                     </div>
                     <div className="MessageContent">

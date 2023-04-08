@@ -44,7 +44,7 @@ const ProductSearch = ({ searchTerm }) => {
             console.log(substrings, typeof(substrings))
             const productsQuery = searchTerm ? query(productsCol, 
                 where('searchName', '>=', searchTerm.toLowerCase()), 
-                where('searchName', '<=', searchTerm.toLowerCase() + '\uf8ff')) : productsCol;
+                where('searchName', '<=', searchTerm.toLowerCase() + '\uffff')) : productsCol;
             // const productsQuery = searchTerm ? query(productsCol, 
             //     orderBy("searchName"), 
             //     startAt(searchTerm.toLowerCase()), 
