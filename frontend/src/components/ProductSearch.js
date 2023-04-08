@@ -3,51 +3,82 @@ import { db } from "../service/firebase";
 import { Timestamp, collection, endAt, onSnapshot, orderBy, query, startAt, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
-
+import axios from 'axios';
 
 const ProductSearch = ({ searchTerm }) => {
     const [products, setProducts] = useState([]);
+    const thaiRegex = /[\u0E00-\u0E7F]/;
+
+    const isThaiInput = (input) => {
+        return thaiRegex.test(input);
+    }
+
+    const wordcut = async(text) =>{
+        try {
+            // Send an API call to the Node.js server to perform wordcut
+            const response = await axios.post('http://localhost:5000/wordcut', { text: text, skipFirstWord: false });
+        
+            const { searchPartial }  = response.data;
+            // console.log(searchPartial, typeof(searchPartial))
+            // console.log([text])
+            // Extract the searchPartial from the response
+            return searchPartial
+        } catch (error) {
+            console.error(error);
+            return [text]
+        }
+    }
 
     useEffect(() => {
-        setProducts([])
-        console.log(searchTerm, typeof(searchTerm))
-        const productsCol = collection(db, "Products");
-        const term = searchTerm.toLowerCase();
-        const substrings = term.split(" ");
-        const productsQuery = searchTerm ? query(productsCol, 
-            where('searchName', '>=', searchTerm.toLowerCase()), 
-            where('searchName', '<=', searchTerm.toLowerCase() + '\uf8ff')) : productsCol;
-        // const productsQuery = searchTerm ? query(productsCol, 
-        //     orderBy("searchName"), 
-        //     startAt(searchTerm.toLowerCase()), 
-        //     endAt(searchTerm.toLowerCase() + '\uf8ff')) : productsCol;
-        const partialsQuery = searchTerm ? query(productsCol, 
-            where('searchPartial', 'array-contains-any', substrings)) : productsCol;
-        
-        const unsub1 = onSnapshot(productsQuery, (querySnapshot) => {
-            const productsTemp = [];
-            querySnapshot.forEach(doc => {
-                if (doc.data().duration && doc.data().duration > Timestamp.now()) {
-                    productsTemp.push( { id: doc.id, ...doc.data() } );
-                }
+        const fetchProducts = async () => {
+            setProducts([])
+            console.log(searchTerm, typeof(searchTerm))
+            const productsCol = collection(db, "Products");
+            const term = searchTerm.toLowerCase();
+            let substrings = []
+            if (isThaiInput(term)) {
+                substrings = await wordcut(term);
+            }else{
+                substrings = term.split(" ");
+            }
+            console.log(substrings, typeof(substrings))
+            const productsQuery = searchTerm ? query(productsCol, 
+                where('searchName', '>=', searchTerm.toLowerCase()), 
+                where('searchName', '<=', searchTerm.toLowerCase() + '\uf8ff')) : productsCol;
+            // const productsQuery = searchTerm ? query(productsCol, 
+            //     orderBy("searchName"), 
+            //     startAt(searchTerm.toLowerCase()), 
+            //     endAt(searchTerm.toLowerCase() + '\uf8ff')) : productsCol;
+            const partialsQuery = searchTerm ? query(productsCol, 
+                where('searchPartial', 'array-contains-any', substrings)) : productsCol;
+            
+            const unsub1 = onSnapshot(productsQuery, (querySnapshot) => {
+                const productsTemp = [];
+                querySnapshot.forEach(doc => {
+                    if (doc.data().duration && doc.data().duration > Timestamp.now()) {
+                        productsTemp.push( { id: doc.id, ...doc.data() } );
+                    }
+                });
+                setProducts(prevProducts => [...prevProducts, ...productsTemp]);
             });
-            setProducts(prevProducts => [...prevProducts, ...productsTemp]);
-        });
 
-        const unsub2 = onSnapshot(partialsQuery, (querySnapshot) => {
-            const productsTemp = [];
-            querySnapshot.forEach(doc => {
-                if (doc.data().duration && doc.data().duration > Timestamp.now()) {
-                    productsTemp.push({ id: doc.id, ...doc.data() });
-                }
+            const unsub2 = onSnapshot(partialsQuery, (querySnapshot) => {
+                const productsTemp = [];
+                querySnapshot.forEach(doc => {
+                    if (doc.data().duration && doc.data().duration > Timestamp.now()) {
+                        productsTemp.push({ id: doc.id, ...doc.data() });
+                    }
+                });
+                setProducts(prevProducts => [...new Set([...prevProducts, ...productsTemp])]);
             });
-            setProducts(prevProducts => [...new Set([...prevProducts, ...productsTemp])]);
-        });
 
-        return () => {
-            unsub1();
-            unsub2();
-        };
+            return () => {
+                unsub1();
+                unsub2();
+            };
+        }
+
+        fetchProducts();
     }, [searchTerm]);
 
     return (

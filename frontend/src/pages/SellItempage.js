@@ -5,12 +5,13 @@ import { Form, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { AuthContext } from "../service/AuthContext";
-import { db, storage, timestamp } from "../service/firebase";
+import { db, storage } from "../service/firebase";
 import { toast } from "react-toastify"
 import Footer from "../components/Footer";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { add } from 'date-fns';
+import axios from 'axios';
 
 const SellItempage = () => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const SellItempage = () => {
     const [ productID, setProductID ] = useState('');
     const [ productPic, setProductPic ] = useState(null);
     const location = useLocation();
-
+    
     const itemTitle = useRef();
     const itemInfo = useRef();
     const startPrice = useRef();
@@ -29,6 +30,7 @@ const SellItempage = () => {
     const [ itemDuration, setItemDuration ] = useState(null);
     const itemImage = useRef();
     const imgTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    const thaiRegex = /[\u0E00-\u0E7F]/;
 
     const showToastMessage = (msg) => {
         toast.error(msg, {
@@ -38,23 +40,14 @@ const SellItempage = () => {
             autoClose: 3000
         });
     };
+
+
+    const isThaiInput = (input) => {
+        return thaiRegex.test(input);
+    }
     
-    const handleSubmit = async(event) => {
-        event.preventDefault();
-
-        // let currentDate = new Date();
-        // let dueDate = new Date(currentDate);
-        // dueDate.setHours(currentDate.getHours() + Number(itemDuration.current.value));
-
+    const addProduct = async(searchPartial) => {
         let currentDate = Timestamp.now();
-        // let dueDate = currentDate.toDate();
-        // dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
-        
-        
-        
-        const nameArray = itemTitle.current.value.toLowerCase().split(' ');
-        const searchPartial = nameArray.slice(1);
-        
         if (productID) {
             const productRef = doc(db, "Products", productID);
             const updatedProductData = {
@@ -71,7 +64,7 @@ const SellItempage = () => {
             await updateDoc(productRef, updatedProductData)
             navigate(`/category_product?id=${categoryID}`);
         }
-        else {
+        else{
             if (!imgTypes.includes(itemImage.current.files[0].type)) {
                 return showToastMessage("Only JPEG, JPG and PNG files are accepted");
             }
@@ -111,6 +104,36 @@ const SellItempage = () => {
                     navigate(`/category_product?id=${categoryID}`);
                 });
             });
+        }
+    };
+
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+
+        // let currentDate = new Date();
+        // let dueDate = new Date(currentDate);
+        // dueDate.setHours(currentDate.getHours() + Number(itemDuration.current.value));
+
+        // let currentDate = Timestamp.now();
+        // let dueDate = currentDate.toDate();
+        // dueDate.setHours(dueDate.getHours() + Number(itemDuration.current.value));
+
+        if (isThaiInput(itemTitle.current.value.toLowerCase())) {
+            try {
+                // Send an API call to the Node.js server to perform wordcut
+                const response = await axios.post('http://localhost:5000/wordcut', { text: itemTitle.current.value.toLowerCase(), skipFirstWord: true });
+            
+                // Extract the searchPartial from the response
+                const { searchPartial } = response.data;
+                addProduct(searchPartial);
+            } catch (error) {
+                console.error(error);
+                showToastMessage('Error performing wordcut');
+            }
+        } else{
+            const nameArray = itemTitle.current.value.toLowerCase().split(' ');
+            const searchPartial = nameArray.slice(1);
+            addProduct(searchPartial);
         }
     };
 
