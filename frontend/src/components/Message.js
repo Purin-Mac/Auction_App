@@ -9,7 +9,7 @@ export const Message = ({ chatData, anotherUserData, messages }) => {
     const lastMessage = useRef();
 
     useEffect(() => {
-        lastMessage.current?.scrollIntoView({ behavior: "smooth" });
+        lastMessage.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, [messages]);
 
     return (
