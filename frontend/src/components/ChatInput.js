@@ -30,9 +30,10 @@ export const ChatInput = ({ setImgPreview }) => {
             //     });
             // });
 
+            const timestamp = Timestamp.now().toDate().getTime();
             const storageRef = ref(
                 storage,
-                `Chats/${currentChat}/${messageImg.name}`
+                `Chats/${currentChat}/${messageImg.name}_${timestamp}`
             );
             uploadBytes(storageRef, messageImg).then((snapshot) => {
                 console.log("Uploaded a file!");

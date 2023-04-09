@@ -88,10 +88,11 @@ const SellItempage = () => {
                     duration: itemDuration          
             };
     
-            const imageRef = ref(storage, `images/${productsData.productName}`);
+            const timestamp = currentDate.toDate().getTime();
+            const imageRef = ref(storage, `images/${productsData.productName}_${timestamp}`);
             uploadBytes(imageRef, productsData.productPhoto).then((snapshot) => {
                 console.log('Uploaded a file!');
-                getDownloadURL(ref(storage, `images/${productsData.productName}`)).then((url) => {
+                getDownloadURL(ref(storage, `images/${productsData.productName}_${timestamp}`)).then((url) => {
                     // console.log(url);
                     productsData.productPhoto = url;
                     const productCol = collection(db, "Products");

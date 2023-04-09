@@ -775,6 +775,10 @@ main h3{
   gap: 10px;
 } */
 
+.Chatzone .Message2 .Message1 .MessageContent {
+  width: 70%;
+}
+
 .Chatzone .Message2 .Message1 .MessageContent img{
   width: 50%;
 }
@@ -815,8 +819,13 @@ main h3{
   align-items: flex-end;
 } */
 
+.Chatzone .Message2 .Message1-Owner .MessageContent {
+  width: 70%;
+}
+
 .Chatzone .Message2 .Message1-Owner .MessageContent img{
   width: 50%;
+  float:  right;
 }
 
 .Chatzone .Message2 .Message1-Owner .MessageContent p{
@@ -825,6 +834,7 @@ main h3{
   padding: 10px;
   border-radius: 10px 0px 10px 10px;
   max-width: max-content;
+  float: right
 }
 
 .MessageInfo span {

@@ -110,6 +110,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const signOUT = () => {
+        setcurrentChat(null);
         signOut(auth).then(() => {
             navigate('/')
         })
