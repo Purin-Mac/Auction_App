@@ -70,7 +70,7 @@ const SellItempage = () => {
                 return showToastMessage("Only JPEG, JPG and PNG files are accepted");
             }
 
-            if (buyNowPrice && buyNowPrice < startPrice * 1.3) {
+            if (Number(buyNowPrice.current.value) < Math.ceil((Number(startPrice.current.value)/100) * 130)) {
                 return showToastMessage("Buy Now Price must be at least 30% more than Start Price.");;
             }
 
@@ -134,9 +134,9 @@ const SellItempage = () => {
                 const { searchPartial } = response.data;
                 addProduct(searchPartial);
             } catch (error) {
-                setIsSubmitting(false)
                 console.error(error);
             }
+            setIsSubmitting(false)
         } else if (!isSubmitting) {
             try {
                 setIsSubmitting(true)
@@ -144,9 +144,9 @@ const SellItempage = () => {
                 const searchPartial = nameArray.slice(1);
                 addProduct(searchPartial);
             } catch (error) {
-                setIsSubmitting(false)
                 console.error(error);
             }
+            setIsSubmitting(false)
         }
     };
 

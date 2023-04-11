@@ -7,6 +7,7 @@ export const genUsers = (database) => {
     const usersData = [ 
         {
             userName: "purin petch-in",
+            userPhoto: "",
             firstName: "",
             lastName: "",
             email: "purin.mac.2001@gmail.com",
@@ -17,10 +18,12 @@ export const genUsers = (database) => {
                 city: "",
                 state: "",
                 zip: ""
-            }
+            },
+            money: 0
         }, 
         {
             userName: "ภูรินท์ เพ็ชรอินทร์",
+            userPhoto: "",
             firstName: "",
             lastName: "",
             email: "s6201012620325@email.kmutnb.ac.th",
@@ -31,7 +34,8 @@ export const genUsers = (database) => {
                 city: "",
                 state: "",
                 zip: ""
-            }
+            },
+            money: 0
         }
     ];
     const usersCol = collection(database, "Users");

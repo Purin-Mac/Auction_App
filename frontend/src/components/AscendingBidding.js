@@ -5,7 +5,7 @@ import { db } from "../service/firebase";
 
 const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) => {
     const { currentUser, userData } = useContext(AuthContext);
-    const incrementBid = Math.ceil((product.startPrice/100) * 115)
+    const incrementBid = Math.ceil((product.startPrice/100) * 15)
 
     const inputRef = useRef(null);
     const inputAutoBidRef = useRef(null);
@@ -127,11 +127,12 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
 
     //set highest bid
     useEffect(() => {
-        const docRef = doc(db, "Products", productID);
+        const productRef = doc(db, "Products", productID);
+        const bidRef = doc(collection(productRef, "Bids"));
         const userRef = doc(db, "Users", userData.id);
         // console.log("Bid price: ", bidPrice);
         const updateBid = async (transaction) => {
-            const doc = await transaction.get(docRef);
+            const doc = await transaction.get(productRef);
             const userDoc = await transaction.get(userRef);
             if (!doc.exists()) {
                 console.log("Document does not exist!");
@@ -141,16 +142,23 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
             const userDataFB = userDoc.data();
             // console.log(docData);
             // console.log(userDataFB.money);
+            const bidData = {
+                bidder: currentUser.email,
+                price: bidPrice,
+                timestamp: Timestamp.now()
+            };
             if (
                 currentUser.email !== docData.currentBidder &&
                 bidPrice > Number(docData.currentPrice) &&
                 bidPrice >= docData.currentPrice + incrementBid &&
                 bidPrice <= userDataFB.money
             ) {
-                transaction.update(docRef, {
+                transaction.update(productRef, {
                     currentPrice: bidPrice,
                     currentBidder: currentUser.email,
                 });
+
+                transaction.set(bidRef, bidData);
                 console.log("New bid update successfully");
             } else if (
                 bidPrice < docData.currentPrice + incrementBid
@@ -181,7 +189,7 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
                 });
         }
 
-        const unsub = onSnapshot(docRef, (doc) => {
+        const unsub = onSnapshot(productRef, (doc) => {
             if (doc.exists()) {
                 setProduct({ id: doc.id, ...doc.data() });
                 const docData = doc.data();
