@@ -780,6 +780,9 @@ main h3{
 }
 
 .Chatzone .Message2 .Message1 .MessageContent img{
+  background-color: white;
+  padding: 10px;
+  border-radius: 0 10px 10px 10px;
   width: 50%;
 }
 
@@ -824,6 +827,9 @@ main h3{
 }
 
 .Chatzone .Message2 .Message1-Owner .MessageContent img{
+  background-color: #8da4f1;
+  padding: 10px;
+  border-radius: 10px 0px 10px 10px;
   width: 50%;
   float:  right;
 }

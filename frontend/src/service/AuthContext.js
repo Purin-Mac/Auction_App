@@ -143,6 +143,8 @@ export const AuthProvider = ({ children }) => {
         // const userData = userDoc.data();
         // setUserData(userDoc);
     }
+
+    
     
     useEffect(() => {
         const promises = Object.keys(appsPicture).map(async (key) => {

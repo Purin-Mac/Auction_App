@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, onSnapshot, query, Timestamp, where } from "firebase/firestore";
+import { collection, doc, getCountFromServer, getDoc, getDocs, limit, onSnapshot, orderBy, query, startAt, Timestamp, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
@@ -6,14 +6,19 @@ import Header from "../components/Header";
 import { db, timestamp } from "../service/firebase";
 import { Link } from 'react-router-dom';
 import Footer from "../components/Footer.js";
+import Paginate from "../components/Paginate";
 
 const ProductListpage = () => {
     const [ products, setProducts ] = useState([]);
     const [ categoryName, setCategoryName ] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const productsPerPage = 12;
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const categoryID = searchParams.get("id");
 
+    //get category info
     useEffect(() => {
         const categoryRef = doc(db, "Categories", categoryID);
         getDoc(categoryRef).then((doc) => {
@@ -27,29 +32,50 @@ const ProductListpage = () => {
         });
     }, [categoryID]);
 
+    //get number of products
+    useEffect(() => {
+        const fetchProductCount = async() => {
+            const productCol = collection(db, "Products");
+            const snapshot = await getCountFromServer(productCol);
+            console.log('count: ', snapshot.data().count);
+            setTotalPages(Math.ceil(snapshot.data().count / productsPerPage))
+        }
+
+        fetchProductCount();
+    }, []);
+
+    //get products
     useEffect(() => {
         // console.log(categoryName, categoryID)
         const productsCol = collection(db, "Products");
-        const q = query(productsCol, where("categoryID", "==", categoryID), where("duration", ">=", Timestamp.now()), where("isBrought", "==", false));  
-        const unsub = onSnapshot(q, (querySnapshot) => {
+        const startIndex = (currentPage - 1) * productsPerPage;
+        const q = query(productsCol, 
+            where("categoryID", "==", categoryID), 
+            where("duration", ">=", Timestamp.now()), 
+            where("isBrought", "==", false),
+            orderBy("duration"),
+            startAt(startIndex),
+            limit(productsPerPage)
+        );
+        getDocs(q).then((querySnapshot) => {
             const productsTemp = [];
-            querySnapshot.forEach(doc => {
-                productsTemp.push( { id: doc.id, ...doc.data() } );
+            querySnapshot.forEach((doc) => {
+              productsTemp.push({ id: doc.id, ...doc.data() });
             });
             setProducts(productsTemp);
-        });
-
-        // getDocs(q).then(querySnapshot => {
+        });  
+        // const unsub = onSnapshot(q, (querySnapshot) => {
+        //     const productsTemp = [];
         //     querySnapshot.forEach(doc => {
         //         productsTemp.push( { id: doc.id, ...doc.data() } );
         //     });
         //     setProducts(productsTemp);
-        // })
+        // });
 
-        return () => {
-            unsub();
-        };
-    }, [categoryID]);
+        // return () => {
+        //     unsub();
+        // };
+    }, [categoryID, currentPage]);
     
     return (
         <>
@@ -73,6 +99,9 @@ const ProductListpage = () => {
                     ))
                 : <h3>None</h3> }
             </Row>
+            {totalPages && 
+                <Paginate currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPages} />
+            }
             <Footer/>
         </>
     );

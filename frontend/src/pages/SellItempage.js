@@ -70,6 +70,10 @@ const SellItempage = () => {
                 return showToastMessage("Only JPEG, JPG and PNG files are accepted");
             }
 
+            if (buyNowPrice && buyNowPrice < startPrice * 1.3) {
+                return showToastMessage("Buy Now Price must be at least 30% more than Start Price.");;
+            }
+
             const productsData = {
                 sellerEmail: currentUser.email,
                     categoryID: categoryID,
