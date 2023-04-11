@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import {
     collection,
+    collectionGroup,
     doc,
     getDoc,
     getDocs,
@@ -131,26 +132,59 @@ const BuyingHistorypage = () => {
     useEffect(() => {
         setIsLoading(true);
         if (activeButton === "current") {
-            const productsCols = collection(db, "Products");
+            const bidsCols = collectionGroup(db, "Bids");
             const q = query(
-                productsCols,
-                where("duration", "<", Timestamp.now()),
-                where("isBrought", "==", false),
-                where("currentBidder", "==", currentUser.email)
+                bidsCols,
+                where("bidder", "==", currentUser.email)
             );
-            const unsubscribe = onSnapshot(q, querySnapshot => {
+            getDocs(q).then((querySnapshot) => {
                 const productsTemp = [];
+                const productsUnique = new Set();
+                const promises = [];
                 querySnapshot.forEach(doc => {
-                    productsTemp.push({ id: doc.id, ...doc.data() });
+                    // console.log(doc.id)
+                    const productRef = doc.ref.parent.parent;
+                    const productId = productRef.id;
+                    if (!productsUnique.has(productId)) {
+                        productsUnique.add(productId)
+                        const promise = getDoc(productRef).then((productDoc) => {
+                            if (productDoc.exists && !productDoc.data().isBrought) {
+                                // console.log(productDoc.id)
+                                productsTemp.push({ id: productDoc.id, ...productDoc.data() });
+                            }
+                        })
+                        promises.push(promise);
+                    }
                 });
-                setProducts(productsTemp);
-                setIsLoading(false);
+                // console.log(productsTemp)
+                Promise.all(promises).then(() => {
+                    setProducts(productsTemp);
+                    setIsLoading(false);
+                  });
             }, error => {
                 console.log(error);
                 setIsLoading(false);
             });
+            // const productsCols = collection(db, "Products");
+            // const q = query(
+            //     productsCols,
+            //     where("duration", "<", Timestamp.now()),
+            //     where("isBrought", "==", false),
+            //     where("currentBidder", "==", currentUser.email)
+            // );
+            // const unsubscribe = onSnapshot(q, querySnapshot => {
+            //     const productsTemp = [];
+            //     querySnapshot.forEach(doc => {
+            //         productsTemp.push({ id: doc.id, ...doc.data() });
+            //     });
+            //     setProducts(productsTemp);
+            //     setIsLoading(false);
+            // }, error => {
+            //     console.log(error);
+            //     setIsLoading(false);
+            // });
 
-            return () => unsubscribe();
+            // return () => unsubscribe();
         } else if (activeButton === "history") {
             const productsTemp = [];
             const itemsCols = collection(db, "Users", userData.id, "Items");
@@ -196,6 +230,20 @@ const BuyingHistorypage = () => {
         }
     };
 
+    const rendererAuction = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            return <p>Auction has end</p>;
+        } else {
+            return (
+                <div>
+                    <p>
+                        Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds
+                    </p>
+                </div>
+            );
+        }
+    }
+
     return (
         <div className="paint">
             <Header />
@@ -204,7 +252,7 @@ const BuyingHistorypage = () => {
                 <Sidebar />
                 <div className="History-container" >
                     <div className="topside">
-                    <h3>Buying History</h3>
+                    <h3>BuyingHistorypage</h3>
                         <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
                     </div>
                     <div className="content">
@@ -216,15 +264,27 @@ const BuyingHistorypage = () => {
                                     <div key={product.id} className="History-products">
                                         <img src={product.productPhoto} alt="product pic"></img>
                                         <h5>{product.productName}</h5>
-                                        <h5>Price: {product.currentPrice?.toLocaleString()} THB</h5>
-                                        {product.isSend ? (
-                                            <Countdown
-                                            date={limitPayTime(product.sendAt)}
-                                            renderer={(props) =>
-                                                renderer(props, product.id)
-                                            }
-                                            />
-                                            ) : <h5>Waiting for seller.</h5>}
+                                        {product.duration && product.duration > Timestamp.now() ? (
+                                            <>
+                                                {/* <h5>Highest Bid: {product.currentPrice?.toLocaleString()} THB</h5> */}
+                                                <Countdown
+                                                date={product.duration.toDate()}
+                                                renderer={(props) => rendererAuction(props, product.currentPrice)}/>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <h5>Price: {product.currentPrice?.toLocaleString()} THB</h5>
+                                                {product.isSend ? (
+                                                    <Countdown
+                                                    date={limitPayTime(product.sendAt)}
+                                                    renderer={(props) =>
+                                                        renderer(props, product.id)
+                                                    }
+                                                    />
+                                                ) : <h5>Waiting for seller.</h5>}
+                                            </>
+                                            )
+                                        }
                                     </div>
                             ))
                         ) : (
