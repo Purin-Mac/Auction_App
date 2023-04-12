@@ -5,13 +5,13 @@ import { db } from "../service/firebase";
 
 const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) => {
     const { currentUser, userData } = useContext(AuthContext);
-    const incrementBid = Math.ceil((product.startPrice/100) * 15)
-
+    
     const inputRef = useRef(null);
     const inputAutoBidRef = useRef(null);
     const previousBidPriceRef = useRef(null);
     const [bidPrice, setBidPrice] = useState(0);
     const [autoBidPrice, setAutoBidPrice] = useState(0);
+    const [incrementBid, setIncrementBid] = useState(0);
     
 
     //submit bid price
@@ -120,10 +120,12 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
 
     //set the minimum bid
     useEffect(() => {
-        if (product && inputRef.current && incrementBid) {
-            inputRef.current.value = product.currentPrice + incrementBid
+        if (product && inputRef.current) {
+            const increaseBid = Math.ceil((product.currentPrice/100) * 10);
+            inputRef.current.value = product.currentPrice + increaseBid;
+            setIncrementBid(increaseBid)
         }
-    }, [product, incrementBid]);
+    }, [product]);
 
     //set highest bid
     useEffect(() => {

@@ -28,6 +28,8 @@ const SellItempage = () => {
     const startPrice = useRef();
     const buyNowPrice = useRef();
     // const itemDuration = useRef();
+    const [ auctionType, setAuctionType ] = useState("");
+    const [ itemStartTime, setItemStartTime ] = useState(null);
     const [ itemDuration, setItemDuration ] = useState(null);
     const itemImage = useRef();
     const imgTypes = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -56,10 +58,12 @@ const SellItempage = () => {
                 searchName: itemTitle.current.value.toLowerCase(),
                 searchPartial: searchPartial,
                 productInfo: itemInfo.current.value,
+                auctionType: auctionType,
                 startPrice: Number(startPrice.current.value),
                 currentPrice: Number(startPrice.current.value),
                 buyNowPrice: 0 || Number(buyNowPrice.current.value),
                 createAt: currentDate,
+                startTime: itemStartTime,
                 duration: itemDuration          
             };
             await updateDoc(productRef, updatedProductData)
@@ -82,6 +86,7 @@ const SellItempage = () => {
                     searchPartial: searchPartial,
                     productPhoto: itemImage.current.files[0],
                     productInfo: itemInfo.current.value,
+                    auctionType: auctionType,
                     startPrice: Number(startPrice.current.value),
                     currentPrice: Number(startPrice.current.value),
                     buyNowPrice: 0 || Number(buyNowPrice.current.value),
@@ -89,6 +94,7 @@ const SellItempage = () => {
                     isBrought: false,
                     isSend: false,
                     createAt: currentDate,
+                    startTime: itemStartTime,
                     duration: itemDuration          
             };
     
@@ -165,7 +171,6 @@ const SellItempage = () => {
                     itemTitle.current.value = productData.productName;
                     itemInfo.current.value = productData.productInfo;
                     startPrice.current.value = productData.startPrice;
-                    buyNowPrice.current.value = productData.buyNowPrice || 0;
                     // setItemDuration(productData.duration.toDate())
                     setProductPic(productData.productPhoto);
                 } else {
@@ -215,6 +220,22 @@ const SellItempage = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
+                        <Form.Label>Auction Type</Form.Label>
+                        <Form.Select value={auctionType} onChange={(e) => {
+                            setAuctionType(e.target.value)
+                            if (e.target.value !== 'English') {
+                                buyNowPrice.current.value = null;
+                            }
+                        }} required>
+                            <option value="">-- Select Auction Type --</option>
+                            <option value="English">English Auction</option>
+                            <option value="FirstPrice">First-Price Seal-Bid Auction</option>
+                            <option value="SecondPrice">Second-Price Seal-Bid Auction</option>
+                            <option value="Dutch">Dutch Auction</option>
+                        </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
                         <Form.Label>Product Info</Form.Label>
                         <Form.Control as="textarea" rows={4} required ref={itemInfo} />
                     </Form.Group>
@@ -224,7 +245,7 @@ const SellItempage = () => {
                         <Form.Control type="number" min={1} required ref={startPrice} onWheel={event => event.currentTarget.blur()}/>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" style={auctionType !== "English" ? { display: "none" } : null}>
                         <Form.Label>Buy Now Price (default: none)</Form.Label>
                         <Form.Control type="number" min={0} ref={buyNowPrice} onWheel={event => event.currentTarget.blur()}/>
                     </Form.Group>
@@ -232,20 +253,36 @@ const SellItempage = () => {
                     <Form.Group className="mb-3">
                         <Form.Label>Auction Duration (Max 7 days)</Form.Label>
                         {/* <Form.Control type="number" max={168} required ref={itemDuration} onWheel={event => event.currentTarget.blur()}/> */}
-                        <DatePicker 
-                            customInput={<Form.Control />}
-                            selected={itemDuration}
-                            onChange={(date) => setItemDuration(date)}
-                            showTimeSelect
-                            timeFormat="HH:mm"
-                            timeIntervals={15}
-                            dateFormat="dd/MM/yyyy HH:mm"
-                            minDate={Timestamp.now().toDate()}
-                            maxDate={add(Timestamp.now().toDate(), { days: 7 })}
-                            popperPlacement="top"
-                            required
-                            isClearable
-                        />
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <DatePicker 
+                                customInput={<Form.Control />}
+                                selected={itemStartTime}
+                                onChange={(date) => setItemStartTime(date)}
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="dd/MM/yyyy HH:mm"
+                                minDate={Timestamp.now().toDate()}
+                                maxDate={add(Timestamp.now().toDate(), { days: 2 })}
+                                popperPlacement="top"
+                                required
+                                isClearable
+                                />
+                            <DatePicker 
+                                customInput={<Form.Control />}
+                                selected={itemDuration}
+                                onChange={(date) => setItemDuration(date)}
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="dd/MM/yyyy HH:mm"
+                                minDate={itemStartTime? itemStartTime : Timestamp.now().toDate()}
+                                maxDate={itemStartTime? add(itemStartTime, { days: 7 }) : add(Timestamp.now().toDate(), { days: 7 })}
+                                popperPlacement="top"
+                                required
+                                isClearable
+                            />
+                        </div>
                     </Form.Group>
 
                     <Form.Group controlId="formFile" className="mb-3">

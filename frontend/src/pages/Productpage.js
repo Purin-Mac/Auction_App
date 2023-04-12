@@ -21,6 +21,7 @@ function Productpage() {
     const { currentUser, userData, updateUserData } = useContext(AuthContext);
     const [ product, setProduct ] = useState([]);
     const [ sellerData, setSellerData ] = useState([]);
+    const [isWaiting, setIsWaiting] = useState(true);
 
     // const navigate = useNavigate();
     const location = useLocation();
@@ -70,18 +71,37 @@ function Productpage() {
         }
     }, [product.sellerEmail]);
 
+    const handleCountdownComplete = () => {
+        setIsWaiting(false);
+    };
+
     if (product === []) {
         return <h3>Loading...</h3>;
     }
 
-    const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    const waitingRenderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            handleCountdownComplete();
+            return null;
+        }
+        else {
+            return (
+                <>
+                    <h3>Auction Type: {product.auctionType}</h3>
+                    <h5 style={{ textAlign: "left", font: "bold"}}>Time before auction start: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
+                </>
+            );
+        }
+    };
+
+    const AuctionRenderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
             return <h3>Auction has end.</h3>
         }
         else{
             return (
                 <>
-                    {currentUser.email !== product.sellerEmail ?    
+                    {/* {currentUser.email !== product.sellerEmail ?     */}
                         <div>
                             {product.isBrought ?
                                 (currentUser.email !== product.currentBuyer ?
@@ -90,13 +110,14 @@ function Productpage() {
                                     </>
                                 : <h3>You have purchased this product.</h3>)
                             : null}
+                            <h3>Auction Type: {product.auctionType}</h3>
                             <h5 style={{ textAlign: "left", font: "bold"}}>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
-                            {product.currentPrice === product.startPrice ? 
+                            {product.currentPrice === product.startPrice || product.auctionType !== "English"? 
                             <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.currentPrice?.toLocaleString()} Baht</h5>
                             : <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice?.toLocaleString()} Baht</h5>}
                             <AscendingBidding product={product} setProduct={setProduct} productID={productID} showToastMessage={showToastMessage}/>
                         </div>    
-                    : <h3>You are the owner.</h3>}
+                    {/* : <h3>You are the owner.</h3>} */}
                 </>    
             )
         }
@@ -124,12 +145,21 @@ function Productpage() {
                     
                         <div className="column-sale">
                             <div className="card-sale-2">
-                            {product.duration && (
-                                <Countdown
-                                    date={product.duration.toDate()}
-                                    renderer={renderer}
-                                />
-                            )}
+                                {currentUser.email !== product.sellerEmail ?
+                                    (product.startTime && product.startTime < Timestamp.now && isWaiting? (
+                                        <Countdown
+                                            date={product.startTime.toDate()}
+                                            renderer={waitingRenderer}
+                                        />
+                                    ) : (
+                                        (product.duration && (
+                                            <Countdown
+                                                date={product.duration.toDate()}
+                                                renderer={AuctionRenderer}
+                                            />
+                                        ))
+                                    ))
+                                : <h3>You are the owner.</h3>}
                             </div>
                         </div>
                     </div>
