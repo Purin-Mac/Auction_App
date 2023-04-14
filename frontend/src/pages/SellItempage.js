@@ -255,6 +255,25 @@ const SellItempage = () => {
         return currentDate.getTime() < selectedDate.getTime();
     };
 
+    const filterPassedOneHour = (time) => {
+        const currentDate = Timestamp.now().toDate();
+        const selectedDate = new Date(time);
+      
+        if (itemStartTime) {
+          const oneHourAfterStartTime = add(itemStartTime, { minutes: 59 });
+          return (
+            currentDate.getTime() < selectedDate.getTime() &&
+            selectedDate.getTime() >= oneHourAfterStartTime.getTime()
+          );
+        } else {
+            const oneHourAfterNow = add(currentDate, { hours: 1 });
+            return (
+              currentDate.getTime() < selectedDate.getTime() &&
+              selectedDate.getTime() >= oneHourAfterNow.getTime()
+            );
+        }
+    };
+
     return (
         <>
             <Header />
@@ -335,6 +354,13 @@ const SellItempage = () => {
                                 dateFormat="dd/MM/yyyy HH:mm"
                                 minDate={itemStartTime? itemStartTime : Timestamp.now().toDate()}
                                 maxDate={itemStartTime? add(itemStartTime, { days: 7 }) : add(Timestamp.now().toDate(), { days: 7 })}
+                                filterTime={filterPassedOneHour}
+                                // excludeTimes={itemStartTime ? [
+                                //     add(itemStartTime, { minutes: 15 }),
+                                //     add(itemStartTime, { minutes: 30 }),
+                                //     add(itemStartTime, { minutes: 45 }),
+                                //     add(itemStartTime, { hours: 1 })
+                                // ] : []}
                                 popperPlacement="top"
                                 required
                                 isClearable
