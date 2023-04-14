@@ -1,7 +1,7 @@
 import { addDoc, collection, doc, getDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { AuthContext } from "../service/AuthContext";
@@ -12,6 +12,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { add } from 'date-fns';
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import "../style/tooltip.css"
 
 const SellItempage = () => {
     const navigate = useNavigate();
@@ -21,6 +24,7 @@ const SellItempage = () => {
     const [ productID, setProductID ] = useState('');
     const [ productPic, setProductPic ] = useState(null);
     const [ isSubmitting, setIsSubmitting ] = useState(false);
+    let tooltipContent;
     const location = useLocation();
     
     const itemTitle = useRef();
@@ -156,6 +160,48 @@ const SellItempage = () => {
         }
     };
 
+    const tooltipEnglish = (
+        <Tooltip id="tooltipEnglish" className="my-tooltip">
+          English Auction: The price starts low and increases with each bid until no one is willing to bid higher.
+        </Tooltip>
+    );
+    const tooltipFirstPrice = (
+        <Tooltip id="tooltipFirstPrice" className="my-tooltip">
+            First-Price Seal-Bid Auction: Each bidder submits a sealed bid and the highest bidder wins, paying their bid amount.
+        </Tooltip>
+    );
+    const tooltipSecondPrice = (
+        <Tooltip id="tooltipSecondPrice" className="my-tooltip">
+            Second-Price Seal-Bid Auction: Each bidder submits a sealed bid and the highest bidder wins, paying the second-highest bid amount.
+        </Tooltip>
+    );
+    const tooltipDutch = (
+        <Tooltip id="tooltipDutch" className="my-tooltip">
+            Dutch Auction: The price starts high and decreases until someone is willing to bid, then that person wins the item at the current price.
+        </Tooltip>
+    );
+
+    switch (auctionType) {
+    case "English":
+        tooltipContent = tooltipEnglish;
+        break;
+    case "FirstPrice":
+        tooltipContent = tooltipFirstPrice;
+        break;
+    case "SecondPrice":
+        tooltipContent = tooltipSecondPrice;
+        break;
+    case "Dutch":
+        tooltipContent = tooltipDutch;
+        break;
+    default:
+        tooltipContent = (
+        <Tooltip id="tooltipDefault" className="my-tooltip">
+            Please select an auction type.
+        </Tooltip>
+        );
+    }
+
     //get product data
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -202,6 +248,13 @@ const SellItempage = () => {
         };
     }, [categoryID]);
 
+    const filterPassedTime = (time) => {
+        const currentDate = Timestamp.now().toDate();
+        const selectedDate = new Date(time);
+    
+        return currentDate.getTime() < selectedDate.getTime();
+    };
+
     return (
         <>
             <Header />
@@ -221,6 +274,9 @@ const SellItempage = () => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Auction Type</Form.Label>
+                        <OverlayTrigger key={auctionType} placement="right" overlay={tooltipContent}>
+                            <FontAwesomeIcon className="fa" icon={faCircleInfo} />
+                        </OverlayTrigger>
                         <Form.Select value={auctionType} onChange={(e) => {
                             setAuctionType(e.target.value)
                             if (e.target.value !== 'English') {
@@ -264,6 +320,7 @@ const SellItempage = () => {
                                 dateFormat="dd/MM/yyyy HH:mm"
                                 minDate={Timestamp.now().toDate()}
                                 maxDate={add(Timestamp.now().toDate(), { days: 2 })}
+                                filterTime={filterPassedTime}
                                 popperPlacement="top"
                                 required
                                 isClearable
