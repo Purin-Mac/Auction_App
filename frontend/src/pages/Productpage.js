@@ -14,6 +14,7 @@ import Hood from '../resources/Bronx Hoodie.png';
 import RelatedProduct from "../components/RelatedProduct";
 import Createchat from "../components/Createchat";
 import AscendingBidding from "../components/AscendingBidding";
+import SealBidding from "../components/SealBidding";
 
 // import User from "../service/User";
 
@@ -115,7 +116,11 @@ function Productpage() {
                             {product.currentPrice === product.startPrice || product.auctionType !== "English"? 
                             <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.currentPrice?.toLocaleString()} Baht</h5>
                             : <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice?.toLocaleString()} Baht</h5>}
-                            <AscendingBidding product={product} setProduct={setProduct} productID={productID} showToastMessage={showToastMessage}/>
+                            {product.auctionType === "English" ? (
+                                <AscendingBidding product={product} setProduct={setProduct} productID={productID} showToastMessage={showToastMessage}/>
+                            ) : product.auctionType === "FirstPrice" || product.auctionType === "SecondPrice"?(
+                                <SealBidding product={product} setProduct={setProduct} productID={productID} showToastMessage={showToastMessage}/>
+                            ) : null}
                         </div>    
                     {/* : <h3>You are the owner.</h3>} */}
                 </>    

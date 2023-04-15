@@ -83,7 +83,7 @@ const SellItempage = () => {
             }
 
             const productsData = {
-                sellerEmail: currentUser.email,
+                    sellerEmail: currentUser.email,
                     categoryID: categoryID,
                     productName: itemTitle.current.value,
                     searchName: itemTitle.current.value.toLowerCase(),

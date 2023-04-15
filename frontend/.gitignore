@@ -2,6 +2,7 @@
 
 # resource
 resources/
+SeedDB.js
 
 # dependencies
 /node_modules
