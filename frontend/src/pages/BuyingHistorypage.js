@@ -148,7 +148,8 @@ const BuyingHistorypage = () => {
                     if (!productsUnique.has(productId)) {
                         productsUnique.add(productId)
                         const promise = getDoc(productRef).then((productDoc) => {
-                            if (productDoc.exists && !productDoc.data().isBrought) {
+                            if (productDoc.exists && !productDoc.data().isBrought && 
+                                (productDoc.data().currentBidder === currentUser.email || productDoc.data().duration > Timestamp.now())) {
                                 // console.log(productDoc.id)
                                 productsTemp.push({ id: productDoc.id, ...productDoc.data() });
                             }
@@ -160,7 +161,7 @@ const BuyingHistorypage = () => {
                 Promise.all(promises).then(() => {
                     setProducts(productsTemp);
                     setIsLoading(false);
-                  });
+                });
             }, error => {
                 console.log(error);
                 setIsLoading(false);
@@ -283,7 +284,7 @@ const BuyingHistorypage = () => {
                                                     />
                                                 ) : <h5>Waiting for seller.</h5>}
                                             </>
-                                            )
+                                        )
                                         }
                                     </div>
                             ))

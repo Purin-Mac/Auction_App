@@ -22,7 +22,7 @@ function Productpage() {
     const { currentUser, userData, updateUserData } = useContext(AuthContext);
     const [ product, setProduct ] = useState([]);
     const [ sellerData, setSellerData ] = useState([]);
-    const [isWaiting, setIsWaiting] = useState(true);
+    const [isWaiting, setIsWaiting] = useState(false);
 
     // const navigate = useNavigate();
     const location = useLocation();
@@ -72,6 +72,13 @@ function Productpage() {
         }
     }, [product.sellerEmail]);
 
+    //set waiting
+    useEffect(() => {
+        if (product.startTime && product.startTime > Timestamp.now) {
+          setIsWaiting(true);
+        }
+    }, [product.startTime]);
+
     const handleCountdownComplete = () => {
         setIsWaiting(false);
     };
@@ -114,7 +121,7 @@ function Productpage() {
                             <h3>Auction Type: {product.auctionType}</h3>
                             <h5 style={{ textAlign: "left", font: "bold"}}>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
                             {product.currentPrice === product.startPrice || product.auctionType !== "English"? 
-                            <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.currentPrice?.toLocaleString()} Baht</h5>
+                            <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.startPrice?.toLocaleString()} Baht</h5>
                             : <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice?.toLocaleString()} Baht</h5>}
                             {product.auctionType === "English" ? (
                                 <AscendingBidding product={product} setProduct={setProduct} productID={productID} showToastMessage={showToastMessage}/>
@@ -151,7 +158,7 @@ function Productpage() {
                         <div className="column-sale">
                             <div className="card-sale-2">
                                 {currentUser.email !== product.sellerEmail ?
-                                    (product.startTime && product.startTime < Timestamp.now && isWaiting? (
+                                    (product.startTime && isWaiting? (
                                         <Countdown
                                             date={product.startTime.toDate()}
                                             renderer={waitingRenderer}
