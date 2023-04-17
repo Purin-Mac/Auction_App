@@ -6,6 +6,7 @@ import {
     onSnapshot,
     orderBy,
     query,
+    runTransaction,
     Timestamp,
     updateDoc,
     where,
@@ -46,7 +47,7 @@ const SellingHistorypage = () => {
                 productsCols,
                 where("isBrought", "==", false),
                 where("sellerEmail", "==", currentUser.email),
-                orderBy("duration", "desc")
+                orderBy("createAt", "desc")
             );
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const productsTemp = [];
@@ -87,11 +88,73 @@ const SellingHistorypage = () => {
         }
     }, [activeButton]);
 
-    const handleDeliver = async (productID) => {
+    const handleDeliver = async(productID) => {
         const productRef = doc(db, "Products", productID);
         await updateDoc(productRef, {
             isSend: true,
             sendAt: Timestamp.now()
+        });
+    };
+
+    const handleConfirmPayment = async(productID) => {
+        const productRef = doc(db, "Products", productID);
+        const sellerRef = doc(db, "Users", userData.id);
+        const sellerItemsRef = doc(sellerRef, 'Items', productID);
+        const currentDate = Timestamp.now();
+        runTransaction(db, async(transaction) => {
+            const productDoc = await transaction.get(productRef);
+            const sellerDoc = await transaction.get(sellerRef);
+            if (!productDoc.exists() || !sellerDoc.exists()) {
+                // console.log("Document does not exist!");
+                // return;
+                throw new Error("Document does not exist!");
+            }
+            
+            const productData = productDoc.data();
+            // const sellerData = sellerDoc.data();
+            if (!productData.isBrought) {
+                const buyerQuerySnapshot = await getDocs(query(collection(db, "Users"),where("email", "==", productData.currentBidder)));  
+                
+                if (!buyerQuerySnapshot.empty) {
+                    const buyerDoc = buyerQuerySnapshot.docs[0];
+                    const buyerItemRef = doc(buyerDoc.ref, 'Items', productID);
+                    // const buyerData = buyerDoc.data();
+
+                    transaction.update(productRef,{
+                        isBrought: true,
+                        currentBuyer: productData.currentBidder,
+                        broughtAt: currentDate
+                    });
+                    
+                    transaction.set(buyerItemRef, {
+                        productName: productData.productName,
+                        productPhoto: productData.productPhoto,
+                        price: productData.currentPrice,
+                        broughtAt: productData.duration,
+                        payAt: currentDate,
+                        productRef: productRef,
+                        sellerEmail: productData.sellerEmail
+                    });
+
+                    transaction.set(sellerItemsRef, {
+                        productName: productData.productName,
+                        productPhoto: productData.productPhoto,
+                        price: productData.currentPrice,
+                        broughtAt: productData.duration,
+                        payAt: currentDate,
+                        productRef: productRef,
+                        sellerEmail: productData.sellerEmail
+                    });
+                }
+            }
+        }).then(() => {
+            console.log("Transaction completed.");
+            showToastMessage(`Payment succesful`);
+            // updateUserData(userData.id)
+            // navigate('/category_product', { state: { categoryName: categoryName, categoryID: product.categoryID} });
+        }).catch((error) => {
+            console.log("Transaction failed: ", error);
+            showToastMessage(error.message);
         });
     };
 
@@ -107,7 +170,12 @@ const SellingHistorypage = () => {
                 <div>
                     <p>Price: {productPrice?.toLocaleString()} THB</p>
                     {currentBidder ? (
-                        productIsSend ? <p>Waiting for payment.</p> : <button onClick={() => handleDeliver(productID)}>Deliver</button>
+                        productIsSend ? (
+                            <div>
+                                <p>Waiting for payment.</p>
+                                <button onClick={() => handleConfirmPayment(productID)}>Confirm Payment</button>
+                            </div>
+                        ) : <button onClick={() => handleDeliver(productID)}>Deliver</button>
                     ) : (
                         <div>
                             <p>No one bid this product :{"("}</p>

@@ -70,16 +70,27 @@ const SealBidding = ({ product, setProduct, productID, showToastMessage }) => {
     useEffect(() => {
         const bidsRef = collection(db, "Products", productID, "Bids");
         const productRef = doc(db, "Products", productID);
-        const q = query(bidsRef, orderBy("timestamp", "desc"));
+        const q = query(bidsRef, orderBy("price", "desc"), orderBy("timestamp"));
 
         const unsub = onSnapshot(q, (snapshot) => {
             if (snapshot.docs.length > 0) {
-                const latestBid = snapshot.docs[0];
-                const latestBidData = latestBid.data();
-                const latestBidAmount = latestBidData.price;
-                const latestBidder = latestBidData.bidder;
+                const highestBid = snapshot.docs[0];
+                const highestBidData = highestBid.data();
+                const highestBidAmount = highestBidData.price;
+                const highestBidder = highestBidData.bidder;
+                const secondHighestBid = snapshot.docs[1];
+                const secondHighestBidData = secondHighestBid?.data();
+                const secondHighestBidAmount = secondHighestBidData?.price;
+                console.log(secondHighestBidAmount)
+
+                let currentPrice = highestBidAmount;
+                let currentBidder = highestBidder;
+
+                if (product.auctionType === "SecondPrice" && secondHighestBidAmount) {
+                    currentPrice = secondHighestBidAmount;
+                }
         
-                if (product.currentPrice < latestBidAmount) {
+                if (product.currentPrice < currentPrice || product.currentBidder !== currentBidder) {
                     runTransaction(db, async(transaction) => {
                         const productDoc = await transaction.get(productRef);
                         if (!productDoc.exists()) {
@@ -88,10 +99,10 @@ const SealBidding = ({ product, setProduct, productID, showToastMessage }) => {
                         }
 
                         const productData = productDoc.data();
-                        if (productData.currentPrice < latestBidAmount) {
+                        if (productData.currentPrice < currentPrice || product.currentBidder !== currentBidder) {
                             transaction.update(productRef, {
-                                currentPrice: latestBidAmount,
-                                currentBidder: latestBidder,
+                                currentPrice: currentPrice,
+                                currentBidder: currentBidder,
                             });
                         }
                     }).catch((error) => {

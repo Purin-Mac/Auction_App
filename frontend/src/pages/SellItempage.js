@@ -86,7 +86,7 @@ const SellItempage = () => {
                 return showToastMessage("Duration must be greater than start time.");
             }
 
-            if (itemDuration.getDate() <= itemStartTime.getDate() && itemDuration.getHours() <= itemStartTime.getHours()) {
+            if (itemDuration.getTime() - itemStartTime.getTime() < 60*60*1000) {
                 // console.log(itemDuration.getDate() <= itemStartTime.getDate() && itemDuration.getHours() <= itemStartTime.getHours())
                 // console.log(itemStartTime.getTime(), itemDuration.getTime(), itemDuration.getTime() - itemStartTime.getTime())
                 // console.log(itemDuration.getTime() - itemStartTime.getTime() < 60*60*1000)
