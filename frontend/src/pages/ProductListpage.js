@@ -71,7 +71,7 @@ const ProductListpage = () => {
             querySnapshot.forEach((doc) => {
               productsTemp.push({ id: doc.id, ...doc.data() });
             });
-            console.log(productsTemp)
+            // console.log(productsTemp)
             // console.log(productsTemp[0])
             // console.log(productsTemp[productsTemp.length - 1])
             setProducts(productsTemp);
@@ -173,7 +173,7 @@ const ProductListpage = () => {
     }, [categoryID, currentPage, auctionType]);
 
     const handleAuctionTypeChange = (type) => {
-        console.log(type)
+        // console.log(type)
         setAuctionType(type);
         setCurrentPage(1);
         setFirstProduct(null);
@@ -193,7 +193,7 @@ const ProductListpage = () => {
                     <Dropdown.Item onClick={() => handleAuctionTypeChange('English')}>English Auction</Dropdown.Item>
                     <Dropdown.Item onClick={() => handleAuctionTypeChange('FirstPrice')}>First-Price Seal-Bid Auction</Dropdown.Item>
                     <Dropdown.Item onClick={() => handleAuctionTypeChange('SecondPrice')}>Second-Price Seal-Bid Auction</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleAuctionTypeChange('Dutch')}>Dutch Auction</Dropdown.Item>
+                    {/* <Dropdown.Item onClick={() => handleAuctionTypeChange('Dutch')}>Dutch Auction</Dropdown.Item> */}
                 </Dropdown.Menu>
             </Dropdown>
             <Row style= {{ margin: "5% 5% 5% 5%"}}>

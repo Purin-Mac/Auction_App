@@ -10,6 +10,7 @@ import {
     getDoc,
     getDocs,
     onSnapshot,
+    orderBy,
     query,
     runTransaction,
     setDoc,
@@ -23,6 +24,7 @@ import Countdown from "react-countdown";
 import { toast } from "react-toastify";
 import ButtonSwitch from "../components/ButtonSwitch";
 import ProfileBanner from "../components/ProfileBanner";
+import Createchat from "../components/Createchat";
 
 
 const BuyingHistorypage = () => {
@@ -135,7 +137,7 @@ const BuyingHistorypage = () => {
             const bidsCols = collectionGroup(db, "Bids");
             const q = query(
                 bidsCols,
-                where("bidder", "==", currentUser.email)
+                where("bidder", "==", currentUser.email),
             );
             getDocs(q).then((querySnapshot) => {
                 const productsTemp = [];
@@ -159,7 +161,8 @@ const BuyingHistorypage = () => {
                 });
                 // console.log(productsTemp)
                 Promise.all(promises).then(() => {
-                    setProducts(productsTemp);
+                    const sortedProducts = productsTemp.sort((a, b) => b.duration - a.duration);
+                    setProducts(sortedProducts);
                     setIsLoading(false);
                 });
             }, error => {
@@ -198,7 +201,8 @@ const BuyingHistorypage = () => {
                     querySnapshot.forEach((doc) => {
                         productsTemp.push({ id: doc.id, ...doc.data() });
                     });
-                    setProducts(productsTemp);
+                    const sortedProducts = productsTemp.sort((a, b) => b.broughtAt - a.broughtAt);
+                    setProducts(sortedProducts);
                     setIsLoading(false);
                 })
                 .catch((error) => {
@@ -283,6 +287,7 @@ const BuyingHistorypage = () => {
                                                     }
                                                     />
                                                 ) : <h5>Waiting for seller.</h5>}
+                                                {product.sellerEmail? <Createchat sellerEmail={product.sellerEmail}/> : null}
                                             </>
                                         )
                                         }

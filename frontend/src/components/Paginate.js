@@ -14,6 +14,7 @@ const Paginate = ({ currentPage, setCurrentPage, totalPages, setFirstProduct, se
         if (page < totalPages) {
             setCurrentPage(page + 1);
             setFirstProduct(null);
+            window.scrollTo(0, 0);
         }
     };
     
@@ -22,6 +23,7 @@ const Paginate = ({ currentPage, setCurrentPage, totalPages, setFirstProduct, se
         if (page > 1) {
             setCurrentPage(page - 1);
             setLastProduct(null);
+            window.scrollTo(0, 0);
         }
     };
     

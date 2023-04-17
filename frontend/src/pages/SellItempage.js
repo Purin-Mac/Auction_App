@@ -78,8 +78,19 @@ const SellItempage = () => {
                 return showToastMessage("Only JPEG, JPG and PNG files are accepted");
             }
 
-            if (Number(buyNowPrice.current.value) < Math.ceil((Number(startPrice.current.value)/100) * 130)) {
+            if (Number(buyNowPrice.current.value) !== 0 && Number(buyNowPrice.current.value) < Math.ceil((Number(startPrice.current.value)/100) * 130)) {
                 return showToastMessage("Buy Now Price must be at least 30% more than Start Price.");;
+            }
+
+            if (itemDuration.getTime() < itemStartTime.getTime()) {
+                return showToastMessage("Duration must be greater than start time.");
+            }
+
+            if (itemDuration.getDate() <= itemStartTime.getDate() && itemDuration.getHours() <= itemStartTime.getHours()) {
+                // console.log(itemDuration.getDate() <= itemStartTime.getDate() && itemDuration.getHours() <= itemStartTime.getHours())
+                // console.log(itemStartTime.getTime(), itemDuration.getTime(), itemDuration.getTime() - itemStartTime.getTime())
+                // console.log(itemDuration.getTime() - itemStartTime.getTime() < 60*60*1000)
+                return showToastMessage("Duration must be at least 1 hour.");
             }
 
             const productsData = {
@@ -306,7 +317,7 @@ const SellItempage = () => {
                             <option value="English">English Auction</option>
                             <option value="FirstPrice">First-Price Seal-Bid Auction</option>
                             <option value="SecondPrice">Second-Price Seal-Bid Auction</option>
-                            <option value="Dutch">Dutch Auction</option>
+                            {/* <option value="Dutch">Dutch Auction</option> */}
                         </Form.Select>
                     </Form.Group>
 

@@ -4,6 +4,7 @@ import {
     doc,
     getDocs,
     onSnapshot,
+    orderBy,
     query,
     Timestamp,
     updateDoc,
@@ -45,7 +46,8 @@ const SellingHistorypage = () => {
                 productsCols,
                 where("isBrought", "==", false),
                 where("sellerEmail", "==", currentUser.email),
-                );
+                orderBy("duration", "desc")
+            );
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const productsTemp = [];
                 querySnapshot.forEach((doc) => {
@@ -65,6 +67,7 @@ const SellingHistorypage = () => {
             const sellerItemSnapshot = query(
                 itemsCols,
                 where("sellerEmail", "==", currentUser.email),
+                orderBy("broughtAt", "desc")
             );
             getDocs(sellerItemSnapshot)
                 .then((querySnapshot) => {

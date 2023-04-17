@@ -17,6 +17,7 @@ import Chatpage from './pages/Chatpage';
 import BuyingHistorypage from './pages/BuyingHistorypage';
 import SellingHistorypage from './pages/SellingHistorypage';
 import EditProfilepage from './pages/EditProfilepage';
+import PurchaseListener from './components/PurchaseListener';
 
 // const socket = socketIO.connect('http://localhost:4000');
 
@@ -41,6 +42,7 @@ function App() {
     <>
       <AuthProvider>
         <ToastContainer/>
+        <PurchaseListener/>
         <Routes>
           <Route path="/" element={<Homepage/>} />
           <Route path="/category" element={<Category/>} />
