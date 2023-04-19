@@ -130,17 +130,17 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
     //set highest bid
     useEffect(() => {
         const productRef = doc(db, "Products", productID);
-        const bidRef = doc(collection(productRef, "Bids"));
+        const bidRef = collection(productRef, "Bids");
         const userRef = doc(db, "Users", userData.id);
         // console.log("Bid price: ", bidPrice);
         const updateBid = async (transaction) => {
-            const doc = await transaction.get(productRef);
+            const productDoc = await transaction.get(productRef);
             const userDoc = await transaction.get(userRef);
-            if (!doc.exists()) {
+            if (!productDoc.exists()) {
                 console.log("Document does not exist!");
                 return;
             }
-            const docData = doc.data();
+            const docData = productDoc.data();
             const userDataFB = userDoc.data();
             // console.log(docData);
             // console.log(userDataFB.money);
@@ -160,7 +160,7 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
                     currentBidder: currentUser.email,
                 });
 
-                transaction.set(bidRef, bidData);
+                transaction.set(doc(bidRef), bidData);
                 console.log("New bid update successfully");
             } else if (
                 bidPrice < docData.currentPrice + incrementBid
@@ -211,11 +211,21 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
                     (previousBidPriceRef.current === null ||
                         docData.currentPrice > previousBidPriceRef.current)
                 ) {
+                    const currentUserBidQuery = query(bidRef, where('bidder', '==', currentUser.email));
+                    getDocs(currentUserBidQuery).then((querySnapshot) => {
+                        if (querySnapshot.size > 0) {
+                            // console.log(docData.currentBidder)
+                            showToastMessage(
+                                `There is a new highest bid with ${docData.currentPrice} Baht.`
+                            );
+                            previousBidPriceRef.current = docData.currentPrice;
+                        }
+                    });
                     // console.log(docData.currentBidder)
-                    showToastMessage(
-                        `There is a new highest bid with ${docData.currentPrice} Baht.`
-                    );
-                    previousBidPriceRef.current = docData.currentPrice;
+                    // showToastMessage(
+                    //     `There is a new highest bid with ${docData.currentPrice} Baht.`
+                    // );
+                    // previousBidPriceRef.current = docData.currentPrice;
                 }
 
                 if (
