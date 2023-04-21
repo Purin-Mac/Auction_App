@@ -28,7 +28,51 @@ const Category = ( {link} ) => {
 
     return (
         <>
-            <CardGroup style={{ margin: "5% auto 0 auto", width: "80%", display: "flex", justifyContent: "space-between" }}>
+            <div className="category-cards">
+                <div className="row">
+                        <div className="column">
+                            <Link to={`${link}?id=${categoryIDs["Shoes"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>  
+                                <div className="category-card">
+                                    <img src={appsPicture["Shoes.png"]} alt="" />
+                                    <div className="bottomcard">
+                                        <h5>Shoes</h5>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className="column">
+                            <Link to={`${link}?id=${categoryIDs["Men's clothes"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
+                                <div className="category-card">
+                                    <img src={appsPicture["Men clothes.png"]} alt="" />
+                                    <div className="bottomcard">
+                                        <h5>Men's Clothes</h5>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className="column">
+                            <Link to={`${link}?id=${categoryIDs["Women's clothes"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
+                                <div className="category-card">
+                                    <img src={appsPicture["Women clothes.png"]} alt="" />
+                                    <div className="bottomcard">
+                                        <h5>Woman's Clothes</h5>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className="column">
+                            <Link to={`${link}?id=${categoryIDs["Accessories"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
+                                <div className="category-card">
+                                    <img src={appsPicture["Accessories.png"]} alt="" />
+                                    <div className="bottomcard">
+                                        <h5>Accessories</h5>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                </div>
+            </div>
+            {/* <CardGroup style={{ margin: "5% auto 0 auto", width: "80%", display: "flex", justifyContent: "space-between" }}>
                 <Card style={{ margin: "0 10px", border: "1px solid #e5e5e5" }}>
                     <Card.Img variant='top' src={appsPicture["Shoes.png"]} style={{ backgroundColor: "#F1F1F1", height: "80%", width: "100%" }}/>
                     <Link to={`${link}?id=${categoryIDs["Shoes"]}`} style={{ textDecoration: "none", color: "black", height: "20%" }}>
@@ -61,7 +105,7 @@ const Category = ( {link} ) => {
                         </Card.Body>
                     </Link>
                 </Card>
-            </CardGroup>
+            </CardGroup> */}
         </>
     )
 }

@@ -95,7 +95,7 @@ function Productpage() {
         else {
             return (
                 <>
-                    <h3>Auction Type: {product.auctionType}</h3>
+                    <h3>Auction Type : {product.auctionType}</h3>
                     <h5 style={{ textAlign: "left", font: "bold"}}>Time before auction start: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
                 </>
             );
@@ -110,19 +110,23 @@ function Productpage() {
             return (
                 <>
                     {/* {currentUser.email !== product.sellerEmail ?     */}
-                        <div>
+                        <div className="bid-detail">
                             {product.isBrought ?
                                 (currentUser.email !== product.currentBuyer ?
                                     <>
                                         <h3>This product has been purchased.</h3>
                                     </>
-                                : <h3>You have purchased this product.</h3>)
+                                : <h3>You have purchased this.</h3>)
                             : null}
-                            <h3>Auction Type: {product.auctionType}</h3>
-                            <h5 style={{ textAlign: "left", font: "bold"}}>Time left: {days} day, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
+                            <h3>Auction Type : {product.auctionType}</h3>
+                            
                             {product.currentPrice === product.startPrice || product.auctionType !== "English"? 
-                            <h5 style={{ textAlign: "left", font: "bold"}}>Start Price: {product.startPrice?.toLocaleString()} Baht</h5>
-                            : <h5 style={{ textAlign: "left", font: "bold"}}>Highest Bid: {product.currentPrice?.toLocaleString()} Baht</h5>}
+                            <h1 style={{ textAlign: "middle", font: "bold"}}>Start Price : <span>{product.startPrice?.toLocaleString()} THB</span></h1>
+                            : <h1 style={{ textAlign: "middle", font: "bold"}}>Highest Bid : <span>{product.currentPrice?.toLocaleString()} THB</span></h1>}
+                            <h5 style={{ textAlign: "left", font: "bold"}}>Time left : {days} days, {hours} hours, {minutes} minutes, {seconds} seconds</h5>
+
+                        </div>
+                        <div className="countdown">
                             {product.auctionType === "English" ? (
                                 <AscendingBidding product={product} setProduct={setProduct} productID={productID} showToastMessage={showToastMessage}/>
                             ) : product.auctionType === "FirstPrice" || product.auctionType === "SecondPrice"?(
@@ -142,21 +146,25 @@ function Productpage() {
 
         <main>
             <div className="reccommend">
-                <h1>Product name: {product.productName}</h1>
+                <h1> {product.productName}</h1>
                 <div className="cards">
                     <div className="row">
                         <div className="column-sale">
                             <div className="card-sale-1">
                                 <img src={product.productPhoto} alt="Item_Picture" style={{ backgroundColor: "#F1F1F1", width: "100%",maxheight: "280px" }}></img>
-                                <br></br><br></br><h3>Description</h3>
-                                <p>{product.productInfo}</p>
-                                <p>Sell by : {sellerData.userName}</p>
-                                {product.sellerEmail !== currentUser.email ? <Createchat sellerData={sellerData}/> : null}
+                                <div className="sale-text">
+                                    <br></br>
+                                    <h3>Description</h3>
+                                    <p>{product.productInfo}</p>
+                                    <p>Sell by : {sellerData.userName}</p>
+                                    <br></br>
+                                    {product.sellerEmail !== currentUser.email ? <Createchat sellerData={sellerData}/> : null}
+                                </div>
                             </div>
                         </div>
                     
                         <div className="column-sale">
-                            <div className="card-sale-2">
+                            <div className="card-sale-1">
                                 {currentUser.email !== product.sellerEmail ?
                                     (product.startTime && isWaiting? (
                                         <Countdown
@@ -171,7 +179,8 @@ function Productpage() {
                                             />
                                         ))
                                     ))
-                                : <h3>You are the owner.</h3>}
+                                
+                                : <div className="owner"><h3>You are the owner.</h3></div>}
                             </div>
                         </div>
                     </div>

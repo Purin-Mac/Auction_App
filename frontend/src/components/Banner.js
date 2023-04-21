@@ -3,15 +3,7 @@ import '../style/main.css'
 import { AuthContext } from '../service/AuthContext';
 
 function Banner() {
-    // const [user, setUser] = useState(null);
-    
-    // useEffect(() => {
-    //   firebase.auth().onAuthStateChanged(user => {
-    //   setUser(user)
-    // })
-    // }, []);
-  
-    // console.log(user);
+
     
     const {appsPicture} = useContext(AuthContext); 
     const styles = {
@@ -24,12 +16,12 @@ function Banner() {
     return (
     <>
     
-    <div className="banner" style={styles}>
+            <div className="banner" style={styles}>
                 <div className="info">
-                    <h1>“Get what ever you want” <br/> With us Let’s Auct !</h1>                    
+                    <h1>“Get what ever you <span class="highlight">want</span>” <br/> With us Let’s Auct !</h1>                    
                 </div>
                 <div className="banner-button">
-                    <a href="#">Get Start</a>
+                    <a>Get Start</a>
                 </div>
             </div>
       </>

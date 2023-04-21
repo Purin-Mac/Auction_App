@@ -1,0 +1,146 @@
+@media only screen and (max-width: 600px) {
+
+    .listcolumn {
+        float: left;
+        width: 25%;
+        padding-bottom: 0rem;
+      }
+
+    .list-cards {
+      width: 80%;
+      /* border: 1px solid red; */
+      display: flex;
+      
+    }
+  
+    .list-card {
+      width: 100%;
+      max-height: 10rem;
+      display: flex;
+      align-items: center;
+      /* border: 1px solid green; */
+    }
+  
+    .list-card img {
+      max-height: 1rem;
+      object-fit: contain;
+    }
+  
+    .list-card .bottomcard {
+      margin-left: 5%;
+      margin-top: 25%;
+      /* height: 100%;*/
+      width: 100%; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  
+    .list-card .bottomcard h6 {
+      margin-left: 5%;
+      height: fit-content;
+      text-align: left;
+    }
+  
+    .list-card .bottomcard p {
+      text-align: left;
+    }
+  
+    .list-card .bottomcard h5 {
+      margin-top: 0;
+      
+    }
+  
+    .list-cards .row .column {
+      padding: none;
+    }
+  
+    .list-cards p{
+      margin-left: 5%;
+    }
+  
+  }
+
+  .listrow {
+    margin: 0 -5px;
+    margin-top: 5%;
+    display: flex;
+    
+  }
+  
+  /* Clear floats after the columns */
+  .listrow:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .listcolumn {
+    float: left;
+    width: 25%;
+    padding-bottom: 1rem;
+  }
+  
+  /* Remove extra left and right margins, due to padding */
+.list-cards .row {
+    margin: 0 -5px;
+    margin-top: 5%;
+    display: flex;
+    
+  }
+  
+  /* Clear floats after the columns */
+  .list-cards .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .listcolumn {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+
+
+.list-cards{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .list-card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    background-color: #f1f1f1;
+    height: 100%; 
+    overflow: hidden;
+  }
+
+  .list-card img {
+    /* width: 80%; */
+    height: 80%;
+    max-height: 300px;
+    max-width: 80%;
+    object-fit: contain;
+    
+  }
+
+  .list-card .bottomcard h6 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .list-card .bottomcard p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

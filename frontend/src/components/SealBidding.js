@@ -134,7 +134,7 @@ const SealBidding = ({ product, setProduct, productID, showToastMessage }) => {
     }, [productID]);
 
     return (
-        <>
+        <div className="auto">
             {currentUserBid ? (
                 <h2>Your Seal Bid: ${currentUserBid.price}</h2>
                 ) : (
@@ -160,7 +160,7 @@ const SealBidding = ({ product, setProduct, productID, showToastMessage }) => {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

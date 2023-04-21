@@ -7,6 +7,8 @@ import { db, timestamp } from "../service/firebase";
 import { Link } from 'react-router-dom';
 import Footer from "../components/Footer.js";
 import Paginate from "../components/Paginate";
+import "../style/productlist.css";
+
 
 const ProductListpage = () => {
     const [ products, setProducts ] = useState([]);
@@ -183,8 +185,10 @@ const ProductListpage = () => {
     return (
         <>
             <Header/>
-            <h1 style= {{ margin: "50px 0 0 5%" }}>Product: {categoryName}</h1>
-            <Dropdown>
+            <h1 style= {{ margin: "5% 0 0 5%" }}>Category : {categoryName}</h1>
+            <p style= {{ margin: "2% 0 0 5%" }}>This is the products that we have !</p>
+            <div className="Dropdown">  
+            <Dropdown style= {{ margin: "3% 0 0 5%" }}>
                 <Dropdown.Toggle id="dropdown-auction-type">
                     {auctionType}
                 </Dropdown.Toggle>
@@ -196,24 +200,27 @@ const ProductListpage = () => {
                     {/* <Dropdown.Item onClick={() => handleAuctionTypeChange('Dutch')}>Dutch Auction</Dropdown.Item> */}
                 </Dropdown.Menu>
             </Dropdown>
-            <Row style= {{ margin: "5% 5% 5% 5%"}}>
-                {/* style= {{ marginTop: "5%"}} */}
-                {products.length !== 0 ?  
-                    products.map((product) => (
-                        <Col key={product.id} md={3} style= {{ margin: "0 0 5% 0"}}>
-                            <Card style={{ border: "1px solid #e5e5e5", height: "100%"}}>
-                                <Card.Img variant='top' src={product.productPhoto} style={{ backgroundColor: "#F1F1F1", height: "80%" }}/>
-                                <Link to={`/product?id=${product.id}`} style={{ textDecoration: "none", color: "black"}}>
-                                    <Card.Body>
-                                        <Card.Title className="text-truncate">{product.productName}</Card.Title>
-                                        <Card.Text className="text-truncate">{product.productInfo}</Card.Text>
-                                    </Card.Body>
-                                </Link>
-                            </Card>
-                        </Col>
+            </div>
+            <div className="list-cards">
+                <div className="row" >
+                    {products.length !== 0 ?
+                        products.map((product) => (
+                        <div className="listcolumn" key={product.id}>
+                            <Link to={`/product?id=${product.id}`} style={{ textDecoration: "none", color: "black"}}>
+                                <div className="list-card">
+                                    <img src={product.productPhoto} alt=""/>
+                                    <div className="bottomcard">
+                                        <h6>{product.productName}</h6>
+                                        <p>Now {product.currentPrice} THB</p><br></br><br></br>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
                     ))
-                : <h3>None</h3> }
-            </Row>
+                    : <h3>None</h3> }
+                </div>
+            </div>
+            
             {/* {totalPages && 
                 <Paginate currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
             } */}

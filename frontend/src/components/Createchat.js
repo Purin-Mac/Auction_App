@@ -11,6 +11,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { db } from "../service/firebase";
 import { AuthContext } from "../service/AuthContext";
 import { useNavigate } from "react-router-dom";
+import '../style/main.css';
+
 
 const Createchat = ({ sellerData, sellerEmail }) => {
     const { currentUser, userData, setcurrentChat} = useContext(AuthContext);

@@ -4,6 +4,8 @@ import { AuthContext } from "../service/AuthContext";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db, storage } from "../service/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMailForward } from "@fortawesome/free-solid-svg-icons";
 
 export const ChatInput = ({ setImgPreview }) => {
     const { currentUser, currentChat } = useContext(AuthContext);
@@ -96,7 +98,7 @@ export const ChatInput = ({ setImgPreview }) => {
                         alt=""
                     />
                 </label>
-                <button onClick={() => handleSendMessage()}>Send</button>
+                <button onClick={() => handleSendMessage()}><span>Send</span> <FontAwesomeIcon icon={faMailForward} /></button>
             </div>
         </div>
     );

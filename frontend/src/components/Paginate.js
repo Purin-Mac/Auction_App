@@ -1,5 +1,7 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
+import '../style/paginate.css'
+
 
 const Paginate = ({ currentPage, setCurrentPage, totalPages, setFirstProduct, setLastProduct }) => {
     // const handlePageClick = (event) => {
@@ -40,10 +42,11 @@ const Paginate = ({ currentPage, setCurrentPage, totalPages, setFirstProduct, se
         //     containerClassName={"pagination"}
         //     activeClassName={"active-page"}
         // />
-        <>
+        <div className="paginate">
             <button onClick={() => handlePrevPage(currentPage)}>{'<'} Previous </button>
+            <h5>{currentPage}/{totalPages}</h5>
             <button onClick={() => handleNextPage(currentPage)}>Next {'>'}</button>
-        </>
+        </div>
 
     );
 };

@@ -13,8 +13,8 @@ const UserProfilepage = () => {
             <div className="paint">
             <Header/>
             <ProfileBanner/>
-            <div className="Chatmain">                
-            <Sidebar/>
+            <div className="Chatmain">
+                <Sidebar/>
                 <div className="chat-container">
                     <ProfileForm/>
                 </div>

@@ -184,6 +184,7 @@ const SellingHistorypage = () => {
                             </Link>
                         </div>
                     )}
+                    <p>{currentBidder}</p>
                 </div>
             );
         } else {

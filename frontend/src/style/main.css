@@ -8,10 +8,244 @@
     font-family: 'Readex Pro', sans-serif;
 }
 
+@media only screen and (max-width: 600px) {
+
+  .discover-cards {
+    width: 80%;
+    /* border: 1px solid red; */
+    display: flex;
+    
+  }
+
+  .discover-card {
+    width: 100%;
+    max-height: 10rem;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid green; */
+  }
+
+  .discover-card img {
+    max-height: 1rem;
+    object-fit: contain;
+  }
+
+  .discover-card .bottomcard {
+    margin-left: 5%;
+    margin-top: 25%;
+    /* height: 100%;*/
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .discover-card .bottomcard h6 {
+    margin-left: 5%;
+    height: fit-content;
+    text-align: left;
+  }
+
+  .discover-card .bottomcard p {
+    text-align: left;
+  }
+
+  .category-cards {
+    width: 80%;
+    /* border: 1px solid red; */
+    display: flex;
+    
+  }
+
+  .category-card {
+    width: 100%;
+    max-height: 10rem;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid green; */
+  }
+
+  .category-card img {
+    max-height: 1rem;
+    object-fit: contain;
+  }
+
+  .category-card .bottomcard {
+    margin-left: 5%;
+    height: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .category-card .bottomcard h5 {
+    margin-top: 0;
+    
+  }
+
+  .discover-cards .row .column {
+    padding: none;
+  }
+
+  .discover-cards p{
+    margin-left: 5%;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .reccommend h1 {
+    max-width: 100%;
+    font-size: 1.5rem;
+  }
+
+  .row .column-sale {
+    width: 100%;
+    margin-top: 0%;
+    border-top: none;
+  }
+
+  .row .column-sale button{
+    width: 80%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+
+  .row .column-sale li{
+    font-size: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:unset;
+  }
+
+  .related-cards {
+    width: 100%;
+    display: flex;
+    
+  }
+
+  .related-card {
+    width: 100%;
+    max-height: 10rem;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid green; */
+  }
+
+  .related-card img {
+    max-height: 1rem;
+    object-fit: contain;
+  }
+
+  .related-card .bottomcard {
+    margin-left: 5%;
+    /* height: 100%;*/
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .related-card .bottomcard h6 {
+    margin-left: 5%;
+    height: fit-content;
+    text-align: left;
+  }
+
+  .related-card .bottomcard p {
+    text-align: left;
+  }
+
+  .card-sale-1 .owner h3{
+    padding: 1rem;
+    margin-top: 0%;
+    color: black;
+    background-color:#FFCB45;
+  }
+
+  .about {
+    height: 8rem;
+  }
+
+  .about h1 {
+    margin-left: 0;
+    font-size: 1.25rem;
+  }
+
+  .about img {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .Chatmain {
+    height: 35rem;
+  }
+  
+  .Chatmain .sidebar {
+    height: 100%;
+  }
+
+
+  .Chatmain .sidebar .sidebar-text {
+    width: 100%;
+    height: 30%;
+    /* border: 1px solid red; */
+  }
+
+  .Chatmain .sidebar .sidebar-text li{
+  font-size: 1rem;  
+  white-space: nowrap;
+  }
+
+  .Chatmain .sidebar .sidebar-text li span{
+    font-size: 0.75rem;  
+
+  }
+
+  .chatpage .sidebar {
+    display: none;
+  }
+
+  .chatpage .Chatmain .chat-container {
+    width: 100%;
+  }
+
+  .chatpage .chat-container .Chatzone {
+    width: 100%;
+    overflow: hidden;
+
+  }
+
+  .chatpage .chat-container .Chatzone .Chatinput {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chatpage .chat-container .Chatzone .send button span{
+    display: none;
+  }
+
+
+  .chatpage .userChat span {
+    display: none;
+  }
+  
+}
+
 body {
     margin: 0;
 }
 
+.highlight {
+  color: red;
+  font-size: 2.5rem;
+}
 
 .container {
     max-width: 100%;
@@ -152,13 +386,16 @@ main h3{
   .row {
     margin: 0 -5px;
     margin-top: 5%;
-}
+    display: flex;
+    
+  }
   
   /* Clear floats after the columns */
   .row:after {
     content: "";
     display: table;
     clear: both;
+    
   }
   
   /* Responsive columns */
@@ -172,6 +409,43 @@ main h3{
   
   /* Style the counter cards */
 
+  .category-cards{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .category-card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    background-color: #f1f1f1;
+    height: 100%; 
+    overflow: hidden;
+  }
+
+  .category-card img {
+    /* width: 80%; */
+    height: 80%;
+    max-height: 300px;
+    max-width: 80%;
+    object-fit: contain;
+    
+  }
+
+  .category-card .bottomcard h6 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+  }
+
+  .category-card .bottomcard p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .discover-cards{
     width: 80%;
     margin-left: auto;
@@ -180,7 +454,7 @@ main h3{
 
   .discover-card{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
+    padding: 1rem;
     text-align: center;
     background-color: #f1f1f1;
     height: 100%; 
@@ -196,7 +470,7 @@ main h3{
     
   }
 
-  .discover-card .bottomcard h5 {
+  .discover-card .bottomcard h6 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -209,7 +483,7 @@ main h3{
   }
 
   .related-cards {
-    width: 80%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -252,19 +526,56 @@ main h3{
 
   .card-sale-1 {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
+    /* padding: 1rem; */
+    text-align: center;
+    background-color: #f1f1f1;
+    /* background-color: white; */
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+   .owner h3{
+    margin-top: 50%;
     text-align: center;
     background-color: #f1f1f1;
     height: 100%;
   }
 
+  .card-sale-1 .sale-text {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 50%;
+    
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    /* border: 1px solid red; */
+    
+  }
+
+  .card-sale-1 .sale-text button{
+    margin-top: 5%;
+    padding: 1rem;
+    /* border-radius: 0.5rem; */
+    background-color: #FFCB45;
+    color: black;
+  }
+
+  .card-sale-1 .sale-text button:hover{
+    background-color: orange;
+
+  }
+
   .card-sale-1 img {
-    max-height: 380px;
-    max-width: 380px;
+    height: 50%;
+    max-width: 80%;
     object-fit: contain;
   }
 
   .card-sale-1 p{
+    max-width: 90%;
+    word-wrap: break-word;
     text-align: left;
   }
 
@@ -278,35 +589,219 @@ main h3{
     cursor: pointer;
   }
 
-  .card-sale-1 button:hover {
-    background-color: #45a049;
+  .card-sale-1 button:active:hover {
+    background-color: orange;
   }
 
   .card-sale-2{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
+    padding: 1rem;
     text-align: center;
     background-color: #f1f1f1;
     height: 100%;
+    /* border: 1px solid red; */
   }
 
-  .card-sale-2 h3 {
+  .card-sale-1 .countdown {
+    background-color: white;
+    height: 67%;
+    /* border: 1px solid red; */
+    /* border-radius: 1rem 1rem 1rem 1rem; */
+  }
+
+  .card-sale-1 .bid-detail {
+    padding: 1rem;
+    background-color: white;
+    height: 33%;
+    /* border: 1px solid red; */
+    /* border-radius: 1rem 1rem 1rem 1rem; */
+  }
+
+  .card-sale-1 h3 {
+    text-align: middle;
+  }
+
+  .card-sale-1 h1 {
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-top: 5%;
+    text-align: middle;
+    font-weight: bold;
+    
+    width: 100%;
+  }
+
+  .card-sale-1 h1 span{
+    color: red;
+  }
+
+  .card-sale-1 h5 {
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-top: 5%;
     text-align: left;
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .card-sale-1 .typebar {
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .choice {
+    padding: 1rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    border: transparent;
+    list-style-type: none;
+    background-color: #FFCB45;
+    border-radius: 0.2rem;
+  }
+
+  .choice li {
+    font-size: large;
+  }
+
+  .choice li.active {
+    /* background-color: yellow; */
+    text-decoration: underline;
+    font-weight: bold;
   }
   
-  .confirm input[type=submit] {
+  .choice li:nth-child(1){
+    width: 33%;
+    border: transparent;
+    padding: 1rem;
+    color: black;
+    border-radius: 1rem;
+  }
+
+  .choice li:nth-child(2){
+    width: 33%;
+    border: transparent;
+    padding: 1rem;
+    color: black;
+    border-radius: 1rem;
+
+  }
+
+  .choice li:nth-child(3){
+    width: 33%;
+    border: transparent;
+    padding: 1rem;
+    color: black;
+    border-radius: 1rem;
+
+  }
+
+
+  .manual {
+    padding: 1rem;
+    height: 100%;
+    background-color: white;
+  }
+
+  .auto {
+    padding: 1rem;
+    height: 100%;
+    background-color: white;
+
+  }
+
+  .buynow {
+    padding: 1rem;
+    height: 100%;
+    background-color: white;
+
+  }
+
+   input[type=number] {
+    margin-top: 3%;
+    width: 60%;
+    height: 2rem;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+  }
+
+  .manual .increase-button {
+    margin-top: 2%;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .manual input[type=submit] {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #FFCB45;
+    color: black;
+  }
+
+  .manual .confirm input[type=submit] {
+    align-items: center;
+    justify-content: center;
     width: 50%;
-    background-color: #45a07e;
-    color: white;
-    padding: 15px 15px;
-    margin: 2% auto auto;
+    background-color: #FFCB45;
+    color: black;
+    padding: 1rem;
+    margin-top:auto;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    bottom: 0;
   }
 
+  .manual .confirm input[type=submit]:active:hover {
+    background-color: orange;
+  }
+
+  .auto .confirm input[type=submit] {
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    background-color: #FFCB45;
+    color: black;
+    padding: 1rem;
+    margin-top:15%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    bottom: 0;
+  }
+
+  .auto .confirm input[type=submit]:active:hover {
+    background-color: orange;
+  }
+
+  .buynow .confirm input[type=submit] {
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    background-color: #FFCB45;
+    color: black;
+    padding: 1rem;
+    margin-top:15%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    bottom: 0;
+  }
+
+  .buynow .confirm input[type=submit]:active:hover {
+    background-color: orange;
+  }
+
+
   .confirm :hover {
-    background-color: #45a049;
+    background-color: orange;
   }
 
   .card-sale-2 .auction-button a{
@@ -369,12 +864,25 @@ main h3{
     cursor: pointer;
 }
 
-  input[type=submit]:hover {
-  background-color: #45a049;
+  .card-sale-1 li:hover {
+  cursor: pointer ;
+}
+
+  input[type=submit]:active:hover {
+  background-color: orange;
 }
 
   input[type=submit]:disabled {
-    background-color: #65716c;  
+    background-color: #65716c; 
+    color: white;
+    cursor: not-allowed;
+}
+
+  .confirm input[type=submit]:disabled {
+  background-color: #65716c;
+  color: white;
+  cursor: not-allowed;
+
 }
 
   .related h5{
@@ -402,9 +910,9 @@ main h3{
   .discover .card .bottomcard {
     /* margin-top: 2%; */
     position: absolute;
-    bottom: 0;
+    /* bottom: 0;
     left: 0;
-    right: 0;
+    right: 0; */
     justify-content: center;
     /* margin-bottom: 0; */
     overflow: hidden;
@@ -434,6 +942,7 @@ main h3{
   }
 
 .footer{
+    margin-top: 0;
     background-color: #FFF9EA;
     flex-shrink: 0;
 }
@@ -497,7 +1006,7 @@ main h3{
 
 .ProfileBanner  {
   width: 100%;
-  height: fit-content;
+  height: 30%;
 }
 
 .ProfileBanner .about {
@@ -507,17 +1016,14 @@ main h3{
 }
 
 .ProfileBanner .about h1 {
-  margin-left: 30%;
+  margin-left: 20%;
   font-weight: bold;
 }
 
 .ProfileBanner .about img {
-  width: 10%;
-  height: 10%;
   margin-top: 2%;
   margin-bottom: 2%;
   margin-right: 5%;
-  border-radius: 50%;
   border-radius: 50%;
   border: solid black 2px;
   background-color: white;
@@ -525,331 +1031,48 @@ main h3{
 }
 
 .paint {
-  background-color: #FFF9EA;
-}
-
-.profileMain {
-  height: 430px;
-  display: flex;
-  flex-direction: column;
-}
-
-.profileMain .sidebar {
-  list-style-type: none;
-  width: 25%;
-  height: 20%;
-}
-
-.profileMain .sidebar li {
-  display: block;
-  color: #000;
-  padding: 25px 9.3px;
-  background-color: #FFF9EA;
-  text-decoration: none;
-  font-size: x-large;
-}
-
-.profileMain .sidebar :hover{
-  background-color: #FFCB45;
-  /* padding: 25px 9.3px; */
-}
-
-.profileMain .sidebar li .sidebar-text {
-  text-decoration: none;
   width: 100%;
+  background-color: #FFF9EA;
 }
 
 .Chatmain {
   display: flex;
-  justify-content: space-between;
-  background-color: #FFF9EA;
+  height: 35rem;
 }
 
-.Chatmain .sideline{
+.Chatmain .sidebar {
   height: 100%;
+  width: 20%;
 }
 
-.chat-container {
-  /* border: 1px solid red; */
-  border-radius: 10px;
-  display: flex;
-  overflow: hidden;
-  width: 75%;
-  height: 500px;
-}
-
-.chat-container .Chatsidebar {
-  flex: 1;
-  background-color: #726fad;
-}
-
-.chat-container .Chatzone {
-  flex: 2;
-}
-
- .Chatsidebar .Chatnavbar {
-  display: flex;
-  align-items: center;
-  background-color: #48466a;
-  justify-content: space-between;
-  color: whitesmoke;
-}
-
-.Chatsidebar .Chatnavbar .logo {
-  font-weight: normal;
-  margin-left: 3%;
-}
-
-.Chatsidebar .Chatnavbar .user {
-  margin-right: 3%;
-}
-
-.Chatsidebar .Chatnavbar .user img {
-  background-color: #45a049;
-  height: 24px;
-  width: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.Chatsidebar .Chatsearching  {
-  height: 10%;
-  /* margin-left: 10%; */
-
-}
-
-.Chatsidebar .Chatsearching input[type="text"] {
+.Chatmain .chat-container {
   height: 100%;
   width: 100%;
 }
 
-.Chatsidebar .Chatsearching input[type="text"]::placeholder {
-  font-size: large;
-  
+.Chatmain .sidebar li{
+  height: 17.5%;
+  width: 100%;
+  text-decoration: none !important;
+  /* border: 1px solid red; */
 }
 
-.Chatsidebar .Chatsearching input[type="text"]:hover {
-  background-color: #000;
+.sidebar .sidebar-text {
+  text-decoration: none;
 }
 
-.Chatsidebar .Chatsearching .userChat  {
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: white;
-  cursor: pointer;
-}
-
-.Chatsidebar .Chatsearching .userChat:hover  {
-  background-color: #2f2d52;
-}
-
-.Chatsidebar .Chatsearching .userChat img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.Chatsidebar .Chats .userChat  {
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: white;
-  cursor: pointer;
-}
-
-.Chatsidebar .Chats .userChat:hover  {
-  background-color: #2f2d52;
-}
-
-.Chatsidebar .Chats .userChat img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.Chatsidebar .Chats .userChat .userChatInfo span{
-  font-size:normal;
-  font-weight: bold;
-}
-
-.Chatsidebar .Chats .userChat .userChatInfo p{
-  font-size:x-small;
-  font-weight: light;
-}
-
-.selected {
-  background-color: #2f2d52;
-}
-
-.Chatsidebar .Chatsearching .searchForm input {
-  background-color: transparent;
-  border: none;
-  color: white;
-  outline: none;
-}
-
-.Chatsidebar .Chatsearching .searchForm input::placeholder {
-  color: lightgray;
-}
-
-.Chatzone .Message2 {
-  background-color: #ddddf7;
-  padding: 10px;
-  height: calc(100% - 20%);
-  overflow: scroll;
-}
-
-.Chatzone .ChatInput {
-  height: 20%;
+.Chatmain .chat-container .UserProfileMain {
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
   background-color: white;
-  padding: 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2%;
 }
 
-.Chatzone .ChatInput input{
-  width: 80%;
-
-  border: none;
-  outline: none;
-  color: #2f2d52;
-  font-size: large;
+.Chatinput {
+  width: 100%;
 }
 
-.Chatzone .ChatInput input::placeholder{
-  color: lightgray;
+.Chatinput input[type=text]{
+  width: 30%;
 }
 
-.Chatzone .ChatInput .send{
-  width: 20%;
-  display: flex;
-  align-items: center;
-  gap: 10%;
-}
-
-.Chatzone .ChatInput img{
-  width: 20px;
-  height: 20px;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-.Chatzone .ChatInput button{
-  border: none;
- padding: 10px 15px;
- color: white;
- background-color: #8da4f1;
-}
-
-.Chatzone .Message2 .Message1 {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 3%;
-}
-
-.Chatzone .Message2 .Message1 .MessageInfo {
-  display: flex;
-  flex-direction: column;
-  color: grey;
-  font-weight: 300;
-}
-
-.Chatzone .Message2 .Message1 .MessageInfo img{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* .Chatzone .Message2 .Message1 .MessageContent {
-  max-width: 80%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-} */
-
-.Chatzone .Message2 .Message1 .MessageContent {
-  width: 70%;
-}
-
-.Chatzone .Message2 .Message1 .MessageContent img{
-  background-color: white;
-  padding: 10px;
-  border-radius: 0 10px 10px 10px;
-  width: 50%;
-}
-
-.Chatzone .Message2 .Message1 .MessageContent p{
-  background-color: white;
-  padding: 10px;
-  border-radius: 0 10px 10px 10px;
-  max-width: max-content;
-}
-
-.Chatzone .Message2 .Message1-Owner {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 3%;
-  flex-direction: row-reverse;
-}
-
-.Chatzone .Message2 .Message1-Owner .MessageInfo {
-  display: flex;
-  flex-direction: column;
-  color: grey;
-  font-weight: 300;
-}
-
-.Chatzone .Message2 .Message1-Owner .MessageInfo img{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* .Chatzone .Message2 .Message1-Owner .MessageContent {
-  max-width: 80%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-end;
-} */
-
-.Chatzone .Message2 .Message1-Owner .MessageContent {
-  width: 70%;
-}
-
-.Chatzone .Message2 .Message1-Owner .MessageContent img{
-  background-color: #8da4f1;
-  padding: 10px;
-  border-radius: 10px 0px 10px 10px;
-  width: 50%;
-  float:  right;
-}
-
-.Chatzone .Message2 .Message1-Owner .MessageContent p{
-  background-color: #8da4f1;
-  color: black;
-  padding: 10px;
-  border-radius: 10px 0px 10px 10px;
-  max-width: max-content;
-  float: right
-}
-
-.MessageInfo span {
-  font-size: x-small;
-}
-
-.img-preview img {
-  width: 50%;
-  height: 50%;
-  object-fit: contain;
-  filter: grayscale(100%);
-}

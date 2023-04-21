@@ -257,7 +257,7 @@ const BuyingHistorypage = () => {
                 <Sidebar />
                 <div className="History-container" >
                     <div className="topside">
-                    <h3>BuyingHistorypage</h3>
+                    <h3>Buying History</h3>
                         <ButtonSwitch activeButton={activeButton} setActiveButton={setActiveButton}/>
                     </div>
                     <div className="content">
@@ -294,7 +294,7 @@ const BuyingHistorypage = () => {
                                     </div>
                             ))
                         ) : (
-                            <h4>None</h4>
+                            <h4>You don't have any</h4>
                         )
                         ) : activeButton === "history" ? (
                             products.length !== 0 ? (
@@ -323,7 +323,7 @@ const BuyingHistorypage = () => {
                                     </div>
                                 ))
                                 ) : (
-                                    <h4>None</h4>
+                                    <h4>You don't have any</h4>
                                     )
                                     ) : null}
                     </div>

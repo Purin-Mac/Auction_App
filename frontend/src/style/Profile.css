@@ -1,12 +1,14 @@
-.UserProfileMain {
-    background-color: white;
-    width: 100%;
-    height: 100%;
-}
-
 .UserProfileMain .UserInfo {
     background-color: white;
     margin-left: 2%;
+    margin-top: 2%;
+}
+
+.UserProfileMain .UserInfo h2{
+    margin-bottom: 2%;
+}
+
+.EditProfile form {
     margin-top: 2%;
 }
 
@@ -24,7 +26,7 @@
 
 .UserInfo button {
     margin: 5px;
-    padding: 3px 5px;
+    padding: 0.5rem;
     /* border-radius: 25px; */
     text-align: center;
 }

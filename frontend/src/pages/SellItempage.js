@@ -305,7 +305,7 @@ const SellItempage = () => {
                     <Form.Group className="mb-3">
                         <Form.Label>Auction Type</Form.Label>
                         <OverlayTrigger key={auctionType} placement="right" overlay={tooltipContent}>
-                            <FontAwesomeIcon className="fa" icon={faCircleInfo} />
+                            <FontAwesomeIcon className="fa" icon={faCircleInfo} style={{ margin: "0 0 0 3%" }}/>
                         </OverlayTrigger>
                         <Form.Select value={auctionType} onChange={(e) => {
                             setAuctionType(e.target.value)
@@ -323,7 +323,7 @@ const SellItempage = () => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Product Info</Form.Label>
-                        <Form.Control as="textarea" rows={4} required ref={itemInfo} />
+                        <Form.Control as="textarea" rows={4} maxLength={200} placeholder="Maximum 200 characters" required ref={itemInfo} />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
@@ -354,6 +354,7 @@ const SellItempage = () => {
                                 popperPlacement="top"
                                 required
                                 isClearable
+                                placeholderText="Start Time"
                                 />
                             <DatePicker 
                                 customInput={<Form.Control />}
@@ -375,6 +376,7 @@ const SellItempage = () => {
                                 popperPlacement="top"
                                 required
                                 isClearable
+                                placeholderText="End Time"
                             />
                         </div>
                     </Form.Group>

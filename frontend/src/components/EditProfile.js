@@ -51,8 +51,6 @@ function EditProfile() {
             <div className='EditProfile'>
                 <div className='UserInfo'>
                     <h2>Edit Your Profile</h2>
-                    <p>Username : {userData.userName}</p>
-                    <p>Email Address : {userData.email}</p>
                     {/* <p>Firstname : {userData.firstName}</p>
                     <p>Lastname : {userData.lastName}</p>
                     <p>Address : {userData.address.street}, {userData.address.city}, {userData.address.state}, {userData.address.zip}</p>

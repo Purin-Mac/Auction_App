@@ -18,6 +18,7 @@ import BuyingHistorypage from './pages/BuyingHistorypage';
 import SellingHistorypage from './pages/SellingHistorypage';
 import EditProfilepage from './pages/EditProfilepage';
 import PurchaseListener from './components/PurchaseListener';
+import Deliverypage from './pages/Deliverypage';
 
 // const socket = socketIO.connect('http://localhost:4000');
 
@@ -57,6 +58,7 @@ function App() {
           <Route path="/selling_history" element={<PrivateRoute> <SellingHistorypage/> </PrivateRoute>} />
           <Route path="/messager" element={<PrivateRoute> <Chatpage/> </PrivateRoute>} />
           <Route path="/editprofile" element={<PrivateRoute> <EditProfilepage/> </PrivateRoute>} />
+          <Route path="/delivery" element={<PrivateRoute><Deliverypage/></PrivateRoute>}/>
         </Routes>
       </AuthProvider>
     </>

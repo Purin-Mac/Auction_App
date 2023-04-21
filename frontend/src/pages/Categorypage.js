@@ -2,6 +2,8 @@ import React from 'react'
 import Header from '../components/Header'
 import Category from '../components/Category';
 import Footer from '../components/Footer';
+import '../style/category.css'
+
 
 function Categorypage() {
   return (

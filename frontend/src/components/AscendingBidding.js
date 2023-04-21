@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../service/AuthContext";
 import { Timestamp, collection, doc, getDocs, onSnapshot, query, runTransaction, where } from "firebase/firestore";
 import { db } from "../service/firebase";
+import BarWithContent from "./BarWithContent";
 
 const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) => {
     const { currentUser, userData } = useContext(AuthContext);
@@ -12,7 +13,39 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
     const [bidPrice, setBidPrice] = useState(0);
     const [autoBidPrice, setAutoBidPrice] = useState(0);
     const [incrementBid, setIncrementBid] = useState(0);
-    
+    const [manualVisible, setManualVisible] = useState(false);
+    const [autoVisible, setAutoVisible] = useState(false);
+    const [buynowVisible, setBuynowVisible] = useState(false);
+    const [selectedChoice, setSelectedChoice] = useState('');
+  
+    const handleChoice = (e) => {
+        const choice = e.target.innerHTML;
+        switch (choice) {
+          case 'Manual Bid':
+            setManualVisible(true);
+            setAutoVisible(false);
+            setBuynowVisible(false);
+            setSelectedChoice('manual');
+            break;
+          case 'Auto Bid':
+            setAutoVisible(true);
+            setManualVisible(false);
+            setBuynowVisible(false);
+            setSelectedChoice('auto');
+            break;
+          case 'Buynow':
+            setBuynowVisible(true);
+            setManualVisible(false);
+            setAutoVisible(false);
+            setSelectedChoice('buynow');
+            break;
+          default:
+            setManualVisible(false);
+            setAutoVisible(false);
+            setBuynowVisible(false);
+            setSelectedChoice('');
+        }
+      };
 
     //submit bid price
     const handleBid = () => {
@@ -35,6 +68,10 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
     const handleIncreaseBid = (amount) => {
         const inputBidValue = Number(inputRef.current.value);
         inputRef.current.value = inputBidValue + Number(amount);
+    };
+
+    const handleResetBid = () => {
+        inputRef.current.value = product.currentPrice + incrementBid;
     };
 
     const handleAutoBid = () => {
@@ -125,7 +162,7 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
             inputRef.current.value = product.currentPrice + increaseBid;
             setIncrementBid(increaseBid)
         }
-    }, [product]);
+    }, [product, inputRef.current]);
 
     //set highest bid
     useEffect(() => {
@@ -256,76 +293,56 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
 
     return (
         <>
-            <h2>Manual Bid</h2>
-            <div>
-                <label>Enter your Price</label>
-                <br />
-                <input
-                    ref={inputRef}
-                    placeholder="0"
-                    type="number"
-                    name="price"
-                    readOnly
-                ></input>
-                <br />
-                <input
-                    type="submit"
-                    value="+10"
-                    onClick={() => handleIncreaseBid(10)}
-                    disabled={product.isBrought}
-                />
-                <input
-                    type="submit"
-                    value="+100"
-                    onClick={() => handleIncreaseBid(100)}
-                    disabled={product.isBrought}
-                />
-                <input
-                    type="submit"
-                    value="+1,000"
-                    onClick={() => handleIncreaseBid(1000)}
-                    disabled={product.isBrought}
-                />
-                <br />
-                <div className="confirm">
-                    <input
-                        type="submit"
-                        value="Place Bid"
-                        onClick={handleBid}
-                        disabled={product.isBrought}
-                    />
+
+            <div className="choice">
+                <li onClick={handleChoice} className={selectedChoice === 'manual' ? 'active' : ''}>Manual Bid</li>
+                <li onClick={handleChoice} className={selectedChoice === 'auto' ? 'active' : ''}>Auto Bid</li>
+                <li onClick={handleChoice} className={selectedChoice === 'buynow' ? 'active' : ''}>Buynow</li>
+            </div>
+            {manualVisible && (
+            <div className="manual">
+                <h2>Manual Bid</h2>
+                <div>
+                    <label>Enter your Price</label>
+                    <br/>
+                    <input ref={inputRef} placeholder="0" type="number" name="price" readOnly></input>
+                    <br/>
+                    <div className="increase-button">
+                    <input type="submit" value="+10" onClick={() => handleIncreaseBid(10)} disabled={product.isBrought}/>
+                    <input type="submit" value="+100" onClick={() => handleIncreaseBid(100)} disabled={product.isBrought}/>
+                    <input type="submit" value="+1,000" onClick={() => handleIncreaseBid(1000)} disabled={product.isBrought}/>
+                    <input type="submit" value="Reset" onClick={() => handleResetBid()} disabled={product.isBrought}/>
+                    </div>
+                    <br/>
+                    <div className="confirm">
+                        <input type="submit" value="Place Bid" onClick={handleBid} disabled={product.isBrought}/>
+                    </div>
                 </div>
             </div>
-
-            <br />
+            )}
+            {autoVisible && (
+            <div className="auto">
             <h2>Auto Bid</h2>
             <div>
                 <label>Enter your Ceiling</label>
                 <br />
-                <input
-                    ref={inputAutoBidRef}
-                    placeholder="0"
-                    type="number"
-                    name="price"
-                    readOnly={product.isBrought}
-                ></input>
+                <input ref={inputAutoBidRef} placeholder={(product.currentPrice+product.currentPrice*(10/100)).toFixed(0)} type="number" name="price" readOnly={product.isBrought}></input>
                 <div className="confirm">
-                    <input
-                        type="submit"
-                        value="Place Auto Bid"
-                        onClick={handleAutoBid}
-                        disabled={product.isBrought}
-                    />
+                    <input type="submit" value="Place Auto Bid" onClick={handleAutoBid} disabled={product.isBrought}/>
                 </div>
             </div>
+            </div>
+            )}
 
+            {buynowVisible && (
+            <div className="buynow" id="buy">
             {product.buyNowPrice !== 0 ? (
-                <div>
-                    <br />
+                <div>                    
                     <h2>Buy Now</h2>
                     <div>
+                        <br></br>
                         <h4>
-                            Buy Now: {product.buyNowPrice.toLocaleString()} THB
+                            Buy Now : <span>{product.buyNowPrice.toLocaleString()} THB</span>
                         </h4>
                         <div className="confirm">
                             <input
@@ -338,6 +355,8 @@ const AscendingBidding = ({ product, setProduct, productID, showToastMessage }) 
                     </div>
                 </div>
             ) : null}
+            </div>
+            )}
         </>
     );
 };

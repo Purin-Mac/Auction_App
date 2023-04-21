@@ -10,8 +10,9 @@ function ProfileForm() {
   return (
 
         <div className='UserProfileMain'>
+          
             <div className='UserInfo'>
-                <h2>Your Profile</h2>
+                <h2>Profile</h2>
                 <p>Username : {userData.userName}</p>
                 <p>Email Address : {userData.email}</p>
                 <p>Firstname : {userData.firstName}</p>

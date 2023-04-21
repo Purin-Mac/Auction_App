@@ -61,8 +61,10 @@ const RelatedProduct = ({ categoryID, currentProductDuration }) => {
                                             src={product.productPhoto}
                                             alt="Related Product"
                                         />
-                                        <h5>{product.productName}</h5>
-                                        {/* <p>2000 baht</p> */}
+                                        <div className="bottomcard">
+                                            <h6>{product.productName}</h6>
+                                            <p>{product.currentPrice} THB</p>
+                                        </div>
                                     </div>
                                 </Link>
                             </div>

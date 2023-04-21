@@ -45,7 +45,7 @@ const Header = () => {
                 </div>
 
                 <div className="slot">
-                    <div className="navbar">
+                    <div className="content">
                         <Link to="/">Home</Link>
                         <Link to="/category">Categories</Link>
                         <Link to="/sell">Sell</Link>
