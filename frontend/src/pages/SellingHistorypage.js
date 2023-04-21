@@ -28,6 +28,7 @@ const SellingHistorypage = () => {
     const [activeButton, setActiveButton] = useState("current");
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [buyers, setBuyers] = useState({});
 
     const showToastMessage = (msg) => {
         toast(msg, {
@@ -52,8 +53,22 @@ const SellingHistorypage = () => {
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const productsTemp = [];
                 querySnapshot.forEach((doc) => {
-                    productsTemp.push({ id: doc.id, ...doc.data() });
+                    const productData = doc.data();
+                    productsTemp.push({ id: doc.id, ...productData });
+                    if (!buyers[productData.currentBidder] && productData.duration < Timestamp.now()) {
+                        // If the buyer does not exist, fetch their user data and add it to the users object
+                        const buyerQuerySnapshot = query(collection(db, "Users"),where("email", "==", productData.currentBidder))
+                        getDocs(buyerQuerySnapshot).then((querySnapshot) => {
+                            if (!querySnapshot.empty) {
+                                const buyerDoc = querySnapshot.docs[0];
+                                setBuyers(prevBuyers => ({ ...prevBuyers, [productData.currentBidder]: buyerDoc.data().address}));
+                            }
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+                    }
                 });
+                // console.log(buyers)
                 setProducts(productsTemp);
                 setIsLoading(false);
             }, error => {

@@ -81,7 +81,7 @@ const SealBidding = ({ product, setProduct, productID, showToastMessage }) => {
                 const secondHighestBid = snapshot.docs[1];
                 const secondHighestBidData = secondHighestBid?.data();
                 const secondHighestBidAmount = secondHighestBidData?.price;
-                console.log(secondHighestBidAmount)
+                // console.log(secondHighestBidAmount)
 
                 let currentPrice = highestBidAmount;
                 let currentBidder = highestBidder;

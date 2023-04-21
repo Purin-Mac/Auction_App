@@ -65,25 +65,25 @@ const ProductListpage = () => {
         }
 
         fetchProductCount();
-    }, [categoryID, auctionType]);
+    }, [categoryID, auctionType, currentPage]);
 
-    const fetchProducts = async(query) => {
-        getDocs(query).then((querySnapshot) => {
-            const productsTemp = [];
-            querySnapshot.forEach((doc) => {
-              productsTemp.push({ id: doc.id, ...doc.data() });
-            });
-            // console.log(productsTemp)
-            // console.log(productsTemp[0])
-            // console.log(productsTemp[productsTemp.length - 1])
-            setProducts(productsTemp);
-            // setFirstProduct(productsTemp[0]);
-            // setLastProduct(productsTemp[productsTemp.length - 1]);
-            setFirstProduct(querySnapshot.docs[0]);
-            setLastProduct(querySnapshot.docs[querySnapshot.docs.length - 1]);
-            // console.log(querySnapshot.docs[querySnapshot.docs.length - 1])
-        });  
-    }
+    // const fetchProducts = async(query) => {
+    //     getDocs(query).then((querySnapshot) => {
+    //         const productsTemp = [];
+    //         querySnapshot.forEach((doc) => {
+    //           productsTemp.push({ id: doc.id, ...doc.data() });
+    //         });
+    //         // console.log(productsTemp)
+    //         // console.log(productsTemp[0])
+    //         // console.log(productsTemp[productsTemp.length - 1])
+    //         setProducts(productsTemp);
+    //         // setFirstProduct(productsTemp[0]);
+    //         // setLastProduct(productsTemp[productsTemp.length - 1]);
+    //         setFirstProduct(querySnapshot.docs[0]);
+    //         setLastProduct(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    //         // console.log(querySnapshot.docs[querySnapshot.docs.length - 1])
+    //     });  
+    // }
 
     //get products
     useEffect(() => {
@@ -92,10 +92,12 @@ const ProductListpage = () => {
         const productsCol = collection(db, "Products");
         // const startIndex = (currentPage - 1) * productsPerPage;
         // console.log(startIndex)
+        let q;
 
         if (auctionType === 'All') {
             if (firstProduct && !lastProduct) {
-                const q = query(productsCol, 
+                // const q = query(productsCol, 
+                q = query(productsCol, 
                     where("categoryID", "==", categoryID), 
                     where("duration", ">=", Timestamp.now()), 
                     where("isBrought", "==", false),
@@ -103,9 +105,10 @@ const ProductListpage = () => {
                     endBefore(firstProduct),
                     limitToLast(productsPerPage)
                 );
-                fetchProducts(q);
+                // fetchProducts(q);
             } else if (!firstProduct && lastProduct) {
-                const q = query(productsCol, 
+                // const q = query(productsCol, 
+                q = query(productsCol, 
                     where("categoryID", "==", categoryID), 
                     where("duration", ">=", Timestamp.now()), 
                     where("isBrought", "==", false),
@@ -113,20 +116,22 @@ const ProductListpage = () => {
                     startAfter(lastProduct),
                     limit(productsPerPage)
                 );
-                fetchProducts(q);
+                // fetchProducts(q);
             } else if (!firstProduct && !lastProduct) {
-                const q = query(productsCol, 
+                // const q = query(productsCol, 
+                q = query(productsCol, 
                     where("categoryID", "==", categoryID), 
                     where("duration", ">=", Timestamp.now()), 
                     where("isBrought", "==", false),
                     orderBy("duration"),
                     limit(productsPerPage)
                 );
-                fetchProducts(q);
+                // fetchProducts(q);
             }
         } else {
             if (firstProduct && !lastProduct) {
-                const q = query(productsCol, 
+                // const q = query(productsCol, 
+                q = query(productsCol, 
                     where("categoryID", "==", categoryID), 
                     where("duration", ">=", Timestamp.now()), 
                     where("isBrought", "==", false),
@@ -135,9 +140,10 @@ const ProductListpage = () => {
                     endBefore(firstProduct),
                     limitToLast(productsPerPage)
                 );
-                fetchProducts(q);
+                // fetchProducts(q);
             } else if (!firstProduct && lastProduct) {
-                const q = query(productsCol, 
+                // const q = query(productsCol, 
+                q = query(productsCol, 
                     where("categoryID", "==", categoryID), 
                     where("duration", ">=", Timestamp.now()), 
                     where("isBrought", "==", false),
@@ -146,9 +152,10 @@ const ProductListpage = () => {
                     startAfter(lastProduct),
                     limit(productsPerPage)
                 );
-                fetchProducts(q);
+                // fetchProducts(q);
             } else if (!firstProduct && !lastProduct) {
-                const q = query(productsCol, 
+                // const q = query(productsCol, 
+                q = query(productsCol, 
                     where("categoryID", "==", categoryID), 
                     where("duration", ">=", Timestamp.now()), 
                     where("isBrought", "==", false),
@@ -156,22 +163,24 @@ const ProductListpage = () => {
                     orderBy("duration"),
                     limit(productsPerPage)
                 );
-                fetchProducts(q);
+                // fetchProducts(q);
             }
         }
 
 
-        // const unsub = onSnapshot(q, (querySnapshot) => {
-        //     const productsTemp = [];
-        //     querySnapshot.forEach(doc => {
-        //         productsTemp.push( { id: doc.id, ...doc.data() } );
-        //     });
-        //     setProducts(productsTemp);
-        // });
+        const unsub = onSnapshot(q, (querySnapshot) => {
+            const productsTemp = [];
+            querySnapshot.forEach(doc => {
+                productsTemp.push( { id: doc.id, ...doc.data() } );
+            });
+            setProducts(productsTemp);
+            setFirstProduct(querySnapshot.docs[0]);
+            setLastProduct(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        });
 
-        // return () => {
-        //     unsub();
-        // };
+        return () => {
+            unsub();
+        };
     }, [categoryID, currentPage, auctionType]);
 
     const handleAuctionTypeChange = (type) => {
