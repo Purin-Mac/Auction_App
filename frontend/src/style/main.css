@@ -1028,6 +1028,8 @@ main h3{
   border: solid black 2px;
   background-color: white;
   object-fit: contain;
+  max-width: 6rem;
+  max-height: 6rem;
 }
 
 .paint {

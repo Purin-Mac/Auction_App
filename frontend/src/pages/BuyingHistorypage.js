@@ -294,7 +294,7 @@ const BuyingHistorypage = () => {
                                     </div>
                             ))
                         ) : (
-                            <h4>You don't have any</h4>
+                            <h4>None</h4>
                         )
                         ) : activeButton === "history" ? (
                             products.length !== 0 ? (

@@ -137,15 +137,77 @@
 
 .History-products h5 {
     margin-left: 3%;
-    width: 18%;
-    max-width: 18%;
+    width: 15%;
+    max-width: 20%;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: medium;
 }
 
 .History-products img {
-    width: 12%;
+    height: 8rem;
+    width: 15%;
     margin-left: 2%;
     margin-top: 2%;
+    object-fit: contain;
+}
 
+.detail {
+    height: 100%;
+    display: flex;
+    gap: 4rem;
+}
+
+.detail button {
+    height: fit-content;   
+    margin-left: 2%;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 0.25rem;
+    background-color: #FFCB45;
+}
+
+.detail button:hover {
+    background-color: orange;
+}
+
+.detail p {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.detail .rightdetail {
+    width: 100%;
+    
+}
+
+.detail .rightdetail button {
+    height: fit-content;   
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 60%;
+    white-space: nowrap;
+    border-radius: 0.25rem;
+    background-color: #FFCB45;
+}
+
+.detail .rightdetail button:hover {
+    background-color: orange;
+}
+
+.detail .rightdetail p {
+    margin-left: 2%;
+    margin-top: auto;
+    margin-bottom: auto;
+    white-space: nowrap;
+}
+
+.detail .Shipping {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
 }

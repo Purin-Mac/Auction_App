@@ -182,29 +182,37 @@ const SellingHistorypage = () => {
     ) => {
         if (completed) {
             return (
-                <div>
-                    <p>Price: {productPrice?.toLocaleString()} THB</p>
+                <div className="detail">
+                    <p> {productPrice?.toLocaleString()} THB</p>
                     {currentBidder ? (
                         productIsSend ? (
-                            <div>
+                            <div className="leftdetail">
                                 <p>Waiting for payment.</p>
                                 <button onClick={() => handleConfirmPayment(productID)}>Confirm Payment</button>
                             </div>
-                        ) : <button onClick={() => handleDeliver(productID)}>Deliver</button>
+                        ) : <button onClick={() => handleDeliver(productID)}>Delivered</button>
+                        
                     ) : (
-                        <div>
-                            <p>No one bid this product :{"("}</p>
+                        <div className="rightdetail">
+                            <p>No one bid this product</p><br></br>
                             <Link to={`/sell_item_details?productID=${productID}`}>
-                                <button >Re Auction</button>
+                                <button>Re Auction</button>
                             </Link>
                         </div>
                     )}
-                    <p>{currentBidder}</p>
+                    <div className="Shipping">
+                        {/* <p>{currentBidder}</p> */}
+                        {/* <p>{currentBidder.userName}</p> */}
+                        <p>{buyers[currentBidder]?.street} {buyers[currentBidder]?.city}</p>
+                        <p></p>
+                        <p>{buyers[currentBidder]?.state} {buyers[currentBidder]?.zip}</p>
+                        <p></p>
+                    </div>
                 </div>
-            );
+            );  
         } else {
             return (
-                <div>
+                <div className="bid">
                     <p>Highest Bid: {productPrice?.toLocaleString()} THB</p>
                     <p>
                         Remaning Time: {days} day, {hours} hours, {minutes}{" "}
@@ -264,7 +272,7 @@ const SellingHistorypage = () => {
                                     <div key={product.id} className="History-products">
                                         <img src={product.productPhoto} alt={"product pic"}></img>
                                         <h5>{product.productName}</h5>
-                                        <h5>Price: {product.price?.toLocaleString()} THB</h5>
+                                        <h5> {product.price?.toLocaleString()} THB</h5>
                                         {product.payAt ? 
                                             <h5>
                                                 Date:{" "}
