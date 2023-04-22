@@ -22,7 +22,12 @@ const Paginate = ({ currentPage, setCurrentPage, totalPages, setFirstProduct, se
     
     const handlePrevPage = (page) => {
         // console.log(page)
-        if (page > 1) {
+        if (page - 1 === 1) {
+            setCurrentPage(1);
+            setFirstProduct(null);
+            setLastProduct(null);
+            window.scrollTo(0,0);
+        } else if (page > 1) {
             setCurrentPage(page - 1);
             setLastProduct(null);
             window.scrollTo(0, 0);
